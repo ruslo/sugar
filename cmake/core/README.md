@@ -6,3 +6,7 @@ for adding loaded `sugar_*.cmake` modules to project list files:
 add_executable(some_bin ${SOURCES} ${SUGAR_SOURCES})
 ```
 Used by **all** files.
+
+### sugar_setup_libraries_paths
+If [GITENV_ROOT](https://github.com/ruslo/sugar/wiki/Used-variables#gitenv_root) is detected, modify some
+`<LIBRARIES>_ROOT` cmake variables.
