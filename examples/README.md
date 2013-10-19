@@ -20,3 +20,4 @@ include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 
 ## Description
 * 00 (detect): create empty project and include `Sugar` master file, print updated variables.
+* 01 (simple): introduction to [collecting](https://github.com/ruslo/sugar/tree/master/cmake/collecting) system, used functions: `sugar_include`, `sugar_files`
