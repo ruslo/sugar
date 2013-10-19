@@ -11,8 +11,10 @@ Modules can be included automatically by master file [Sugar](https://github.com/
 ```cmake
 include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 ```
-in this case, all directories will be loaded (core, print, utility, ...) and
-[sugar_setup_libraries_paths](https://github.com/ruslo/sugar/blob/master/cmake/core/sugar_setup_libraries_paths.cmake)
+in this case:
+* all directories will be loaded (core, print, utility, ...)
+* `GITENV_ROOT` and `SUGAR_ROOT` *cmake* variable will be setted
+* [sugar_setup_libraries_paths](https://github.com/ruslo/sugar/blob/master/cmake/core/sugar_setup_libraries_paths.cmake)
 will be called at end to define some `<LIBRARIES>_ROOT` variables.
 
 ### Priority
