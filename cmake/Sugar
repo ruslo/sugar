@@ -1,16 +1,6 @@
 # Copyright (c) 2013, Ruslan Baratov
 # All rights reserved.
 
-# On including this file:
-# 1. sugar cmake modules paths added to cmake modules paths
-# 2. all libraries root paths setted
-
-# test GITENV_ROOT and SUGAR_ROOT, priority:
-# 1. SUGAR_ROOT setted as cmake variable
-# 2. this file loaded as third party component (from release package)
-# 3. GITENV_ROOT setted as cmake variable
-# 4. test GITENV_ROOT environment variable (usual development)
-
 if(NOT DEFINED SUGAR_ROOT)
   set(
       _GITENV_ROOT_THIRD_PARTY
