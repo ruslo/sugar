@@ -17,7 +17,6 @@ function(sugar_expected_number_of_arguments given expected)
 
   if(NOT ${given} EQUAL ${expected})
     sugar_fatal_error(
-        FATAL_ERROR
         "Incorrect number of arguments '${given}', expected '${expected}'."
     )
   endif()
