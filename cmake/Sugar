@@ -50,7 +50,6 @@ endif()
 # add cmake modules to search path
 list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/core")
 list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/find")
-list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/functions")
 list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/print")
 list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/utility")
 
