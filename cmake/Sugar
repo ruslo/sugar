@@ -38,6 +38,7 @@ if(NOT EXISTS "${SUGAR_ROOT}/cmake/Sugar")
 endif()
 
 # add cmake modules to search path
+list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/collecting")
 list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/core")
 list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/find")
 list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/print")
