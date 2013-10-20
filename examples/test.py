@@ -16,7 +16,7 @@ try:
   if not gitenv_root:
     sys.exit("GITENV_ROOT is empty (see {})".format(help_wiki))
   py_modules_path = os.path.join(gitenv_root, 'configs', 'python')
-  if not os.path.exist(py_modules_path):
+  if not os.path.exists(py_modules_path):
     sys.exit("Path '{}' not found (see {})".format(py_modules_path))
   sys.path.append(py_modules_path)
 except KeyError:
