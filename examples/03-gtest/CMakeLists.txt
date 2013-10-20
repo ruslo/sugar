@@ -11,11 +11,15 @@ set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
 
 include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 
-message("GTEST_ROOT from Sugar: ${GTEST_ROOT}")
-
+include(sugar_setup_gitenv_paths)
 include(sugar_include)
 
-# GTEST_ROOT cmake variable will be used
+# Set GTEST_ROOT cmake variable using GITENV_ROOT environment variable
+sugar_setup_gitenv_paths()
+
+message("GTEST_ROOT from Sugar: ${GTEST_ROOT}")
+
+# Use GTEST_ROOT cmake variable
 find_package(Gtest REQUIRED)
 
 include_directories("${GTEST_INCLUDE_DIRS}")
