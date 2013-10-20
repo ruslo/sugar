@@ -9,8 +9,6 @@ set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG TRUE) # print ALL process messages
 
 include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
-    # update sugar cmake modules path and
-    # set all <LIBRARIES>_ROOT variables
 
 include(sugar_include)
 sugar_include("./sources")
