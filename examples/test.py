@@ -30,11 +30,18 @@ import detail.argparse
 top_dir = os.getcwd()
 
 parser = argparse.ArgumentParser()
+
 parser.add_argument(
     '--dir',
     type=detail.argparse.is_dir,
     nargs='?',
     help="directory to test (test all by default)"
+)
+
+parser.add_argument(
+    '--libcxx',
+    action='store_true',
+    help='compile and link with libcxx library'
 )
 
 args = parser.parse_args()
@@ -53,20 +60,34 @@ class Config:
 
 configs = []
 
+if args.libcxx:
+  stdlib_flag = "'-stdlib=libc++'"
+  libcxx_flag = "-DCMAKE_CXX_FLAGS={}".format(stdlib_flag)
+
+  # differ from CMAKE_CXX_FLAGS for Xcode
+  libcxx_flag += " -DCMAKE_EXE_LINKER_FLAGS={}".format(stdlib_flag)
+else:
+  libcxx_flag = ''
+
 if detail.os_detect.windows:
   sys.exit("Not tested (see {})".format(help_wiki))
   configs.append(Config('Visual Studio', '', 'msvc', 'nmake')) # ???
 else:
+  debug_opt = '-DCMAKE_BUILD_TYPE=Debug {}'.format(libcxx_flag)
+  release_opt = '-DCMAKE_BUILD_TYPE=Release {}'.format(libcxx_flag)
+  default_opt = '{}'.format(libcxx_flag)
+
+  configs.append(Config('Unix Makefiles', default_opt, 'make-default', 'make'))
   configs.append(Config(
-      'Unix Makefiles', '-DCMAKE_BUILD_TYPE=Debug', 'make-debug', 'make'
+      'Unix Makefiles', release_opt, 'make-release', 'make'
   ))
   configs.append(Config(
-      'Unix Makefiles', '-DCMAKE_BUILD_TYPE=Release', 'make-release', 'make'
+      'Unix Makefiles', debug_opt, 'make-debug', 'make'
   ))
-  configs.append(Config('Unix Makefiles', '', 'make-default', 'make'))
 
 if detail.os_detect.macosx:
-  configs.append(Config('Xcode', '', 'xcode', 'xcodebuild'))
+  default_opt = '{}'.format(libcxx_flag)
+  configs.append(Config('Xcode', default_opt, 'xcode', 'xcodebuild'))
 
 done_list = []
 
@@ -84,10 +105,11 @@ def run_cmake_test(root, config):
     print('-------------------------------------------------------------')
     print('-------------------------------------------------------------')
 
-    detail.command.run([
-        'cmake', '-G', '{}'.format(config.generator), config.additional, '../..'
-    ])
-    print('running make')
+    command = ['cmake', '-G', '{}'.format(config.generator)]
+    command += config.additional.split()
+    command.append('../..')
+    detail.command.run(command)
+    print('running make ({})'.format(config.additional))
     detail.command.run([config.build])
     print('done')
   except subprocess.CalledProcessError:
