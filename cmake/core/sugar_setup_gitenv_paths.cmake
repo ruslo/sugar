@@ -15,7 +15,7 @@ macro(sugar_setup_gitenv_paths)
 
   sugar_test_variable_not_empty(GITENV_ROOT)
 
-  set(Boost_NO_SYSTEM_PATH TRUE) # disable searching in system dirs
+  set(Boost_NO_SYSTEM_PATHS TRUE) # disable searching in system dirs
   set(BOOST_ROOT "${GITENV_ROOT}/boost/install")
 
   set(GMOCK_ROOT "${GITENV_ROOT}/google/gmock")
