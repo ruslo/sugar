@@ -60,7 +60,10 @@ else:
   configs.append(Config(
       'Unix Makefiles', '-DCMAKE_BUILD_TYPE=Debug', 'make-debug', 'make'
   ))
-  configs.append(Config('Unix Makefiles', '', 'make-release', 'make'))
+  configs.append(Config(
+      'Unix Makefiles', '-DCMAKE_BUILD_TYPE=Release', 'make-release', 'make'
+  ))
+  configs.append(Config('Unix Makefiles', '', 'make-default', 'make'))
 
 if detail.os_detect.macosx:
   configs.append(Config('Xcode', '', 'xcode', 'xcodebuild'))
