@@ -12,8 +12,8 @@ Easiest way to test examples is to use [gitenv](https://github.com/ruslo/gitenv)
 > make -C _builds/
 
 ```
-otherwise set [SUGAR_ROOT](https://github.com/ruslo/sugar/wiki/Used-variables#sugar_root) variable
-manually and overwrite this line:
+otherwise set [Sugar](https://github.com/ruslo/sugar/blob/master/cmake/Sugar) master file location manually,
+overwrite this line:
 ```cmake
 include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 ```
