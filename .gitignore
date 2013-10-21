@@ -1,2 +1,5 @@
 # temp builds directories
 examples/*/_builds
+
+# python cache
+python/sugar/__pycache__
