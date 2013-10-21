@@ -35,13 +35,33 @@ function(my_function A B)
 endfunction()
 ```
 
+### sugar_mark_macosx_resources
+Wrapper for setting [MACOSX_PACKAGE_LOCATION](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_sf:MACOSX_PACKAGE_LOCATION)
+property
+
+### sugar_set_xcode_ios_sdkroot
+* set `Xcode` sdkroot to `iphoneos`
+* set `Xcode` sign identity to `iPhone Developer`
+* set target property [MACOSX_BUNDLE_INFO_PLIST](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:MACOSX_BUNDLE_INFO_PLIST)
+* link default frameworks: `CoreGraphics`, `Foundation`, `UIKit`
+
+### sugar_target_add_framework
+Wrapper for adding `-framework ...` to linker flags
+
+### sugar_target_add_linker_flags
+Wrapper for setting [LINK_FLAGS](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:LINK_FLAGS)
+target property
+
 ### sugar_test_file_exists
 Test file exists. Get absolute file path (if path is relative, it may not work), check exist and check
 is not directory.
 
+### sugar_test_target_exists
+Wrapper for `if(NOT TARGET ...) message(FATAL_ERROR ...)`
+
 ### sugar_test_variable_not_empty
 Some kind of assert. Useful in cases when you expect that variable is definitely not empty:
 ```cmake
-sugar_test_variable_not_empty(BOOST_ROOT)
-include("${BOOST_ROOT}/boost/config.hpp")
+sugar_test_variable_not_empty(SOME_LIBRARY_ROOT)
+include_directories("${SOME_LIBRARY_ROOT}/some/library/include")
 ```
