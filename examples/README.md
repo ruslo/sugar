@@ -24,6 +24,7 @@ include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 * 02 (common): creating two targets with common sources, first fill sources variables, then create targets
 * 03 (gtest): example of detecting `GTEST_ROOT` with [gitenv](https://github.com/ruslo/gitenv), used function: `sugar_setup_gitenv_paths`
 * 04 (boost.detect): example of detecting `BOOST_ROOT` with [gitenv](https://github.com/ruslo/gitenv)
+* 05 (groups): generating groups for `Xcode` and `Visual Studio`, used function: `sugar_groups_generate`
 
 ## Run all
 `test.py` script can run all examples using different generators (`Make`, `Xcode`, ...)
