@@ -26,6 +26,7 @@ include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 * 04 (boost.detect): example of detecting `BOOST_ROOT` with [gitenv](https://github.com/ruslo/gitenv)
 * 05 (groups): generating groups for `Xcode` and `Visual Studio`, used function: `sugar_groups_generate`
 * 06 (ios): building ios application (`Xcode`), used function: `sugar_mark_macosx_resources`, `sugar_set_xcode_ios_sdkroot`
+* 07 (cocoa): building macosx application (`Xcode`), used function: `sugar_target_add_framework`
 
 ## Run all
 `test.py` script can run all examples using different generators (`Make`, `Xcode`, ...)
