@@ -39,12 +39,21 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--exclude',
+    type=detail.argparse.is_dir,
+    nargs='*',
+    help="exclude this directory patterns"
+)
+
+parser.add_argument(
     '--libcxx',
     action='store_true',
     help='compile and link with libcxx library'
 )
 
 args = parser.parse_args()
+
+print('exclude directories: {}'.format(args.exclude))
 
 # test:
 #  Unix Makefiles _builds/make-debug
@@ -125,6 +134,15 @@ for root, dirs, files in os.walk('./'):
       continue
     if args.dir and not re.match(args.dir, root):
       print('skip "{}" directory (not fit "{}")'.format(root, args.dir))
+      continue
+
+    excluded = False
+    for exclude_dir in args.exclude:
+      if exclude_dir and re.match(exclude_dir, root):
+        print('skip "{}" directory (excluded)'.format(root))
+        excluded = True
+        break
+    if excluded:
       continue
 
     file_path = os.path.join(root, filename)
