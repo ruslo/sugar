@@ -23,4 +23,6 @@ macro(sugar_setup_gitenv_paths)
   set(BREAKPAD_ROOT "${GITENV_ROOT}/google/breakpad")
   set(SAFE_NUMERICS_ROOT "${GITENV_ROOT}/safe_numerics")
   set(SOBER_ROOT "${GITENV_ROOT}/ruslo/sober")
+
+  set(RAPIDJSON_INCLUDE_DIRS "${GITENV_ROOT}/json/rapidjson/include")
 endmacro()
