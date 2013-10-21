@@ -28,6 +28,7 @@ include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 * 06 (ios): building ios application (`Xcode`), used function: `sugar_mark_macosx_resources`, `sugar_set_xcode_ios_sdkroot`
 * 07 (cocoa): building macosx application (`Xcode`)
 * 08 (doxygen): example of adding doxygen generation target, used function: `sugar_doxygen_generate`
+* 09 (rapidjson): example of detecting `RAPIDJSON_INCLUDE_DIRS` with [gitenv](https://github.com/ruslo/gitenv)
 
 ## Run all
 `test.py` script can run all examples using different generators (`Make`, `Xcode`, ...)
