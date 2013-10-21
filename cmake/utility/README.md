@@ -3,6 +3,10 @@ Extension of cmake functionality which is not related to [sugar](https://github.
 ### sugar_check_no_duplicates
 Verify that given list not holding duplicate values
 
+### sugar_execute_process
+Wrapper for [execute_process](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#command:execute_process) command
+with verbose error message if run failed.
+
 ### sugar_expected_number_of_arguments
 By default number of arguments passed to a function not controlled, i.e. `function(my_function A B)` can be
 called with 3 arguments. This function help to check this. Example:
