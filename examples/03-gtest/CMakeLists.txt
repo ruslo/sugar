@@ -20,7 +20,7 @@ sugar_setup_gitenv_paths()
 message("GTEST_ROOT from Sugar: ${GTEST_ROOT}")
 
 # Use GTEST_ROOT cmake variable
-find_package(Gtest REQUIRED)
+find_package(GTest REQUIRED)
 
 include_directories("${GTEST_INCLUDE_DIRS}")
 
