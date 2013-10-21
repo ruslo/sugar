@@ -30,3 +30,6 @@ add_executable(run_bin ${SOURCES})
 
 add_executable(test_bin ${UNITTEST_SOURCES})
 target_link_libraries(test_bin ${GTEST_BOTH_LIBRARIES})
+if(UNIX)
+  target_link_libraries(test_bin pthread)
+endif()
