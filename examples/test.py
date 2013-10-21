@@ -136,14 +136,15 @@ for root, dirs, files in os.walk('./'):
       print('skip "{}" directory (not fit "{}")'.format(root, args.dir))
       continue
 
-    excluded = False
-    for exclude_dir in args.exclude:
-      if exclude_dir and re.match(exclude_dir, root):
-        print('skip "{}" directory (excluded)'.format(root))
-        excluded = True
-        break
-    if excluded:
-      continue
+    if args.exclude:
+      excluded = False
+      for exclude_dir in args.exclude:
+        if exclude_dir and re.match(exclude_dir, root):
+          print('skip "{}" directory (excluded)'.format(root))
+          excluded = True
+          break
+      if excluded:
+        continue
 
     file_path = os.path.join(root, filename)
     print('check file = {}'.format(file_path))
