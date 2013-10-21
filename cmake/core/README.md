@@ -7,6 +7,10 @@ add_executable(some_bin ${SOURCES} ${SUGAR_SOURCES})
 ```
 Used by **all** files.
 
+### sugar_groups_generate
+Automatically generate [source groups](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#command:source_group)
+according to directory structure, for `Xcode` and `Visual Studio` IDE.
+
 ### sugar_setup_gitenv_paths
 If [GITENV_ROOT](https://github.com/ruslo/sugar/wiki/Used-variables#gitenv_root) is detected (first try
 cmake variable, then environment variable), modify some `<LIBRARIES>_ROOT` cmake variables.
