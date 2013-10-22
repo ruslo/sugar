@@ -4,7 +4,7 @@
 # Example of using gtest
 
 cmake_minimum_required(VERSION 2.8.4)
-project(03-example-gtest CXX)
+project(03-example-gtest)
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
@@ -21,6 +21,7 @@ message("GTEST_ROOT from Sugar: ${GTEST_ROOT}")
 
 # Use GTEST_ROOT cmake variable
 find_package(GTest REQUIRED)
+find_package(Threads REQUIRED)
 
 include_directories("${GTEST_INCLUDE_DIRS}")
 
@@ -30,6 +31,4 @@ add_executable(run_bin ${SOURCES})
 
 add_executable(test_bin ${UNITTEST_SOURCES})
 target_link_libraries(test_bin ${GTEST_BOTH_LIBRARIES})
-if(UNIX)
-  target_link_libraries(test_bin pthread)
-endif()
+target_link_libraries(test_bin ${CMAKE_THREAD_LIBS_INIT})
