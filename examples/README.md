@@ -19,15 +19,20 @@ include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
 ```
 
 ## Description
-* 00 (detect): create empty project and include `Sugar` master file, print updated variables.
-* 01 (simple): introduction to [collecting](https://github.com/ruslo/sugar/tree/master/cmake/collecting) system, used functions: `sugar_include`, `sugar_files`
+* 00 (detect): create empty project and include [Sugar](https://github.com/ruslo/sugar/blob/master/cmake/Sugar) master file, print updated variables
+* 01 (simple): introduction to [collecting](https://github.com/ruslo/sugar/tree/master/cmake/collecting) system, used functions:
+[sugar_include](https://github.com/ruslo/sugar/tree/master/cmake/collecting#sugar_include), [sugar_files](https://github.com/ruslo/sugar/tree/master/cmake/collecting#sugar_files)
 * 02 (common): creating two targets with common sources, first fill sources variables, then create targets
-* 03 (gtest): example of detecting `GTEST_ROOT` with [gitenv](https://github.com/ruslo/gitenv), used function: `sugar_setup_gitenv_paths`
+* 03 (gtest): example of detecting `GTEST_ROOT` with [gitenv](https://github.com/ruslo/gitenv),
+used function: [sugar_setup_gitenv_paths](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_setup_gitenv_paths)
 * 04 (boost.detect): example of detecting `BOOST_ROOT` with [gitenv](https://github.com/ruslo/gitenv)
-* 05 (groups): generating groups for `Xcode` and `Visual Studio`, used function: `sugar_groups_generate`
-* 06 (ios): building ios application (`Xcode`), used function: `sugar_mark_macosx_resources`, `sugar_set_xcode_ios_sdkroot`
+* 05 (groups): generating groups for `Xcode` and `Visual Studio`, used function: [sugar_groups_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_groups_generate)
+* 06 (ios): building ios application (`Xcode`),
+used function: [sugar_mark_macosx_resources](https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_mark_macosx_resources),
+[sugar_set_xcode_ios_sdkroot](https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot)
 * 07 (cocoa): building macosx application (`Xcode`)
-* 08 (doxygen): example of adding doxygen generation target, used function: `sugar_doxygen_generate`
+* 08 (doxygen): example of adding doxygen generation target,
+used function: [sugar_doxygen_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_doxygen_generate)
 * 09 (rapidjson): example of detecting `RAPIDJSON_INCLUDE_DIRS` with [gitenv](https://github.com/ruslo/gitenv)
 
 ## Run all
