@@ -34,5 +34,5 @@ if(XCODE_VERSION)
   add_executable(example MACOSX_BUNDLE ${SOURCES} ${RESOURCES})
   sugar_set_xcode_ios_sdkroot(example ${PLIST_FILE})
 else()
-  # For testing
+  # for build testing
 endif()
