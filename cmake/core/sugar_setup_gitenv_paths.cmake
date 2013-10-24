@@ -13,16 +13,16 @@ macro(sugar_setup_gitenv_paths)
     set(GITENV_ROOT "$ENV{GITENV_ROOT}")
   endif()
 
-  sugar_test_variable_not_empty(GITENV_ROOT)
+  if(NOT "${GITENV_ROOT}" STREQUAL "")
+    set(Boost_NO_SYSTEM_PATHS TRUE) # disable searching in system dirs
+    set(BOOST_ROOT "${GITENV_ROOT}/boost/install")
 
-  set(Boost_NO_SYSTEM_PATHS TRUE) # disable searching in system dirs
-  set(BOOST_ROOT "${GITENV_ROOT}/boost/install")
+    set(GMOCK_ROOT "${GITENV_ROOT}/google/gmock")
+    set(GTEST_ROOT "${GITENV_ROOT}/google/gtest")
+    set(BREAKPAD_ROOT "${GITENV_ROOT}/google/breakpad")
+    set(SAFE_NUMERICS_ROOT "${GITENV_ROOT}/safe_numerics")
+    set(SOBER_ROOT "${GITENV_ROOT}/ruslo/sober")
 
-  set(GMOCK_ROOT "${GITENV_ROOT}/google/gmock")
-  set(GTEST_ROOT "${GITENV_ROOT}/google/gtest")
-  set(BREAKPAD_ROOT "${GITENV_ROOT}/google/breakpad")
-  set(SAFE_NUMERICS_ROOT "${GITENV_ROOT}/safe_numerics")
-  set(SOBER_ROOT "${GITENV_ROOT}/ruslo/sober")
-
-  set(RAPIDJSON_INCLUDE_DIRS "${GITENV_ROOT}/json/rapidjson/include")
+    set(RAPIDJSON_INCLUDE_DIRS "${GITENV_ROOT}/json/rapidjson/include")
+  endif()
 endmacro()
