@@ -5,7 +5,6 @@
 
 cmake_minimum_required(VERSION 2.8.4)
 project(04-example-boost-detect CXX)
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
 
