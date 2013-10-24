@@ -4,5 +4,22 @@ language:
 python:
     - "3.3"
 
+before_install:
+    - sudo apt-get update
+
+install:
+    - sudo apt-get install doxygen
+
+before_script:
+    - cd .. # emulate GITENV_ROOT
+    - export GITENV_ROOT=`pwd`
+    # need for test.py (but not for sugar/python)
+    - git clone --depth=1 --branch=master https://github.com/ruslo/configs
+    - cd sugar
+
 script:
-    - echo "test ok"
+    - cd examples
+    - chmod +x ./test.py
+    # exclude macos specific and real GITENV_ROOT
+    - ./test.py --exclude ./03-gtest ./04-boost-detect ./06-ios ./07-cocoa-application ./09-rapidjson
+    - make -C 08-doxygen/_builds/make-default/ public-doc # test installed doxygen
