@@ -32,17 +32,17 @@ top_dir = os.getcwd()
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    '--dir',
+    '--include',
     type=detail.argparse.is_dir,
-    nargs='?',
-    help="directory to test (test all by default)"
+    nargs='*',
+    help="include this directory patterns (low priority)"
 )
 
 parser.add_argument(
     '--exclude',
     type=detail.argparse.is_dir,
     nargs='*',
-    help="exclude this directory patterns"
+    help="exclude this directory patterns (hi priority)"
 )
 
 parser.add_argument(
@@ -53,7 +53,11 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-print('exclude directories: {}'.format(args.exclude))
+if args.exclude:
+  print('exclude directories: {}'.format(args.exclude))
+
+if args.include:
+  print('include directories: {}'.format(args.include))
 
 # test:
 #  Unix Makefiles _builds/make-debug
@@ -128,31 +132,30 @@ def run_cmake_test(root, config):
 
   os.chdir(top_dir)
 
+def hit_regex(root, pattern_list):
+  if not pattern_list:
+    return False
+  for pattern_entry in pattern_list:
+    if pattern_entry and re.match(pattern_entry, root):
+      return True
+  return False
+
 for root, dirs, files in os.walk('./'):
   for filename in files:
     if filename != 'CMakeLists.txt':
       continue
-    if args.dir and not re.match(args.dir, root):
-      print('skip "{}" directory (not fit "{}")'.format(root, args.dir))
+    if hit_regex(root, args.exclude):
+      print("skip (exclude list): '{}'".format(root))
       continue
-
-    if args.exclude:
-      excluded = False
-      for exclude_dir in args.exclude:
-        if exclude_dir and re.match(exclude_dir, root):
-          print('skip "{}" directory (excluded)'.format(root))
-          excluded = True
-          break
-      if excluded:
-        continue
-
+    if args.include and not hit_regex(root, args.include):
+      print("skip (not in include list): '{}'".format(root))
+      continue
     file_path = os.path.join(root, filename)
     print('check file = {}'.format(file_path))
     file_id = open(file_path)
     content = file_id.read()
     if not re.search(r'\nproject(.*)\n', content):
       continue
-
     for config in configs:
       run_cmake_test(root, config)
 
