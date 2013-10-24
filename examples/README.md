@@ -5,17 +5,26 @@ Easiest way to test examples is to use [gitenv](https://github.com/ruslo/gitenv)
 > git clone https://github.com/ruslo/gitenv
 > cd gitenv/
 > git submodule update --init sugar/
+> git submodule update --init any/other/modules/you/need/to/test
 > export GITENV_ROOT=`pwd`
+> export SUGAR_ROOT="${GITENV_ROOT}/sugar"
 > cd sugar/examples/NN-example/
 > mkdir _builds
 > (cd _builds/ && rm -rf * && cmake ..)
 > make -C _builds/
-
 ```
-otherwise set [Sugar](https://github.com/ruslo/sugar/blob/master/cmake/Sugar) master file location manually,
-overwrite this line:
+If example not using `sugar_setup_gitenv_paths` function, environment variable `SUGAR_ROOT` is enough:
+```bash
+> git clone https://github.com/ruslo/sugar
+> export SUGAR_ROOT="`pwd`/sugar"
+> cd sugar/examples/NN-example/
+> mkdir _builds
+> (cd _builds/ && rm -rf * && cmake ..)
+> make -C _builds/
+```
+Note that in general there is no need to set any environment variable, only include `Sugar` master file:
 ```cmake
-include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
+include(/path/to/sugar/cmake/Sugar)
 ```
 
 ## Description
