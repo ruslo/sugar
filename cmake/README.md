@@ -12,8 +12,8 @@ include(sugar_foo) # sugar_foo.cmake searched in core directory
 ### Master file 
 Modules can be included automatically by master file [Sugar](https://github.com/ruslo/sugar/blob/master/cmake/Sugar):
 ```cmake
-# assuming that GITENV_ROOT environment variable is set
-include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
+# assuming that SUGAR_ROOT environment variable is set
+include($ENV{SUGAR_ROOT}/cmake/Sugar)
 
 include(sugar_foo) # sugar_foo.cmake searched in all directories: core, print, utility, ...
 ```
