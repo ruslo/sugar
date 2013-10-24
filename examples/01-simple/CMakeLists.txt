@@ -8,7 +8,7 @@ project(01-example-simple CXX)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG TRUE) # print ALL process messages
 
-include($ENV{GITENV_ROOT}/sugar/cmake/Sugar)
+include($ENV{SUGAR_ROOT}/cmake/Sugar)
 
 include(sugar_include)
 sugar_include("./sources")
