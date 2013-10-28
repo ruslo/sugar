@@ -43,6 +43,7 @@ used function: [sugar_mark_macosx_resources](https://github.com/ruslo/sugar/tree
 * 08 (doxygen): example of adding doxygen generation target,
 used function: [sugar_doxygen_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_doxygen_generate)
 * 09 (rapidjson): example of detecting `RAPIDJSON_INCLUDE_DIRS` with [gitenv](https://github.com/ruslo/gitenv)
+* *TODO*: more...
 
 ## Run all
 `test.py` script can run all examples using different generators (`Make`, `Xcode`, ...)
