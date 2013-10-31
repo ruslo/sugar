@@ -33,9 +33,13 @@ dst = args.destination
 os.makedirs(dst, exist_ok=True)
 
 def run_xcode(configuration, sdk):
+  if sdk == 'iphonesimulator':
+    arch = '-arch i386'
+  else:
+    arch = ''
   subprocess.check_call(
-      'xcodebuild -target {} -configuration {} -sdk {}'.format(
-          target, configuration, sdk
+      'xcodebuild -target {} -configuration {} -sdk {} {}'.format(
+          target, configuration, sdk, arch
       ),
       shell=True
   )
