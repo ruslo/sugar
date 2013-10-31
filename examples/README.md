@@ -45,6 +45,7 @@ used function: [sugar_setup_gitenv_paths](https://github.com/ruslo/sugar/tree/ma
 [sugar_install_ios_library](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_ios_library)
  * `link_library` link universal library to ios target. 
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for detailed description.
+ * `link_package` link universal library using `find_package` command
 * 07 (cocoa): building macosx application (`Xcode`)
 * 08 (doxygen): example of adding doxygen generation target,
 used function: [sugar_doxygen_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_doxygen_generate)
