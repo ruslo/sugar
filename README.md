@@ -3,6 +3,10 @@
 |------------|--------|
 | [![Build Status](https://travis-ci.org/ruslo/sugar.png?branch=master)](https://travis-ci.org/ruslo/sugar) | [![Build Status](https://travis-ci.org/ruslo/gitenv.png?branch=master)](https://travis-ci.org/ruslo/gitenv) |
 
+| standalone (macosx) | gitenv |
+|---------------------|--------|
+| [![Build Status](https://travis-ci.org/ruslo/sugar.png?branch=travis-ci.macosx.branch)](https://travis-ci.org/ruslo/sugar) | *TODO* |
+
 ### Using
 All you need to do is to include master [Sugar](https://github.com/ruslo/sugar/tree/master/cmake) file:
 ```cmake
