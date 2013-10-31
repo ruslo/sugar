@@ -8,6 +8,8 @@ All you need to do is to include master [Sugar](https://github.com/ruslo/sugar/t
 ```cmake
 include(/path/to/sugar/cmake/Sugar)
 ```
+
+*Note*: for commands which using [python](https://github.com/ruslo/sugar/tree/master/python) you need to install `python3`.
 ### Features
 * [Collecting sources](https://github.com/ruslo/sugar/wiki/Collecting-sources)
 * [Generating groups](https://github.com/ruslo/sugar/wiki/Generating-groups)
