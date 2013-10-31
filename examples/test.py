@@ -10,6 +10,7 @@ import argparse
 import re
 import sys
 import subprocess
+import copy
 
 try:
   gitenv_root = os.environ["GITENV_ROOT"]
@@ -42,13 +43,19 @@ parser.add_argument(
     '--exclude',
     type=detail.argparse.is_dir,
     nargs='*',
-    help="exclude this directory patterns (hi priority)"
+    help="exclude this directory patterns (high priority)"
 )
 
 parser.add_argument(
     '--libcxx',
     action='store_true',
     help='compile and link with libcxx library'
+)
+
+parser.add_argument(
+    '--sim',
+    action='store_true',
+    help='build for ios simulator (Xcode only)'
 )
 
 args = parser.parse_args()
@@ -65,27 +72,30 @@ if args.include:
 #  Visual Studio 11 _builds/msvc
 
 class Config:
-  def __init__(self, generator, additional, directory, build):
+  def __init__(self, generator, generator_params, directory, build):
     self.generator = generator
-    self.additional = additional
+    self.generator_params = generator_params
     self.directory = directory
     self.build = build
 
+  def info(self, build_dir):
+    info = '[{}] [{}'.format(build_dir, self.generator)
+    if self.generator_params:
+      info += ' + {}'.format(self.generator_params)
+    info += '] [{}]'.format(self.build)
+    return info
+
 configs = []
-
-if args.libcxx:
-  stdlib_flag = "'-stdlib=libc++'"
-  libcxx_flag = "-DCMAKE_CXX_FLAGS={}".format(stdlib_flag)
-
-  # differ from CMAKE_CXX_FLAGS for Xcode
-  libcxx_flag += " -DCMAKE_EXE_LINKER_FLAGS={}".format(stdlib_flag)
-else:
-  libcxx_flag = ''
 
 if detail.os_detect.windows:
   sys.exit("Not tested (see {})".format(help_wiki))
   configs.append(Config('Visual Studio', '', 'msvc', 'nmake')) # ???
 else:
+  if args.libcxx:
+    stdlib_flag = "'-stdlib=libc++'"
+    libcxx_flag = "-DCMAKE_CXX_FLAGS={}".format(stdlib_flag)
+  else:
+    libcxx_flag = ''
   debug_opt = '-DCMAKE_BUILD_TYPE=Debug {}'.format(libcxx_flag)
   release_opt = '-DCMAKE_BUILD_TYPE=Release {}'.format(libcxx_flag)
   default_opt = '{}'.format(libcxx_flag)
@@ -99,37 +109,74 @@ else:
   ))
 
 if detail.os_detect.macosx:
-  default_opt = '{}'.format(libcxx_flag)
-  configs.append(Config('Xcode', default_opt, 'xcode', 'xcodebuild'))
+  if args.libcxx:
+    params = " -DCMAKE_EXE_LINKER_FLAGS='-stdlib=libc++'"
+  else:
+    params = ''
+  configs.append(Config('Xcode', params, 'xcode', 'xcodebuild'))
 
 done_list = []
 
-def run_cmake_test(root, config):
+def run_cmake_test(root, config_in):
+  config = copy.deepcopy(config_in)
+
+  library_install = re.match('./06-ios/_universal_library', root)
+
+  if config.generator == 'Xcode':
+    if re.match('./00-detect', root) or library_install:
+      config.generator_params = '' # remove warning
+
+  # skip Xcode specific
+  if re.match('./07-cocoa-application', root) and config.generator != 'Xcode':
+    print("{}: skip (Xcode only)".format(config.generator))
+    return
+
+  if re.match('./06-ios', root):
+    if config.generator != 'Xcode':
+      print("{}: skip (Xcode only)".format(config.generator))
+      return
+    else:
+      if args.sim:
+        build_sdk = 'iphonesimulator'
+      else:
+        build_sdk = 'iphoneos'
+      config.build = '{} -sdk {}'.format(config.build, build_sdk)
+
   build_dir=os.path.join(root, '_builds', config.directory)
   detail.trash.trash(build_dir, ignore_not_exist=True)
 
   os.makedirs(build_dir)
   os.chdir(build_dir)
 
+  config_info = config.info(build_dir)
   try:
-    print('-------------------------------------------------------------')
-    print('-------------------------------------------------------------')
-    print('------------- running cmake in "{}"'.format(build_dir))
-    print('-------------------------------------------------------------')
-    print('-------------------------------------------------------------')
+    print('##### {}'.format(config_info))
 
     command = ['cmake', '-G', '{}'.format(config.generator)]
-    command += config.additional.split()
+    command += config.generator_params.split()
+    if library_install:
+      command.append(
+          '-DCMAKE_INSTALL_PREFIX={}/../../install'.format(os.getcwd())
+      )
     command.append('../..')
     detail.command.run(command)
-    print('running make ({})'.format(config.additional))
-    detail.command.run([config.build])
+    print('build...')
+    if config.generator == 'Xcode':
+      build_release = '{} -configuration Release'.format(config.build)
+      build_debug = '{} -configuration Debug'.format(config.build)
+      detail.command.run(build_release.split())
+      detail.command.run(build_debug.split())
+    else:
+      detail.command.run(config.build.split())
+
+    if library_install:
+      # additional install step
+      detail.command.run(['xcodebuild', '-target', 'install'])
     print('done')
   except subprocess.CalledProcessError:
     sys.exit('run failed in "{}" directory'.format(root))
 
-  done_list.append('dir = {}, generator = {}'.format(root, config.generator))
-
+  done_list.append(config_info)
   os.chdir(top_dir)
 
 def hit_regex(root, pattern_list):
