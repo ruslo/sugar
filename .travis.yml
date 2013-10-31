@@ -30,6 +30,6 @@ script:
     # -- emulation end
 
     - cd ./examples
-    # exclude real GITENV_ROOT (see gitenv testing), exclude real iphoneos (code sign error)
-    - python3 ./test.py --exclude ./03-gtest ./04-boost-detect ./09-rapidjson ./06-ios/_universal_library ./06-ios/link_library ./06-ios/link_package --sim --libcxx
+    # exclude real GITENV_ROOT (see gitenv testing)
+    - python3 ./test.py --exclude ./03-gtest ./04-boost-detect ./09-rapidjson --sim --libcxx
     - make -C 08-doxygen/_builds/make-default/ public-doc # test installed doxygen
