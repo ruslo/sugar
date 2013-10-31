@@ -1,14 +1,12 @@
 language:
-    - python
-
-python:
-    - "3.3"
+    - objective-c
 
 before_install:
-    - sudo apt-get update
-
-install:
-    - sudo apt-get install doxygen
+    - brew update
+    - brew install cmake
+    - brew install doxygen
+    - brew install python3
+    - brew install boost # boost.config (06-ios)
 
 before_script:
     - export SUGAR_ROOT=`pwd`
@@ -32,7 +30,6 @@ script:
     # -- emulation end
 
     - cd ./examples
-    - chmod +x ./test.py
-    # exclude real GITENV_ROOT (see gitenv testing)
-    - ./test.py --exclude ./03-gtest ./04-boost-detect ./09-rapidjson
+    # exclude real GITENV_ROOT (see gitenv testing), exclude real iphoneos (code sign error)
+    - python3 ./test.py --exclude ./03-gtest ./04-boost-detect ./09-rapidjson ./06-ios/_universal_library ./06-ios/link_library ./06-ios/link_package --sim --libcxx
     - make -C 08-doxygen/_builds/make-default/ public-doc # test installed doxygen
