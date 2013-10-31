@@ -123,7 +123,7 @@ def run_cmake_test(root, config_in):
   library_install = re.match('./06-ios/_universal_library', root)
 
   if config.generator == 'Xcode':
-    if re.match('./00-detect', root) or library_install:
+    if re.match('./00-detect', root):
       config.generator_params = '' # remove warning
 
   # skip Xcode specific
