@@ -11,6 +11,7 @@ set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
 
 include($ENV{SUGAR_ROOT}/cmake/Sugar)
 
+include(sugar_fatal_error)
 include(sugar_include)
 include(sugar_mark_macosx_resources)
 include(sugar_target_add_framework)
@@ -20,7 +21,7 @@ find_package(Boost REQUIRED) # for |boost::ignore_unused_variable_warning|
 include_directories(${Boost_INCLUDE_DIRS})
 
 if(NOT XCODE_VERSION)
-  message(WARNING "___ MAY NOT WORK, NEED TO BUILD IN XCODE ___")
+  sugar_fatal_error("Xcode only")
 endif()
 
 sugar_include("./sources") # fill SOURCES

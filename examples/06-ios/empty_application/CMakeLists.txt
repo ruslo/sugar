@@ -27,9 +27,9 @@ set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.EmptyApplication")
 
 sugar_mark_macosx_resources(${DEFAULT_IOS_IMAGES})
 
-if(XCODE_VERSION)
-  add_executable(example MACOSX_BUNDLE ${SOURCES} ${DEFAULT_IOS_IMAGES})
-  sugar_set_xcode_ios_sdkroot(example ${PLIST_FILE})
-else()
-  # for build testing
+if(NOT XCODE_VERSION)
+  sugar_fatal_error("Xcode only")
 endif()
+
+add_executable(example MACOSX_BUNDLE ${SOURCES} ${DEFAULT_IOS_IMAGES})
+sugar_set_xcode_ios_sdkroot(example ${PLIST_FILE})

@@ -110,7 +110,7 @@ else:
 
 if detail.os_detect.macosx:
   if args.libcxx:
-    params = " -DCMAKE_EXE_LINKER_FLAGS='-stdlib=libc++'"
+    params = " -DCMAKE_EXE_LINKER_FLAGS='-stdlib=libc++' {}".format(libcxx_flag)
   else:
     params = ''
   configs.append(Config('Xcode', params, 'xcode', 'xcodebuild'))
@@ -137,10 +137,10 @@ def run_cmake_test(root, config_in):
       return
     else:
       if args.sim:
-        build_sdk = 'iphonesimulator'
+        build_sdk = 'iphonesimulator -arch i386'
       else:
         build_sdk = 'iphoneos'
-      config.build = '{} -sdk {}'.format(config.build, build_sdk)
+      config.build += ' -sdk {}'.format(build_sdk)
 
   build_dir=os.path.join(root, '_builds', config.directory)
   detail.trash.trash(build_dir, ignore_not_exist=True)
