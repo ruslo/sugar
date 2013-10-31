@@ -13,6 +13,7 @@ include(/path/to/sugar/cmake/Sugar)
 ### Features
 * [Collecting sources](https://github.com/ruslo/sugar/wiki/Collecting-sources)
 * [Generating groups](https://github.com/ruslo/sugar/wiki/Generating-groups)
+* [Build universal iOS library](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library)
 * [TODO]()
 
 ### Examples
