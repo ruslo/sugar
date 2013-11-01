@@ -18,6 +18,10 @@ function(sugar_doxygen_generate)
       doxy_generate "${options}" "${one_value_args}" "" ${ARGV}
   )
 
+  if(doxy_generate_UNPARSED_ARGUMENTS)
+    sugar_fatal_error("Unparsed: ${doxy_generate_UNPARSED_ARGUMENTS}")
+  endif()
+
   if(NOT doxy_generate_TARGET)
     sugar_fatal_error("TARGET is mandatory parameter")
   else()
