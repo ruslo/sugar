@@ -144,6 +144,7 @@ def run_cmake_test(root, config_in):
 
   build_dir=os.path.join(root, '_builds', config.directory)
   detail.trash.trash(build_dir, ignore_not_exist=True)
+  detail.trash.trash(os.path.join(root, 'install'), ignore_not_exist=True)
 
   os.makedirs(build_dir)
   os.chdir(build_dir)
