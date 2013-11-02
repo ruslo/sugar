@@ -120,7 +120,11 @@ done_list = []
 def run_cmake_test(root, config_in):
   config = copy.deepcopy(config_in)
 
-  library_install = re.match('./06-ios/_universal_library', root)
+  library_install = False
+  if re.match('./06-ios/_universal_library', root):
+    library_install = True
+  if re.match('./06-ios/universal_library_osx_sysroot', root):
+    library_install = True
 
   if config.generator == 'Xcode':
     if re.match('./00-detect', root):
