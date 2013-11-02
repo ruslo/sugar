@@ -144,7 +144,6 @@ def run_cmake_test(root, config_in):
 
   build_dir=os.path.join(root, '_builds', config.directory)
   detail.trash.trash(build_dir, ignore_not_exist=True)
-  detail.trash.trash(os.path.join(root, 'install'), ignore_not_exist=True)
 
   os.makedirs(build_dir)
   os.chdir(build_dir)
@@ -180,6 +179,16 @@ def run_cmake_test(root, config_in):
   done_list.append(config_info)
   os.chdir(top_dir)
 
+  # check library installed (xcodebuild may exit 0 even if build failed)
+  if library_install:
+    install_base = os.path.join(root, 'install', 'lib', 'ios')
+    lib1 = os.path.join(install_base, 'libuniversal_lib_example.a')
+    if not os.path.exists(lib1):
+      sys.exit("{} not found".format(lib1))
+    lib2 = os.path.join(install_base, 'libuniversal_lib_exampled.a')
+    if not os.path.exists(lib2):
+      sys.exit("{} not found".format(lib2))
+
 def hit_regex(root, pattern_list):
   if not pattern_list:
     return False
@@ -204,6 +213,7 @@ for root, dirs, files in os.walk('./'):
     content = file_id.read()
     if not re.search(r'\nproject(.*)\n', content):
       continue
+    detail.trash.trash(os.path.join(root, 'install'), ignore_not_exist=True)
     for config in configs:
       run_cmake_test(root, config)
 
