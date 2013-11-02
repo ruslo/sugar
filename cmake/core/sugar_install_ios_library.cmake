@@ -35,7 +35,7 @@ function(sugar_install_ios_library library_target destination)
       CODE
       "execute_process(
           COMMAND
-          ${cmd} 
+          ${cmd}
           WORKING_DIRECTORY
           ${PROJECT_BINARY_DIR}
       )"
