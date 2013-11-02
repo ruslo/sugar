@@ -4,9 +4,9 @@
 include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
 
-include(sugar_execute_process)
 include(sugar_expected_number_of_arguments)
 include(sugar_fatal_error)
+include(sugar_find_python3)
 include(sugar_test_target_exists)
 include(sugar_test_variable_not_empty)
 
@@ -18,10 +18,10 @@ function(sugar_install_ios_library library_target destination)
   endif()
 
   sugar_test_target_exists(${library_target})
+  sugar_find_python3()
 
   sugar_test_variable_not_empty(SUGAR_ROOT)
-
-  find_package(PythonInterp 3.2 REQUIRED)
+  sugar_test_variable_not_empty(PYTHON_EXECUTABLE)
 
   set(cmd "")
   list(APPEND cmd ${PYTHON_EXECUTABLE})
