@@ -40,7 +40,7 @@ list(APPEND CMAKE_LIBRARY_PATH "${universal_path}/lib/ios")
 
 # find debug and release versions of universal library
 find_library(universal_release NAMES universal_lib_example)
-find_library(universal_debug NAMES universal_lib_example-d)
+find_library(universal_debug NAMES universal_lib_exampled)
 if(NOT universal_release OR NOT universal_debug)
   sugar_fatal_error("Universal library not found (install it!)")
 endif()

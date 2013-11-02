@@ -26,7 +26,7 @@ find_library(
 find_library(
     UNIVERSAL_DEBUG
     NAMES
-    universal_lib_example-d
+    universal_lib_exampled
     PATHS
     "${UNIVERSAL_ROOT}/lib/ios"
 )

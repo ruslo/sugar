@@ -7,6 +7,7 @@ import argparse
 import glob
 import os
 import subprocess
+import sys
 
 parser = argparse.ArgumentParser(
     description='Workaround for not working ios install command'
@@ -26,9 +27,29 @@ parser.add_argument(
     help='destination directory'
 )
 
+parser.add_argument(
+    '--verbose',
+    action='store_true',
+    help='print a lot info'
+)
+
+class Log:
+  def __init__(self, verbose):
+    self.verbose = verbose
+  def p(self, message):
+    if self.verbose:
+      print(message)
+
+debug_prefix = 'd'
+
 args = parser.parse_args()
 target = args.target
 dst = args.destination
+
+log = Log(args.verbose)
+
+log.p('target: {}'.format(target))
+log.p('destination: {}'.format(dst))
 
 os.makedirs(dst, exist_ok=True)
 
@@ -50,17 +71,25 @@ run_xcode('Debug', 'iphonesimulator')
 run_xcode('Release', 'iphonesimulator')
 
 def detect_file(dir):
-  lib_list = glob.glob('./{}/*{}*'.format(dir, target))
-  if len(lib_list) == 0:
-    print('target "{}" not found in directory "{}"'.format(target, dir))
-  if len(lib_list) != 1:
-    print('multiple target "{}" found in directory "{}"'.format(target, dir))
-  return lib_list[0]
+  cwd = os.getcwd()
+  target_file = 'lib{}.a'.format(target)
+  for root, dirs, files in os.walk(cwd):
+    if not dir in dirs:
+      continue
+    for target_root, x, target_files in os.walk(os.path.join(root, dir)):
+      if target_file in target_files:
+        return os.path.join(target_root, target_file)
+  print('working directory: {}'.format(cwd))
+  sys.exit(
+      'file "{}" not found in directory "{}"'.format(target_file, dir)
+  )
 
 debug_arm = detect_file('Debug-iphoneos')
 debug_x86 = detect_file('Debug-iphonesimulator')
 
-debug_result = '{}/lib{}-d.a'.format(dst, target)
+log.p('detected debug files:\n  {}\n  {}'.format(debug_arm, debug_x86))
+
+debug_result = '{}/lib{}{}.a'.format(dst, target, debug_prefix)
 subprocess.check_call(
     'lipo -output {} -create {} {}'.format(
         debug_result, debug_arm, debug_x86
@@ -70,6 +99,8 @@ subprocess.check_call(
 
 release_arm = detect_file('Release-iphoneos')
 release_x86 = detect_file('Release-iphonesimulator')
+
+log.p('detected release files:\n  {}\n  {}'.format(release_arm, release_x86))
 
 release_result = '{}/lib{}.a'.format(dst, target)
 subprocess.check_call(
