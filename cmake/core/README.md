@@ -38,3 +38,6 @@ cmake variable, then environment variable), modify some `<LIBRARIES>_ROOT` cmake
 ### sugar_install_ios_library
 Workaround for broken `install` command on `iphone` targets.
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
+
+### sugar_install_library
+Call `sugar_install_ios_library` if `iphoneos` detected in `CMAKE_OSX_SYSROOT`, otherwise call regular cmake `install`
