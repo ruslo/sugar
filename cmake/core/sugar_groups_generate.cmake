@@ -5,6 +5,7 @@ include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
 
 include(sugar_execute_process)
+include(sugar_find_python3)
 include(sugar_improper_number_of_arguments)
 include(sugar_status_debug)
 include(sugar_status_print)
@@ -22,11 +23,11 @@ function(sugar_groups_generate)
   list(REMOVE_DUPLICATES sources)
   list(LENGTH sources number_of_files)
 
-  sugar_test_variable_not_empty(SUGAR_ROOT)
-
   sugar_status_print("Generating groups for ${number_of_files} file(s)")
+  sugar_find_python3()
 
-  find_package(PythonInterp 3.2 REQUIRED)
+  sugar_test_variable_not_empty(SUGAR_ROOT)
+  sugar_test_variable_not_empty(PYTHON_EXECUTABLE)
 
   set(input_file ${PROJECT_BINARY_DIR}/__sugar_groups_generator.input)
   set(output_file ${PROJECT_BINARY_DIR}/__sugar_groups_generator.output)
