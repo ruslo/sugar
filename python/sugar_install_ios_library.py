@@ -26,6 +26,8 @@ parser.add_argument(
     help='destination directory'
 )
 
+debug_prefix = 'd'
+
 args = parser.parse_args()
 target = args.target
 dst = args.destination
@@ -50,7 +52,7 @@ run_xcode('Debug', 'iphonesimulator')
 run_xcode('Release', 'iphonesimulator')
 
 def detect_file(dir):
-  lib_list = glob.glob('./{}/*{}*'.format(dir, target))
+  lib_list = glob.glob('./*/{}/*{}*'.format(dir, target))
   if len(lib_list) == 0:
     print('target "{}" not found in directory "{}"'.format(target, dir))
   if len(lib_list) != 1:
@@ -60,7 +62,7 @@ def detect_file(dir):
 debug_arm = detect_file('Debug-iphoneos')
 debug_x86 = detect_file('Debug-iphonesimulator')
 
-debug_result = '{}/lib{}-d.a'.format(dst, target)
+debug_result = '{}/lib{}{}.a'.format(dst, target, debug_prefix)
 subprocess.check_call(
     'lipo -output {} -create {} {}'.format(
         debug_result, debug_arm, debug_x86
