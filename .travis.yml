@@ -30,6 +30,6 @@ script:
     # -- emulation end
 
     - cd ./examples
-    # exclude real GITENV_ROOT (see gitenv testing)
-    - python3 ./test.py --exclude ./03-gtest ./04-boost-detect ./09-rapidjson --sim --libcxx
+    # exclude real GITENV_ROOT (see gitenv testing), exclude ios.gtest (TODO, move to polly)
+    - python3 ./test.py --exclude ./03-gtest ./04-boost-detect ./06-ios/gtest ./09-rapidjson --sim --libcxx
     - make -C 08-doxygen/_builds/make-default/ public-doc # test installed doxygen

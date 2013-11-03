@@ -73,12 +73,15 @@ run_xcode('Release', 'iphonesimulator')
 def detect_file(dir):
   cwd = os.getcwd()
   target_file = 'lib{}.a'.format(target)
+  target_file_postfix = 'lib{}d.a'.format(target)
   for root, dirs, files in os.walk(cwd):
     if not dir in dirs:
       continue
     for target_root, x, target_files in os.walk(os.path.join(root, dir)):
       if target_file in target_files:
         return os.path.join(target_root, target_file)
+      if target_file_postfix in target_files:
+        return os.path.join(target_root, target_file_postfix)
   print('working directory: {}'.format(cwd))
   sys.exit(
       'file "{}" not found in directory "{}"'.format(target_file, dir)
