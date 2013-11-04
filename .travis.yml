@@ -38,6 +38,6 @@ script:
 
     - cd ./examples
     - chmod +x ./test.py
-    # exclude real GITENV_ROOT (see gitenv testing)
-    - ./test.py --exclude ./03-gtest ./04-boost-detect ./09-rapidjson
+    # exclude real GITENV_ROOT (see gitenv testing), exclude ios.gtest (TODO, move to polly)
+    - ./test.py --exclude ./03-gtest ./04-boost-detect ./06-ios/gtest ./09-rapidjson
     - make -C 08-doxygen/_builds/make-default/ public-doc # test installed doxygen
