@@ -4,7 +4,7 @@
 # iOS project example.
 # Create project as Xcode: iOS -> Application -> Single View Application
 
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.8)
 project(06-example-ios.single_view_application CXX)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
