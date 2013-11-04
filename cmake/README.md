@@ -9,6 +9,11 @@ list(APPEND CMAKE_MODULE_PATH "${SUGAR_ROOT}/cmake/core")
 include(sugar_foo) # sugar_foo.cmake searched in core directory
 ```
 
+*Note*:
+* in this case you may get an error that some modules not found because modules from
+different directories can include each other. For example module from `core` can include module from `print`
+* some functions expect that `SUGAR_ROOT` variable is defined
+
 ### Master file 
 Modules can be included automatically by master file [Sugar](https://github.com/ruslo/sugar/blob/master/cmake/Sugar):
 ```cmake

@@ -3,7 +3,7 @@
 
 # Simple cmake C++ project file example.
 
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.8)
 project(01-example-simple CXX)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG TRUE) # print ALL process messages

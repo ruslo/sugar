@@ -3,7 +3,7 @@
 
 # Example of boost detection
 
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.8)
 project(04-example-boost-detect CXX)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages

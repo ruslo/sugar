@@ -4,7 +4,7 @@
 # Cocoa project example.
 # Create project as Xcode: OS X -> Application -> Cocoa Application
 
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.8)
 project(07-cocoa-application.example CXX)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages

@@ -9,6 +9,7 @@ before_install:
     - brew install boost # boost.config (06-ios)
 
 before_script:
+    - cmake --version
     - export SUGAR_ROOT=`pwd`
 
 script:

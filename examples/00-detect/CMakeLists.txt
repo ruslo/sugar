@@ -3,7 +3,7 @@
 
 # Empty project. Test SUGAR_ROOT detected.
 
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.8)
 project(00-example-detect)
 
 include($ENV{SUGAR_ROOT}/cmake/Sugar)

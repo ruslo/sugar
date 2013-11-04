@@ -8,7 +8,7 @@
 # Commands:
 #     http://www.stack.nl/~dimitri/doxygen/manual/commands.html
 
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.8)
 project(08-example-doxygen CXX)
 set(SUGAR_STATUS_PRINT TRUE) # print process messages
 set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
