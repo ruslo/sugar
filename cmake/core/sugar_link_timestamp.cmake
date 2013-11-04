@@ -41,18 +41,21 @@ function(sugar_link_timestamp targetname)
   # init files
   sugar_execute_process(${update_cmd})
 
-  add_library(_timestamp "${timestamp_header}" "${timestamp_source}")
+  if(NOT TARGET _timestamp)
+    add_library(_timestamp "${timestamp_header}" "${timestamp_source}")
+
+    # add update command
+    add_custom_target(
+        _timestamp_update
+        ALL
+        COMMAND
+        ${update_cmd}
+        COMMENT
+        "Creating timestamp"
+    )
+
+    add_dependencies(_timestamp _timestamp_update)
+  endif()
+
   target_link_libraries(${targetname} _timestamp)
-
-  # add update command
-  add_custom_target(
-      _timestamp_update
-      ALL
-      COMMAND
-      ${update_cmd}
-      COMMENT
-      "Creating timestamp"
-  )
-
-  add_dependencies(_timestamp _timestamp_update)
 endfunction()
