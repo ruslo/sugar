@@ -37,8 +37,8 @@ in this case
 -- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
-SUGAR_ROOT: /.../gitenv/sugar
+SUGAR_ROOT: /.../sugar
 -- Configuring done
 -- Generating done
--- Build files have been written to: /.../gitenv/sugar/examples/00-detect/_builds/make-default
+-- Build files have been written to: /.../sugar/examples/00-detect/_builds/make-default
 </pre>
