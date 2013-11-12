@@ -19,23 +19,6 @@ before_script:
     - export SUGAR_ROOT=`pwd`
 
 script:
-    # test some example without GITENV_ROOT
-    - cd examples
-    - cd 05-groups
-    - mkdir _builds
-    - cd _builds
-    - cmake ..
-    - make
-    - ./sources/module_a/main/module_a_bin
-    - cd ../../..
-
-    # emulate GITENV_ROOT for test.py
-    - cd ..
-    - export GITENV_ROOT=`pwd`
-    - git clone --depth=1 --branch=master https://github.com/ruslo/configs
-    - cd sugar
-    # -- emulation end
-
     - cd ./examples
     - chmod +x ./test.py
     - ./test.py
