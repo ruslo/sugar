@@ -1,8 +1,11 @@
 # Copyright (c) 2013, Ruslan Baratov
 # All rights reserved.
 
+option(SUGAR_STATUS_PRINT "Print process messages" ON)
+option(SUGAR_STATUS_DEBUG "Print all process messages" OFF)
+
 get_filename_component(SUGAR_ROOT "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
-message("SUGAR_ROOT: ${SUGAR_ROOT}")
+message("[sugar] SUGAR_ROOT: ${SUGAR_ROOT}")
 
 # test self
 if(NOT EXISTS "${SUGAR_ROOT}/cmake/Sugar")
