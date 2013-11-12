@@ -5,8 +5,6 @@
 
 cmake_minimum_required(VERSION 2.8.8)
 project(02-example-common CXX)
-set(SUGAR_STATUS_PRINT TRUE) # print process messages
-set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
 
 include($ENV{SUGAR_ROOT}/cmake/Sugar)
 

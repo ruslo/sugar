@@ -5,8 +5,6 @@
 
 cmake_minimum_required(VERSION 2.8.8)
 project(06-example-ios.universal_library_osx_sysroot CXX)
-set(SUGAR_STATUS_PRINT TRUE) # print process messages
-set(SUGAR_STATUS_DEBUG FALSE) # print ALL process messages
 
 include($ENV{SUGAR_ROOT}/cmake/Sugar)
 
