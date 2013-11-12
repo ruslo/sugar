@@ -37,7 +37,7 @@ in this case
 -- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
-SUGAR_ROOT: /.../sugar
+[sugar] SUGAR_ROOT: /.../sugar
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /.../sugar/examples/00-detect/_builds/make-default
