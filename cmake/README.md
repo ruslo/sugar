@@ -14,7 +14,7 @@ include(sugar_foo) # sugar_foo.cmake searched in core directory
 different directories can include each other. For example module from `core` can include module from `print`
 * some functions expect that `SUGAR_ROOT` variable is defined
 
-### Master file 
+### Master file
 Modules can be included automatically by master file [Sugar](https://github.com/ruslo/sugar/blob/master/cmake/Sugar):
 ```cmake
 # assuming that SUGAR_ROOT environment variable is set
