@@ -15,7 +15,9 @@ include(sugar_set_xcode_ios_sdkroot)
 
 find_package(Boost REQUIRED) # for |boost::ignore_unused_variable_warning|
 
-include_directories(${Boost_INCLUDE_DIRS})
+# !HACK! (if 'include_directories' will be used, '/usr/local/include' will be
+# substituted to '/.../Xcode.app/.../urs/local/include')
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${Boost_INCLUDE_DIRS}")
 
 sugar_include("./sources")
 sugar_include("${SUGAR_ROOT}/examples/resources/ios/images")
