@@ -9,6 +9,15 @@ install:
     - brew install python3
     - brew install doxygen
     - brew install boost # boost.config (06-ios)
+    # install ios simulator for 03/04 examples
+    #     * https://github.com/travis-ci-tester/travis-test-ios-sim
+    - wget https://github.com/phonegap/ios-sim/archive/1.8.2.tar.gz
+    - tar -xvf 1.8.2.tar.gz
+    - cd ios-sim-1.8.2/
+    - xcodebuild -target ios-sim
+    - export PATH=`pwd`/build/Release:${PATH}
+    - cd ..
+    # -- end
 
 before_script:
     - cmake --version
