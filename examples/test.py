@@ -104,6 +104,23 @@ if detail.os_detect.macosx:
     params = ''
   configs.append(Config('Xcode', params, 'xcode', 'xcodebuild'))
 
+def build_ios_gtest(root):
+  # https://github.com/hunter-packages/gtest
+  current_dir = os.getcwd()
+  os.chdir(root)
+  src = 'https://github.com/hunter-packages/gtest/archive/v1.7.0-hunter.tar.gz'
+  subprocess.check_call(['wget', src])
+  subprocess.check_call(['tar', '-xf', 'v1.7.0-hunter.tar.gz'])
+  gtest_dir = os.path.join(current_dir, root, 'gtest-1.7.0-hunter')
+  os.chdir(gtest_dir)
+  toolchain = os.path.join(gtest_dir, 'cmake', 'iOS.cmake')
+  toolchain = '-DCMAKE_TOOLCHAIN_FILE={}'.format(toolchain)
+  install_prefix = os.path.join(current_dir, root, 'Install')
+  install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
+  subprocess.check_call(['cmake', '-GXcode', toolchain, install_prefix, '.'])
+  subprocess.check_call(['xcodebuild', '-target', 'install'])
+  os.chdir(current_dir)
+
 done_list = []
 
 def run_cmake_test(root, config_in):
@@ -123,6 +140,13 @@ def run_cmake_test(root, config_in):
   if re.match('./07-cocoa-application', root) and config.generator != 'Xcode':
     print("{}: skip (Xcode only)".format(config.generator))
     return
+
+  if re.match('./03-ios-gtest', root):
+    if config.generator == 'Xcode':
+      build_ios_gtest(root)
+    else:
+      print("{}: skip (Xcode only)".format(config.generator))
+      return
 
   if re.match('./06-ios', root):
     if config.generator != 'Xcode':
