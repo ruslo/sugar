@@ -107,11 +107,16 @@ if detail.os_detect.macosx:
 def build_ios_gtest(root):
   # https://github.com/hunter-packages/gtest
   current_dir = os.getcwd()
+  gtest_dir = os.path.join(current_dir, root, 'gtest-1.7.0-hunter')
+  detail.trash.trash(gtest_dir, ignore_not_exist=True)
+  detail.trash.trash(gtest_dir, ignore_not_exist=True)
+
   os.chdir(root)
   src = 'https://github.com/hunter-packages/gtest/archive/v1.7.0-hunter.tar.gz'
-  subprocess.check_call(['wget', src])
+  if not os.path.exists('v1.7.0-hunter.tar.gz'):
+    subprocess.check_call(['wget', src])
+
   subprocess.check_call(['tar', '-xf', 'v1.7.0-hunter.tar.gz'])
-  gtest_dir = os.path.join(current_dir, root, 'gtest-1.7.0-hunter')
   os.chdir(gtest_dir)
   toolchain = os.path.join(gtest_dir, 'cmake', 'iOS.cmake')
   toolchain = '-DCMAKE_TOOLCHAIN_FILE={}'.format(toolchain)
@@ -119,6 +124,24 @@ def build_ios_gtest(root):
   install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
   subprocess.check_call(['cmake', '-GXcode', toolchain, install_prefix, '.'])
   subprocess.check_call(['xcodebuild', '-target', 'install'])
+  os.chdir(current_dir)
+
+def build_gtest(root):
+  # https://github.com/hunter-packages/gtest
+  current_dir = os.getcwd()
+  gtest_dir = os.path.join(current_dir, root, 'gtest-1.7.0-hunter')
+  detail.trash.trash(gtest_dir, ignore_not_exist=True)
+
+  os.chdir(root)
+  src = 'https://github.com/hunter-packages/gtest/archive/v1.7.0-hunter.tar.gz'
+  if not os.path.exists('v1.7.0-hunter.tar.gz'):
+    subprocess.check_call(['wget', src])
+  subprocess.check_call(['tar', '-xf', 'v1.7.0-hunter.tar.gz'])
+  os.chdir(gtest_dir)
+  install_prefix = os.path.join(current_dir, root, 'Install')
+  install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
+  subprocess.check_call(['cmake', install_prefix, '.'])
+  subprocess.check_call(['cmake', '--build', '.', '--target', 'install'])
   os.chdir(current_dir)
 
 done_list = []
@@ -147,6 +170,12 @@ def run_cmake_test(root, config_in):
     else:
       print("{}: skip (Xcode only)".format(config.generator))
       return
+
+  if re.match('./04-gtest-universal', root):
+    if config.generator == 'Xcode':
+      build_ios_gtest(root)
+    else:
+      build_gtest(root)
 
   if re.match('./06-ios', root):
     if config.generator != 'Xcode':
