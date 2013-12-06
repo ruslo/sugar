@@ -12,7 +12,6 @@ import sys
 import subprocess
 import copy
 
-import detail.command
 import detail.trash
 import detail.os_detect
 import detail.argparse
@@ -205,19 +204,19 @@ def run_cmake_test(root, config_in):
           '-DCMAKE_INSTALL_PREFIX={}/../../install'.format(os.getcwd())
       )
     command.append('../..')
-    detail.command.run(command)
+    subprocess.check_call(command)
     print('build...')
     if config.generator == 'Xcode':
       build_release = '{} -configuration Release'.format(config.build)
       build_debug = '{} -configuration Debug'.format(config.build)
-      detail.command.run(build_release.split())
-      detail.command.run(build_debug.split())
+      subprocess.check_call(build_release.split())
+      subprocess.check_call(build_debug.split())
     else:
-      detail.command.run(config.build.split())
+      subprocess.check_call(config.build.split())
 
     if library_install:
       # additional install step
-      detail.command.run(['xcodebuild', '-target', 'install'])
+      subprocess.check_call(['xcodebuild', '-target', 'install'])
     print('done')
   except subprocess.CalledProcessError:
     sys.exit('run failed in "{}" directory'.format(root))
