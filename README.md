@@ -14,9 +14,14 @@ include(/path/to/sugar/cmake/Sugar)
 * [Collecting sources](https://github.com/ruslo/sugar/wiki/Collecting-sources)
 * [Generating groups](https://github.com/ruslo/sugar/wiki/Generating-groups)
 * [Build universal iOS library](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library)
-* [TODO]()
+* [Run gtest on iOS simulator](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_gtest)
+* *More* (TODO)
 
 ### Examples
 See [examples](https://github.com/ruslo/sugar/tree/master/examples).
 Please [read](https://github.com/ruslo/0/wiki/CMake) coding style and
 agreements before start looking through examples (may explain a lot).
+
+### What next?
+* [CMake toolchain collection](https://github.com/ruslo/polly)
+* [CMake package manager](https://github.com/ruslo/hunter)
