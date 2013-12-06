@@ -6,13 +6,20 @@ python:
 
 before_install:
     - sudo apt-get update
-    - "wget https://launchpad.net/ubuntu/+source/cmake/2.8.8-2ubuntu1/+build/3441442/+files/cmake_2.8.8-2ubuntu1_amd64.deb"
-    - "wget https://launchpad.net/ubuntu/+archive/primary/+files/cmake-data_2.8.8-2ubuntu1_all.deb"
-    - "sudo apt-get remove cmake-data cmake"
 
 install:
     - sudo apt-get install doxygen
-    - "sudo dpkg --install cmake-data_2.8.8-2ubuntu1_all.deb cmake_2.8.8-2ubuntu1_amd64.deb"
+    # install cmake 2.8.10
+    #     * https://github.com/travis-ci-tester/travis-test-cmake
+    - wget http://www.cmake.org/files/v2.8/cmake-2.8.10.tar.gz
+    - tar xf cmake-2.8.10.tar.gz
+    - cd cmake-2.8.10
+    - sudo apt-get install libcurl3-dev
+    - ./bootstrap --system-curl
+    - make
+    - sudo make install
+    - cd ..
+    # -- end
 
 before_script:
     - cmake --version
