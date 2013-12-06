@@ -253,6 +253,9 @@ for root, dirs, files in os.walk('./'):
     if args.include and not hit_regex(root, args.include):
       print("skip (not in include list): '{}'".format(root))
       continue
+    if re.search(r'/gtest-1.7.0-hunter', root):
+      print("skip service temporary project: {}".format(root))
+      continue
     file_path = os.path.join(root, filename)
     print('check file = {}'.format(file_path))
     file_id = open(file_path)
