@@ -1,4 +1,8 @@
 # Core files
+
+### sugar_add_ios_gtest
+Wrapper for running gtest executable on iOS simulator
+
 ### sugar_add_this_to_source_list
 Add file from which this function called to [SUGAR_SOURCES](https://github.com/ruslo/sugar/wiki/Used-variables#sugar_sources)
 list. This variable can be used later, for example,
