@@ -139,7 +139,11 @@ def build_gtest(root):
   os.chdir(gtest_dir)
   install_prefix = os.path.join(current_dir, root, 'Install')
   install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
-  subprocess.check_call(['cmake', install_prefix, '.'])
+  if args.libcxx:
+    lib_flags = '-DCMAKE_CXX_FLAGS=-stdlib=libc++'
+  else:
+    lib_flags = ''
+  subprocess.check_call(['cmake', install_prefix, lib_flags, '.'])
   subprocess.check_call(['cmake', '--build', '.', '--target', 'install'])
   os.chdir(current_dir)
 
@@ -163,7 +167,9 @@ def run_cmake_test(root, config_in):
     print("{}: skip (Xcode only)".format(config.generator))
     return
 
+  check_simulator = False
   if re.match('./03-ios-gtest', root):
+    check_simulator = True
     if config.generator == 'Xcode':
       build_ios_gtest(root)
     else:
@@ -171,21 +177,24 @@ def run_cmake_test(root, config_in):
       return
 
   if re.match('./04-gtest-universal', root):
+    check_simulator = True
     if config.generator == 'Xcode':
       build_ios_gtest(root)
     else:
       build_gtest(root)
 
   if re.match('./06-ios', root):
+    check_simulator = True
     if config.generator != 'Xcode':
       print("{}: skip (Xcode only)".format(config.generator))
       return
+
+  if check_simulator and config.generator == 'Xcode':
+    if args.sim:
+      build_sdk = 'iphonesimulator -arch i386'
     else:
-      if args.sim:
-        build_sdk = 'iphonesimulator -arch i386'
-      else:
-        build_sdk = 'iphoneos'
-      config.build += ' -sdk {}'.format(build_sdk)
+      build_sdk = 'iphoneos'
+    config.build += ' -sdk {}'.format(build_sdk)
 
   build_dir=os.path.join(root, '_builds', config.directory)
   detail.trash.trash(build_dir, ignore_not_exist=True)
