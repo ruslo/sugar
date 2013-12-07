@@ -11,4 +11,4 @@ examples/*/_builds
 */*/*.tar.gz
 
 # temp download
-examples/03-ios-gtest/gtest-*-hunter/
+examples/*/gtest-1.7.0*-hunter/
