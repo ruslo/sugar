@@ -5,3 +5,10 @@ examples/*/_builds
 
 # python cache
 */*/__pycache__
+
+# temp
+*/*/Install
+*/*/*.tar.gz
+
+# temp download
+examples/03-ios-gtest/gtest-*-hunter/
