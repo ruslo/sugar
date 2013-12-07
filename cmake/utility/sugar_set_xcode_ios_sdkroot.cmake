@@ -4,39 +4,52 @@
 include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
 
-include(sugar_expected_number_of_arguments)
+include(CMakeParseArguments) # CMAKE_PARSE_ARGUMENTS
 include(sugar_status_print)
 include(sugar_target_add_framework)
 include(sugar_test_file_exists)
+include(sugar_test_target_exists)
 
-function(sugar_set_xcode_ios_sdkroot target plist)
-  sugar_expected_number_of_arguments(${ARGC} 2)
+function(sugar_set_xcode_ios_sdkroot)
+  set(one_arg TARGET PLIST)
+  CMAKE_PARSE_ARGUMENTS(X "" "${one_arg}" "" ${ARGV})
+  if(X_UNPARSED_ARGUMENTS)
+    sugar_fatal_error("Unparsed: ${X_UNPARSED_ARGUMENTS}")
+  endif()
+
+  if(NOT X_TARGET)
+    sugar_fatal_error("TARGET not found")
+  endif()
+
+  sugar_test_target_exists(${X_TARGET})
 
   set_target_properties(
-      ${target}
+      ${X_TARGET}
       PROPERTIES
       XCODE_ATTRIBUTE_SDKROOT
       "iphoneos"
   )
 
   set_target_properties(
-      ${target}
+      ${X_TARGET}
       PROPERTIES
       XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY
       "iPhone Developer"
   )
 
-  sugar_status_print("Info.plist source: ${plist}")
-  sugar_test_file_exists("${plist}")
-  set_target_properties(
-      ${target}
-      PROPERTIES
-      MACOSX_BUNDLE_INFO_PLIST
-      "${plist}"
-  )
+  if(X_PLIST)
+    sugar_status_print("Info.plist source: ${X_PLIST}")
+    sugar_test_file_exists("${X_PLIST}")
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST
+        "${X_PLIST}"
+    )
+  endif()
 
   # add default frameworks
-  sugar_target_add_framework(${target} CoreGraphics)
-  sugar_target_add_framework(${target} Foundation)
-  sugar_target_add_framework(${target} UIKit)
+  sugar_target_add_framework(${X_TARGET} CoreGraphics)
+  sugar_target_add_framework(${X_TARGET} Foundation)
+  sugar_target_add_framework(${X_TARGET} UIKit)
 endfunction()

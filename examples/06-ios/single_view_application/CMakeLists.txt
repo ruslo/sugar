@@ -34,4 +34,4 @@ if(NOT XCODE_VERSION)
 endif()
 
 add_executable(example MACOSX_BUNDLE ${SOURCES} ${RESOURCES})
-sugar_set_xcode_ios_sdkroot(example ${PLIST_FILE})
+sugar_set_xcode_ios_sdkroot(TARGET example PLIST ${PLIST_FILE})
