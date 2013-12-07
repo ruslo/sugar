@@ -27,8 +27,7 @@ target_link_libraries(simple_test ${GTEST_BOTH_LIBRARIES})
 
 set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.gtest")
 
-set(PLIST_FILE "${SUGAR_ROOT}/examples/plist/ios/empty.plist.in")
-sugar_set_xcode_ios_sdkroot(simple_test ${PLIST_FILE})
+sugar_set_xcode_ios_sdkroot(TARGET simple_test)
 
 enable_testing()
 sugar_add_ios_gtest(SimpleTestName simple_test)

@@ -48,7 +48,7 @@ property
 ### sugar_set_xcode_ios_sdkroot
 * set `Xcode` sdkroot to `iphoneos`
 * set `Xcode` sign identity to `iPhone Developer`
-* set target property [MACOSX_BUNDLE_INFO_PLIST](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:MACOSX_BUNDLE_INFO_PLIST)
+* if suboption `PLIST` present set target property [MACOSX_BUNDLE_INFO_PLIST](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:MACOSX_BUNDLE_INFO_PLIST)
 * link default frameworks: `CoreGraphics`, `Foundation`, `UIKit`
 
 ### sugar_target_add_definitions

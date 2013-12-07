@@ -18,6 +18,7 @@ function(sugar_add_gtest)
 
   if(iphoneos_found)
     sugar_status_debug("Use sugar_add_ios_gtest")
+    sugar_status_debug("ARGV: [${ARGV}]")
     sugar_add_ios_gtest(${ARGV})
   else()
     sugar_status_debug("Use cmake add_test")
