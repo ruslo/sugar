@@ -36,7 +36,7 @@ function(my_function A B)
   sugar_improper_number_of_arguments(${ARGC} 0)
   sugar_improper_number_of_arguments(${ARGC} 1)
   sugar_improper_number_of_arguments(${ARGC} 2)
-  
+
   # expected number of arguments > 2
 endfunction()
 ```
