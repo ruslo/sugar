@@ -1,4 +1,13 @@
 # Core files
+
+### sugar_add_ios_gtest
+Wrapper for running gtest executable on iOS simulator. See [examples]
+(https://github.com/ruslo/sugar/tree/master/examples#description) *ios-gtest* and *gtest-universal*.
+
+### sugar_add_gtest
+Use `sugar_add_ios_gtest` if iOS build detected, otherwise use `add_test`. Similar to [sugar_install_library]
+(https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_library)
+
 ### sugar_add_this_to_source_list
 Add file from which this function called to [SUGAR_SOURCES](https://github.com/ruslo/sugar/wiki/Used-variables#sugar_sources)
 list. This variable can be used later, for example,
