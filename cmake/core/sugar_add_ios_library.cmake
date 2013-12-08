@@ -7,8 +7,8 @@ sugar_add_this_to_sourcelist()
 include(sugar_improper_number_of_arguments)
 
 function(sugar_add_ios_library libname)
-  sugar_improper_number_of_arguments(${ARGV} 0)
-  sugar_improper_number_of_arguments(${ARGV} 1)
+  sugar_improper_number_of_arguments(${ARGC} 0)
+  sugar_improper_number_of_arguments(${ARGC} 1)
 
   set(libsources ${ARGV})
   list(REMOVE_AT libsources 0) # remove libname

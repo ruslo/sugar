@@ -24,6 +24,8 @@ if(NOT XCODE_VERSION)
   sugar_fatal_error("Xcode only")
 endif()
 
+set(CMAKE_DEBUG_POSTFIX d)
+
 sugar_add_ios_library(universal_lib_example ${SOURCES})
 sugar_set_xcode_ios_sdkroot(TARGET universal_lib_example)
 

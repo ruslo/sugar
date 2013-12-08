@@ -22,7 +22,7 @@ function(sugar_install_ios_library library_target destination)
   if(NOT is_ios)
     sugar_fatal_error(
         "Property SUGAR_IOS not found."
-        "Please use sugar_add_ios_library to create library."
+        "Please use sugar_add_ios_library/sugar_add_library to create library."
     )
   endif()
 
@@ -66,8 +66,6 @@ function(sugar_install_ios_library library_target destination)
       "${path_debug}"
       DESTINATION
       "${destination}"
-      CONFIGURATIONS
-      Debug
   )
 
   install(
@@ -75,7 +73,5 @@ function(sugar_install_ios_library library_target destination)
       "${path_release}"
       DESTINATION
       "${destination}"
-      CONFIGURATIONS
-      Release
   )
 endfunction()
