@@ -25,4 +25,4 @@ before_script:
 
 script:
     - cd ./examples
-    - python3 ./test.py --sim --libcxx
+    - python3 ./test.py --sim --libcxx --exclude ./03-ios-gtest ./04-gtest-universal # TEMP! TODO!

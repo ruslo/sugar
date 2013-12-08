@@ -18,26 +18,60 @@ function(sugar_install_ios_library library_target destination)
   endif()
 
   sugar_test_target_exists(${library_target})
-  sugar_find_python3()
+  get_target_property(is_ios ${library_target} SUGAR_IOS)
+  if(NOT is_ios)
+    sugar_fatal_error(
+        "Property SUGAR_IOS not found."
+        "Please use sugar_add_ios_library/sugar_add_library to create library."
+    )
+  endif()
 
-  sugar_test_variable_not_empty(SUGAR_ROOT)
-  sugar_test_variable_not_empty(PYTHON_EXECUTABLE)
-
-  set(cmd "")
-  list(APPEND cmd ${PYTHON_EXECUTABLE})
-  list(APPEND cmd ${SUGAR_ROOT}/python/sugar_install_ios_library.py)
-  list(APPEND cmd --target)
-  list(APPEND cmd ${library_target})
-  list(APPEND cmd --destination)
-  list(APPEND cmd ${CMAKE_INSTALL_PREFIX}/${destination})
+  get_target_property(path_debug ${library_target} SUGAR_IOS_PATH_DEBUG)
+  get_target_property(path_release ${library_target} SUGAR_IOS_PATH_RELEASE)
 
   install(
       CODE
       "execute_process(
           COMMAND
-          ${cmd}
+          ${CMAKE_COMMAND}
+          --build
+          .
+          --target
+          ${library_target}
+          --config
+          Release
           WORKING_DIRECTORY
           ${PROJECT_BINARY_DIR}
       )"
+  )
+
+  install(
+      CODE
+      "execute_process(
+          COMMAND
+          ${CMAKE_COMMAND}
+          --build
+          .
+          --target
+          ${library_target}
+          --config
+          Debug
+          WORKING_DIRECTORY
+          ${PROJECT_BINARY_DIR}
+      )"
+  )
+
+  install(
+      FILES
+      "${path_debug}"
+      DESTINATION
+      "${destination}"
+  )
+
+  install(
+      FILES
+      "${path_release}"
+      DESTINATION
+      "${destination}"
   )
 endfunction()
