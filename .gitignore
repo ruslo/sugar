@@ -12,3 +12,6 @@ examples/*/_builds
 
 # temp download
 examples/*/gtest-1.7.0*-hunter/
+
+# temp macos
+*/*/.DS_Store
