@@ -5,7 +5,7 @@ include(sugar_groups_generate)
 
 set(
     SOURCES_A
-    "./main.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/main.cpp"
     ${MODULE_A_SOURCES}
     ${MODULE_B_SOURCES}
     ${SUGAR_SOURCES}
