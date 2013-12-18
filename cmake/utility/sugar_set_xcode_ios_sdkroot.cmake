@@ -37,6 +37,13 @@ function(sugar_set_xcode_ios_sdkroot)
       "iPhone Developer"
   )
 
+  set_target_properties(
+      ${X_TARGET}
+      PROPERTIES
+      XCODE_ATTRIBUTE_ARCHS
+      "$(ARCHS_STANDARD_INCLUDING_64_BIT)"
+  )
+
   if(X_PLIST)
     sugar_status_print("Info.plist source: ${X_PLIST}")
     sugar_test_file_exists("${X_PLIST}")
