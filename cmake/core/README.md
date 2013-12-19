@@ -3,6 +3,8 @@
 ### sugar_add_ios_gtest
 Wrapper for running gtest executable on iOS simulator. See [examples]
 (https://github.com/ruslo/sugar/tree/master/examples#description) *ios-gtest* and *gtest-universal*.
+Both `Release` and `Debug` configuration will be run.
+`ctest -C Release` and `ctest -C Debug` will do the same job.
 
 ### sugar_add_gtest
 Use `sugar_add_ios_gtest` if iOS build detected, otherwise use `add_test`. Similar to [sugar_install_library]
