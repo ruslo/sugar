@@ -5,6 +5,7 @@ include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
 
 include(sugar_improper_number_of_arguments)
+include(sugar_set_xcode_ios_sdkroot)
 
 function(sugar_add_ios_library libname)
   sugar_improper_number_of_arguments(${ARGC} 0)
@@ -26,6 +27,7 @@ function(sugar_add_ios_library libname)
 
   # Add real library
   add_library(${name_base} ${libsources})
+  sugar_set_xcode_ios_sdkroot(TARGET ${name_base})
   # Build all listed architectures
   set_target_properties(
       ${name_base}
