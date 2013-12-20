@@ -10,6 +10,14 @@ Both `Release` and `Debug` configuration will be run.
 Use `sugar_add_ios_gtest` if iOS build detected, otherwise use `add_test`. Similar to [sugar_install_library]
 (https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_library)
 
+### sugar_add_ios_library
+Add "fake" library target to build universal library. Base "real" library will have name `<library>_BASE`.
+[sugar_set_xcode_ios_sdkroot]
+(https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot)
+will be called for `<library>_BASE`. Properties `SUGAR_IOS`, `SUGAR_IOS_BASE_TARGET`,
+`SUGAR_IOS_PATH_DEBUG` and `SUGAR_IOS_PATH_RELEASE` will be setted for "fake" target (check [sugar_echo_target] (https://github.com/ruslo/sugar/blob/master/cmake/utility/README.md#sugar_echo_target) function).
+See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
+
 ### sugar_add_this_to_source_list
 Add file from which this function called to [SUGAR_SOURCES](https://github.com/ruslo/sugar/wiki/Used-variables#sugar_sources)
 list. This variable can be used later, for example,
