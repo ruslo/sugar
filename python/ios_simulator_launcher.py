@@ -57,7 +57,7 @@ class Log:
 log = Log()
 
 def run_build(configuration):
-  build_command = ['xcodebuild', '-sdk', 'iphonesimulator']
+  build_command = ['xcodebuild', '-sdk', 'iphonesimulator', '-arch', 'i386']
   build_command.append('-target')
   build_command.append(args.target)
   build_command.append('-configuration')

@@ -35,7 +35,11 @@ function(sugar_add_ios_gtest testname targetname)
   sugar_test_variable_not_empty(PYTHON_EXECUTABLE)
   sugar_test_variable_not_empty(SUGAR_ROOT)
   add_test(
+      NAME
       ${testname}
+      WORKING_DIRECTORY
+      ${PROJECT_BINARY_DIR}
+      COMMAND
       ${PYTHON_EXECUTABLE}
       "${SUGAR_ROOT}/python/ios_simulator_launcher.py"
       "--sim"
