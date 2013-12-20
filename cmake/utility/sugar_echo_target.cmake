@@ -189,6 +189,7 @@ function(sugar_echo_target target)
 
       # Sugar properties:
       SUGAR_IOS
+      SUGAR_IOS_BASE_TARGET
       SUGAR_IOS_PATH_DEBUG
       SUGAR_IOS_PATH_RELEASE
   )

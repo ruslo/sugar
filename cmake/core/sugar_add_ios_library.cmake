@@ -64,6 +64,8 @@ function(sugar_add_ios_library libname)
       PROPERTIES
       SUGAR_IOS
       TRUE
+      SUGAR_IOS_BASE_TARGET
+      ${name_base}
       SUGAR_IOS_PATH_DEBUG
       ${PROJECT_BINARY_DIR}/Debug-${build_dir}/${name_debug}
       SUGAR_IOS_PATH_RELEASE
