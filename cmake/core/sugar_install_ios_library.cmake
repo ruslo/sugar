@@ -7,10 +7,18 @@ sugar_add_this_to_sourcelist()
 include(sugar_expected_number_of_arguments)
 include(sugar_fatal_error)
 include(sugar_find_python3)
+include(sugar_install_ios_arch_library)
 include(sugar_test_target_exists)
 include(sugar_test_variable_not_empty)
 
 function(sugar_install_ios_library library_target destination)
+  if(SUGAR_IOS_ARCH)
+    # optimized mode:
+    #     * https://github.com/ruslo/sugar/wiki/Universal-ios-library-%28optimization%29
+    sugar_install_ios_arch_library(${library_target} ${destination})
+    return()
+  endif()
+
   sugar_expected_number_of_arguments(${ARGC} 2)
 
   if(NOT XCODE_VERSION)
