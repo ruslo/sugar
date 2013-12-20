@@ -56,6 +56,8 @@ according to directory structure, for `Xcode` and `Visual Studio` IDE.
 
 ### sugar_install_ios_library
 Workaround for broken `install` command on `iphone` targets.
+Use only with [sugar_add_ios_library]
+(https://github.com/ruslo/sugar/blob/master/cmake/core/README.md#sugar_add_ios_library).
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
 
 ### sugar_install_library
