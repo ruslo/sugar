@@ -1,7 +1,7 @@
 # Core files
 
 ### sugar_add_ios_gtest
-Wrapper for running gtest executable on iOS simulator. See [examples]
+Wrapper for running gtest executable on iOS simulator (i386). See [examples]
 (https://github.com/ruslo/sugar/tree/master/examples#description) *ios-gtest* and *gtest-universal*.
 Both `Release` and `Debug` configuration will be run.
 `ctest -C Release` and `ctest -C Debug` will do the same job.
