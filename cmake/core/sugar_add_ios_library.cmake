@@ -6,6 +6,7 @@ sugar_add_this_to_sourcelist()
 
 include(sugar_improper_number_of_arguments)
 include(sugar_set_xcode_ios_sdkroot)
+include(sugar_status_debug)
 
 function(sugar_add_ios_library libname)
   sugar_improper_number_of_arguments(${ARGC} 0)

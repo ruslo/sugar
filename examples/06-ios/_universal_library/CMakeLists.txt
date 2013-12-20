@@ -16,7 +16,6 @@ include($ENV{SUGAR_ROOT}/cmake/Sugar)
 include(sugar_add_ios_library)
 include(sugar_include)
 include(sugar_install_ios_library)
-include(sugar_set_xcode_ios_sdkroot)
 
 sugar_include("./sources")
 
