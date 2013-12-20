@@ -40,7 +40,25 @@ function(sugar_add_ios_library libname)
 
   # Add "fake" library
   get_target_property(location_base ${name_base} LOCATION_DEBUG)
-  string(REGEX REPLACE ".*DEBUG/" "" location_base "${location_base}")
+  sugar_status_debug("LOCATION_DEBUG: ${location_base}")
+  string(
+      REGEX
+      REPLACE
+      ".*/DEBUG/"
+      ""
+      base_name
+      "${location_base}"
+  )
+  string(
+      REGEX
+      REPLACE
+      "/DEBUG/.*"
+      ""
+      base_dir
+      "${location_base}"
+  )
+  sugar_status_debug("Base name: ${base_name}")
+  sugar_status_debug("Base dir: ${base_dir}")
   set(xcode_command xcodebuild -target "${name_base}")
   set(
       bin_name
@@ -62,8 +80,8 @@ function(sugar_add_ios_library libname)
       -output
       ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-${build_dir}/${bin_name}
       -create
-      ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-iphoneos/${location_base}
-      ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-iphonesimulator/${location_base}
+      ${base_dir}/$<CONFIGURATION>-iphoneos/${base_name}
+      ${base_dir}/$<CONFIGURATION>-iphonesimulator/${base_name}
       WORKING_DIRECTORY
       ${PROJECT_BINARY_DIR}
   )
