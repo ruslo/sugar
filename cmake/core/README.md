@@ -18,6 +18,10 @@ will be called for `<library>_BASE`. Properties `SUGAR_IOS`, `SUGAR_IOS_BASE_TAR
 `SUGAR_IOS_PATH_DEBUG` and `SUGAR_IOS_PATH_RELEASE` will be setted for "fake" target (check [sugar_echo_target] (https://github.com/ruslo/sugar/blob/master/cmake/utility/README.md#sugar_echo_target) function).
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
 
+### sugar_add_library
+Use `sugar_add_ios_library` if iOS build detected, otherwise use `add_library`. Similar to [sugar_install_library]
+(https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_library)
+
 ### sugar_add_this_to_source_list
 Add file from which this function called to [SUGAR_SOURCES](https://github.com/ruslo/sugar/wiki/Used-variables#sugar_sources)
 list. This variable can be used later, for example,
@@ -52,7 +56,12 @@ according to directory structure, for `Xcode` and `Visual Studio` IDE.
 
 ### sugar_install_ios_library
 Workaround for broken `install` command on `iphone` targets.
+Use only with [sugar_add_ios_library]
+(https://github.com/ruslo/sugar/blob/master/cmake/core/README.md#sugar_add_ios_library).
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
 
 ### sugar_install_library
 Call `sugar_install_ios_library` if `iphoneos` detected in `CMAKE_OSX_SYSROOT`, otherwise call regular cmake `install`
+
+### sugar_target_link_libraries
+Support linking with target for "fake" libraries created by `sugar_add_ios_library`

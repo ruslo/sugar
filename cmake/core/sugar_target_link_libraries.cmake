@@ -13,7 +13,7 @@ function(sugar_target_link_libraries target)
   sugar_improper_number_of_arguments(${ARGC} 1)
 
   set(libraries ${ARGV})
-  list(REMOVE_AT libraries 0) # remote `target`
+  list(REMOVE_AT libraries 0) # remove `target`
   sugar_test_target_exists(${target})
 
   foreach(x ${libraries})
