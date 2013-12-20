@@ -26,6 +26,13 @@ function(sugar_add_ios_library libname)
 
   # Add real library
   add_library(${name_base} ${libsources})
+  # Build all listed architectures
+  set_target_properties(
+      ${name_base}
+      PROPERTIES
+      XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH
+      "NO"
+  )
   set_target_properties(${name_base} PROPERTIES DEBUG_POSTFIX "")
       # simplify search and rule creation
 
