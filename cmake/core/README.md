@@ -62,3 +62,6 @@ See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) f
 
 ### sugar_install_library
 Call `sugar_install_ios_library` if `iphoneos` detected in `CMAKE_OSX_SYSROOT`, otherwise call regular cmake `install`
+
+### sugar_target_link_libraries
+Support linking with target for "fake" libraries created by `sugar_add_ios_library`
