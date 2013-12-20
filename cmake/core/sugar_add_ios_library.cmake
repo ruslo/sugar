@@ -12,7 +12,7 @@ function(sugar_add_ios_library libname)
 
   set(libsources ${ARGV})
   list(REMOVE_AT libsources 0) # remove libname
-  set(name_base ${libname}_ios_base_target)
+  set(name_base ${libname}_BASE)
 
   set(name_release "${CMAKE_STATIC_LIBRARY_PREFIX}")
   set(name_release "${name_release}${libname}")
