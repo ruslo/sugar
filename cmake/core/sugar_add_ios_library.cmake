@@ -4,11 +4,19 @@
 include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
 
+include(sugar_add_ios_arch_library)
 include(sugar_improper_number_of_arguments)
 include(sugar_set_xcode_ios_sdkroot)
 include(sugar_status_debug)
 
 function(sugar_add_ios_library libname)
+  if(SUGAR_IOS_ARCH)
+    # optimized mode:
+    #     * https://github.com/ruslo/sugar/wiki/Universal-ios-library-%28optimization%29
+    sugar_add_ios_arch_library(${ARGV})
+    return()
+  endif()
+
   sugar_improper_number_of_arguments(${ARGC} 0)
   sugar_improper_number_of_arguments(${ARGC} 1)
 

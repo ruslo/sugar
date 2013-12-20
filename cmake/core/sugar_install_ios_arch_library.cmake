@@ -6,26 +6,20 @@ sugar_add_this_to_sourcelist()
 
 include(sugar_expected_number_of_arguments)
 include(sugar_fatal_error)
-include(sugar_find_python3)
-include(sugar_install_ios_arch_library)
 include(sugar_test_target_exists)
 include(sugar_test_variable_not_empty)
 
-function(sugar_install_ios_library library_target destination)
-  if(SUGAR_IOS_ARCH)
-    # optimized mode:
-    #     * https://github.com/ruslo/sugar/wiki/Universal-ios-library-%28optimization%29
-    sugar_install_ios_arch_library(${library_target} ${destination})
-    return()
-  endif()
-
+function(sugar_install_ios_arch_library library_target destination)
   sugar_expected_number_of_arguments(${ARGC} 2)
 
   if(NOT XCODE_VERSION)
     sugar_fatal_error("Only Xcode")
   endif()
 
+  sugar_test_variable_not_empty(SUGAR_IOS_ARCH)
+
   sugar_test_target_exists(${library_target})
+
   get_target_property(is_ios ${library_target} SUGAR_IOS)
   if(NOT is_ios)
     sugar_fatal_error(
@@ -37,17 +31,26 @@ function(sugar_install_ios_library library_target destination)
   get_target_property(path_debug ${library_target} SUGAR_IOS_PATH_DEBUG)
   get_target_property(path_release ${library_target} SUGAR_IOS_PATH_RELEASE)
 
+  string(COMPARE EQUAL "${SUGAR_IOS_ARCH}" "i386" is_i386_simulator)
+  string(COMPARE EQUAL "${SUGAR_IOS_ARCH}" "x86_64" is_x64_simulator)
+
+  if(is_i386_simulator OR is_x64_simulator)
+    set(sdk "iphonesimulator")
+  else()
+    set(sdk "iphoneos")
+  endif()
+
   install(
       CODE
       "execute_process(
           COMMAND
-          ${CMAKE_COMMAND}
-          --build
-          .
-          --target
+          xcodebuild
+          -target
           ${library_target}
-          --config
+          -configuration
           Release
+          -sdk
+          ${sdk}
           WORKING_DIRECTORY
           ${PROJECT_BINARY_DIR}
       )"
@@ -57,13 +60,13 @@ function(sugar_install_ios_library library_target destination)
       CODE
       "execute_process(
           COMMAND
-          ${CMAKE_COMMAND}
-          --build
-          .
-          --target
+          xcodebuild
+          -target
           ${library_target}
-          --config
+          -configuration
           Debug
+          -sdk
+          ${sdk}
           WORKING_DIRECTORY
           ${PROJECT_BINARY_DIR}
       )"
