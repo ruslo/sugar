@@ -1,11 +1,25 @@
 # Core files
 
 ### sugar_add_ios_gtest
-Wrapper for running gtest executable on iOS simulator. See [examples]
+Wrapper for running gtest executable on iOS simulator (i386). See [examples]
 (https://github.com/ruslo/sugar/tree/master/examples#description) *ios-gtest* and *gtest-universal*.
+Both `Release` and `Debug` configuration will be run.
+`ctest -C Release` and `ctest -C Debug` will do the same job.
 
 ### sugar_add_gtest
 Use `sugar_add_ios_gtest` if iOS build detected, otherwise use `add_test`. Similar to [sugar_install_library]
+(https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_library)
+
+### sugar_add_ios_library
+Add "fake" library target to build universal library. Base "real" library will have name `<library>_BASE`.
+[sugar_set_xcode_ios_sdkroot]
+(https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot)
+will be called for `<library>_BASE`. Properties `SUGAR_IOS`, `SUGAR_IOS_BASE_TARGET`,
+`SUGAR_IOS_PATH_DEBUG` and `SUGAR_IOS_PATH_RELEASE` will be setted for "fake" target (check [sugar_echo_target] (https://github.com/ruslo/sugar/blob/master/cmake/utility/README.md#sugar_echo_target) function).
+See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
+
+### sugar_add_library
+Use `sugar_add_ios_library` if iOS build detected, otherwise use `add_library`. Similar to [sugar_install_library]
 (https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_library)
 
 ### sugar_add_this_to_source_list
@@ -42,7 +56,12 @@ according to directory structure, for `Xcode` and `Visual Studio` IDE.
 
 ### sugar_install_ios_library
 Workaround for broken `install` command on `iphone` targets.
+Use only with [sugar_add_ios_library]
+(https://github.com/ruslo/sugar/blob/master/cmake/core/README.md#sugar_add_ios_library).
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
 
 ### sugar_install_library
 Call `sugar_install_ios_library` if `iphoneos` detected in `CMAKE_OSX_SYSROOT`, otherwise call regular cmake `install`
+
+### sugar_target_link_libraries
+Support linking with target for "fake" libraries created by `sugar_add_ios_library`

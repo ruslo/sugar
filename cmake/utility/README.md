@@ -9,6 +9,9 @@ Wrapper for `COMPILE_DEFINITIONS_RELEASE` directory property update
 ### sugar_check_no_duplicates
 Verify that given list not holding duplicate values
 
+### sugar_echo_target
+Print all target [properties](http://www.kitware.com/blog/home/post/390)
+
 ### sugar_execute_process
 Wrapper for [execute_process](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#command:execute_process) command
 with verbose error message if run failed.
@@ -48,6 +51,7 @@ property
 ### sugar_set_xcode_ios_sdkroot
 * set `Xcode` sdkroot to `iphoneos`
 * set `Xcode` sign identity to `iPhone Developer`
+* set `Xcode` property `XCODE_ATTRIBUTE_ARCHS` to `$(ARCHS_STANDARD_INCLUDING_64_BIT)`
 * if suboption `PLIST` present set target property [MACOSX_BUNDLE_INFO_PLIST](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:MACOSX_BUNDLE_INFO_PLIST)
 * link default frameworks: `CoreGraphics`, `Foundation`, `UIKit`
 

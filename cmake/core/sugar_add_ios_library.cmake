@@ -5,6 +5,8 @@ include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
 
 include(sugar_improper_number_of_arguments)
+include(sugar_set_xcode_ios_sdkroot)
+include(sugar_status_debug)
 
 function(sugar_add_ios_library libname)
   sugar_improper_number_of_arguments(${ARGC} 0)
@@ -12,7 +14,7 @@ function(sugar_add_ios_library libname)
 
   set(libsources ${ARGV})
   list(REMOVE_AT libsources 0) # remove libname
-  set(name_base ${libname}_ios_base_target)
+  set(name_base ${libname}_BASE)
 
   set(name_release "${CMAKE_STATIC_LIBRARY_PREFIX}")
   set(name_release "${name_release}${libname}")
@@ -26,12 +28,38 @@ function(sugar_add_ios_library libname)
 
   # Add real library
   add_library(${name_base} ${libsources})
+  sugar_set_xcode_ios_sdkroot(TARGET ${name_base})
+  # Build all listed architectures
+  set_target_properties(
+      ${name_base}
+      PROPERTIES
+      XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH
+      "NO"
+  )
   set_target_properties(${name_base} PROPERTIES DEBUG_POSTFIX "")
       # simplify search and rule creation
 
   # Add "fake" library
   get_target_property(location_base ${name_base} LOCATION_DEBUG)
-  string(REGEX REPLACE ".*DEBUG/" "" location_base "${location_base}")
+  sugar_status_debug("LOCATION_DEBUG: ${location_base}")
+  string(
+      REGEX
+      REPLACE
+      ".*/DEBUG/"
+      ""
+      base_name
+      "${location_base}"
+  )
+  string(
+      REGEX
+      REPLACE
+      "/DEBUG/.*"
+      ""
+      base_dir
+      "${location_base}"
+  )
+  sugar_status_debug("Base name: ${base_name}")
+  sugar_status_debug("Base dir: ${base_dir}")
   set(xcode_command xcodebuild -target "${name_base}")
   set(
       bin_name
@@ -53,8 +81,8 @@ function(sugar_add_ios_library libname)
       -output
       ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-${build_dir}/${bin_name}
       -create
-      ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-iphoneos/${location_base}
-      ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-iphonesimulator/${location_base}
+      ${base_dir}/$<CONFIGURATION>-iphoneos/${base_name}
+      ${base_dir}/$<CONFIGURATION>-iphonesimulator/${base_name}
       WORKING_DIRECTORY
       ${PROJECT_BINARY_DIR}
   )
@@ -64,6 +92,8 @@ function(sugar_add_ios_library libname)
       PROPERTIES
       SUGAR_IOS
       TRUE
+      SUGAR_IOS_BASE_TARGET
+      ${name_base}
       SUGAR_IOS_PATH_DEBUG
       ${PROJECT_BINARY_DIR}/Debug-${build_dir}/${name_debug}
       SUGAR_IOS_PATH_RELEASE

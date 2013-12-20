@@ -16,7 +16,6 @@ include($ENV{SUGAR_ROOT}/cmake/Sugar)
 include(sugar_add_ios_library)
 include(sugar_include)
 include(sugar_install_ios_library)
-include(sugar_set_xcode_ios_sdkroot)
 
 sugar_include("./sources")
 
@@ -27,7 +26,6 @@ endif()
 set(CMAKE_DEBUG_POSTFIX d)
 
 sugar_add_ios_library(universal_lib_example ${SOURCES})
-sugar_set_xcode_ios_sdkroot(TARGET universal_lib_example)
 
 install(FILES "./sources/A.hpp" DESTINATION "./include")
 sugar_install_ios_library(universal_lib_example "./lib/ios/")

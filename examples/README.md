@@ -33,7 +33,7 @@ regular test system, used function:
  * `single_view_application` (like `Xcode`: `iOS` -> `Application` -> `Single View Application`)
  * `_universal_library` build/install universal library (i386 + arm, iphoneos + iphonesimulator), used function:
 [sugar_install_ios_library](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_ios_library)
- * `link_library` link universal library to ios target. 
+ * `link_library` link universal library to ios target.
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for detailed description.
  * `link_package` link universal library using `find_package` command
  * `universal_library_osx_sysroot` create universal library by set `CMAKE_OSX_SYSROOT` to `iphoneos` and
