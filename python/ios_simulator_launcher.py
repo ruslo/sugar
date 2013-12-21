@@ -135,6 +135,12 @@ def try_run_simulator(application):
 
   for x in cout_data:
     print(x, end='')
+
+  # check 'YOU HAVE * DISABLED TESTS' message
+  if cout_data[-1] == '\n' and cout_data[-3] == '\n':
+    if re.match('^  YOU HAVE [1-9][0-9]* DISABLED TESTS?$', cout_data[-2]):
+      cout_data = cout_data[0:-3]
+
   last_line = cout_data[-1]
   if re.match('^\[  PASSED  \] [1-9][0-9]* tests?.$', last_line):
     return 0
