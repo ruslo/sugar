@@ -21,7 +21,7 @@ function(sugar_add_ios_gtest testname targetname)
 
   sugar_test_target_exists(${targetname})
 
-  find_program(IOS_SIM "ios-sim")
+  find_program(IOS_SIM "ios-sim" HINTS ${IOS_SIM_ROOT})
   if(NOT IOS_SIM)
     sugar_fatal_error(
         "ios-sim not found, please install it from:"
