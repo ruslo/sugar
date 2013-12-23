@@ -37,12 +37,42 @@ function(sugar_set_xcode_ios_sdkroot)
       "iPhone Developer"
   )
 
-  set_target_properties(
-      ${X_TARGET}
-      PROPERTIES
-      XCODE_ATTRIBUTE_ARCHS
-      "$(ARCHS_STANDARD_INCLUDING_64_BIT)"
-  )
+  if(NOT IPHONEOS_ARCHS)
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        XCODE_ATTRIBUTE_ARCHS
+        "$(ARCHS_STANDARD_INCLUDING_64_BIT)"
+    )
+  else()
+    sugar_test_variable_not_empty(IPHONESIMULATOR_ARCHS)
+    # Add custom Xcode attributes
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        XCODE_ATTRIBUTE_SUGAR_iphonesimulator_ARCHS
+        "${IPHONESIMULATOR_ARCHS}"
+    )
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        XCODE_ATTRIBUTE_SUGAR_iphoneos_ARCHS
+        "${IPHONEOS_ARCHS}"
+    )
+    # Add archs
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        XCODE_ATTRIBUTE_ARCHS
+        "$(SUGAR_$(PLATFORM_NAME)_ARCHS)"
+    )
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        XCODE_ATTRIBUTE_VALID_ARCHS
+        "$(SUGAR_$(PLATFORM_NAME)_ARCHS)"
+    )
+  endif()
 
   if(X_PLIST)
     sugar_status_print("Info.plist source: ${X_PLIST}")
