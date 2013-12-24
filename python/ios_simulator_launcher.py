@@ -40,6 +40,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--configuration',
+    type=str,
+    required=True,
+    help='build configuration (e.g. Release, Debug)'
+)
+
+parser.add_argument(
     '--verbose',
     action='store_true',
     help='print a lot info'
@@ -56,16 +63,12 @@ class Log:
 
 log = Log()
 
-def run_build(configuration):
-  build_command = ['xcodebuild', '-sdk', 'iphonesimulator', '-arch', 'i386']
-  build_command.append('-target')
-  build_command.append(args.target)
-  build_command.append('-configuration')
-  build_command.append(configuration)
-  subprocess.check_call(build_command)
-
-run_build('Debug')
-run_build('Release')
+build_command = ['xcodebuild', '-sdk', 'iphonesimulator', '-arch', 'i386']
+build_command.append('-target')
+build_command.append(args.target)
+build_command.append('-configuration')
+build_command.append(args.configuration)
+subprocess.check_call(build_command)
 
 application = '{}.app'.format(args.target)
 
@@ -80,11 +83,9 @@ def find_application(dir):
   message = '{} not found in {}'.format(application, dir)
   sys.exit(message)
 
-debug_app = find_application('Debug-iphonesimulator')
-release_app = find_application('Release-iphonesimulator')
+app = find_application('{}-iphonesimulator'.format(args.configuration))
 
-log.p('debug found: {}'.format(debug_app))
-log.p('release found: {}'.format(release_app))
+log.p('app found: {}'.format(app))
 
 temp_dir = os.path.join(os.getcwd(), '__tmp_sim_logs__')
 os.makedirs(temp_dir, exist_ok=True)
@@ -158,9 +159,6 @@ def run_simulator(application):
       print('Run failed, retry ({} of {})'.format(i + 1, retry_number))
   sys.exit('Launch failed {} times'.format(retry_number))
 
-exit_status = 0
-if run_simulator(debug_app) != 0:
-  exit_status = 1
-if run_simulator(release_app) != 0:
-  exit_status = 1
-sys.exit(exit_status)
+result = run_simulator(app)
+log.p('exit code: {}'.format(result))
+sys.exit(result)

@@ -9,6 +9,7 @@ include(sugar_status_print)
 include(sugar_target_add_framework)
 include(sugar_test_file_exists)
 include(sugar_test_target_exists)
+include(sugar_test_variable_not_empty)
 
 function(sugar_set_xcode_ios_sdkroot)
   set(one_arg TARGET PLIST)
