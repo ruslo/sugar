@@ -48,5 +48,7 @@ function(sugar_add_ios_gtest testname targetname)
       "${targetname}"
       "--args"
       ${test_argv}
+      "--configuration"
+      $<CONFIGURATION>
   )
 endfunction()
