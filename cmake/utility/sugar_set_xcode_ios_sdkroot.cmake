@@ -39,13 +39,29 @@ function(sugar_set_xcode_ios_sdkroot)
   )
 
   if(NOT IPHONEOS_ARCHS)
+    # Set default architectures
     set_target_properties(
         ${X_TARGET}
         PROPERTIES
         XCODE_ATTRIBUTE_ARCHS
         "$(ARCHS_STANDARD_INCLUDING_64_BIT)"
     )
+  elseif(SUGAR_IOS_ARCH)
+    # Set only one architecture (optimization mode)
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        XCODE_ATTRIBUTE_ARCHS
+        ${SUGAR_IOS_ARCH}
+    )
+    set_target_properties(
+        ${X_TARGET}
+        PROPERTIES
+        XCODE_ATTRIBUTE_VALID_ARCHS
+        ${SUGAR_IOS_ARCH}
+    )
   else()
+    # Set specified architecture list
     sugar_test_variable_not_empty(IPHONESIMULATOR_ARCHS)
     # Add custom Xcode attributes
     set_target_properties(
