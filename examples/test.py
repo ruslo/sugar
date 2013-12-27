@@ -103,19 +103,23 @@ if detail.os_detect.macosx:
     params = ''
   configs.append(Config('Xcode', params, 'xcode', 'xcodebuild'))
 
+gtest_version = '1.7.0-hunter-2'
+gtest_result = 'gtest-' + gtest_version
+gtest_tar_gz = 'v{}.tar.gz'.format(gtest_version)
+gtest_src = 'https://github.com/hunter-packages/gtest/archive/' + gtest_tar_gz
+
 def build_ios_gtest(root):
   # https://github.com/hunter-packages/gtest
   current_dir = os.getcwd()
-  gtest_dir = os.path.join(current_dir, root, 'gtest-1.7.0-hunter')
+  gtest_dir = os.path.join(current_dir, root, gtest_result)
   detail.trash.trash(gtest_dir, ignore_not_exist=True)
   detail.trash.trash(gtest_dir, ignore_not_exist=True)
 
   os.chdir(root)
-  src = 'https://github.com/hunter-packages/gtest/archive/v1.7.0-hunter.tar.gz'
-  if not os.path.exists('v1.7.0-hunter.tar.gz'):
-    subprocess.check_call(['wget', src])
+  if not os.path.exists(gtest_tar_gz):
+    subprocess.check_call(['wget', gtest_src])
 
-  subprocess.check_call(['tar', '-xf', 'v1.7.0-hunter.tar.gz'])
+  subprocess.check_call(['tar', '-xf', gtest_tar_gz])
   os.chdir(gtest_dir)
   toolchain = os.path.join(gtest_dir, 'cmake', 'iOS.cmake')
   toolchain = '-DCMAKE_TOOLCHAIN_FILE={}'.format(toolchain)
@@ -128,14 +132,13 @@ def build_ios_gtest(root):
 def build_gtest(root):
   # https://github.com/hunter-packages/gtest
   current_dir = os.getcwd()
-  gtest_dir = os.path.join(current_dir, root, 'gtest-1.7.0-hunter')
+  gtest_dir = os.path.join(current_dir, root, gtest_result)
   detail.trash.trash(gtest_dir, ignore_not_exist=True)
 
   os.chdir(root)
-  src = 'https://github.com/hunter-packages/gtest/archive/v1.7.0-hunter.tar.gz'
-  if not os.path.exists('v1.7.0-hunter.tar.gz'):
-    subprocess.check_call(['wget', src])
-  subprocess.check_call(['tar', '-xf', 'v1.7.0-hunter.tar.gz'])
+  if not os.path.exists(gtest_tar_gz):
+    subprocess.check_call(['wget', gtest_src])
+  subprocess.check_call(['tar', '-xf', gtest_tar_gz])
   os.chdir(gtest_dir)
   install_prefix = os.path.join(current_dir, root, 'Install')
   install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
@@ -261,7 +264,7 @@ for root, dirs, files in os.walk('./'):
     if args.include and not hit_regex(root, args.include):
       print("skip (not in include list): '{}'".format(root))
       continue
-    if re.search(r'/gtest-1.7.0-hunter', root):
+    if re.search(r'/{}'.format(gtest_result), root):
       print("skip service temporary project: {}".format(root))
       continue
     file_path = os.path.join(root, filename)

@@ -28,5 +28,5 @@ before_script:
 script:
     - cd ./examples
     - chmod +x ./test.py
-    - ./test.py --exclude ./03-ios-gtest ./04-gtest-universal # TEMP! TODO!
+    - ./test.py
     - make -C 08-doxygen/_builds/make-default/ public-doc # test installed doxygen
