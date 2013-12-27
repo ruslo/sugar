@@ -1,10 +1,21 @@
 # Core files
 
+### sugar_add_ios_executable
+* set `MACOSX_BUNDLE` property to `YES`
+* if `MACOSX_BUNDLE_GUI_IDENTIFIER` is empty set `MACOSX_BUNDLE_GUI_IDENTIFIER`
+target property to "com.example.fixme". Can be overwritten later, useful for
+test application where identifier is in fact unused.
+* apply [sugar_set_xcode_ios_sdkroot]
+(https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot)
+function for target
+
+### sugar_add_executable
+Use `sugar_add_ios_executable` if iOS build detected, otherwise use
+`add_executable`.
+
 ### sugar_add_ios_gtest
 Wrapper for running gtest executable on iOS simulator (i386). See [examples]
 (https://github.com/ruslo/sugar/tree/master/examples#description) *ios-gtest* and *gtest-universal*.
-Both `Release` and `Debug` configuration will be run.
-`ctest -C Release` and `ctest -C Debug` will do the same job.
 
 ### sugar_add_gtest
 Use `sugar_add_ios_gtest` if iOS build detected, otherwise use `add_test`. Similar to [sugar_install_library]

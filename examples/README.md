@@ -20,11 +20,12 @@ include(/path/to/sugar/cmake/Sugar)
 [sugar_include](https://github.com/ruslo/sugar/tree/master/cmake/collecting#sugar_include), [sugar_files](https://github.com/ruslo/sugar/tree/master/cmake/collecting#sugar_files)
 * 02 (common): creating two targets with common sources, first fill sources variables, then create targets
 * 03 (ios-gtest): wrapper for running gtest executable on iOS simulator, used functions:
-[sugar_set_xcode_ios_sdkroot](https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot),
 [sugar_add_ios_gtest](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_gtest)
+[sugar_add_ios_executable](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_executable)
 * 04 (gtest-universal): if iOS build detected, use simulator to run gtest executable (see previous example), otherwise use
 regular test system, used function:
 [sugar_add_gtest](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_gtest)
+[sugar_add_executable](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_executable)
 * 05 (groups): generating groups for `Xcode` and `Visual Studio`, used function: [sugar_groups_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_groups_generate)
 * 06 (ios): building ios application (`Xcode`)
  * `empty_application` (like `Xcode`: `iOS` -> `Application` -> `Empty Application`), used function:
