@@ -16,7 +16,7 @@ sugar_include("./sources") # SOURCES
 if(NOT XCODE_VERSION)
   sugar_fatal_error("Xcode only")
 else()
-  set(CMAKE_OSX_SYSROOT iphoneos)
+  set(CMAKE_OSX_SYSROOT "iphoneos")
 endif()
 
 # add path for searching *.cmake file

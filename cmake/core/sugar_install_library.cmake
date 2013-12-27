@@ -31,16 +31,10 @@ function(sugar_install_library)
     sugar_fatal_error("DESTINATION is mandatory parameter")
   endif()
 
-  set(iphoneos_found FALSE)
-  foreach(x ${CMAKE_OSX_SYSROOT})
-    string(FIND "${x}" "iphoneos" result)
-    if(NOT ${result} EQUAL "-1")
-      set(iphoneos_found TRUE)
-    endif()
-  endforeach()
+  string(COMPARE EQUAL "${CMAKE_OSX_SYSROOT}" "iphoneos" is_ios)
 
   # If target is not iOS use regular cmake install
-  if(NOT iphoneos_found)
+  if(NOT is_ios)
     sugar_status_debug("Use cmake install: ${lib_install_TARGETS}")
     install(
         TARGETS ${lib_install_TARGETS} DESTINATION ${lib_install_DESTINATION}
