@@ -7,8 +7,8 @@ before_install:
 install:
     - brew install cmake
     - brew install python3
-    - brew install doxygen
     - brew install boost # boost.config (06-ios)
+
     # install ios simulator for 03/04 examples
     #     * https://github.com/travis-ci-tester/travis-test-ios-sim
     - wget https://github.com/phonegap/ios-sim/archive/1.8.2.tar.gz
@@ -25,4 +25,4 @@ before_script:
 
 script:
     - cd ./examples
-    - python3 ./test.py --sim --libcxx --exclude ./03-ios-gtest ./04-gtest-universal # TEMP! TODO!
+    - python3 ./test.py --sim --libcxx
