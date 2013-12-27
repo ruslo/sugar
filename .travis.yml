@@ -7,6 +7,7 @@ before_install:
 install:
     - brew install cmake
     - brew install python3
+    - brew install doxygen
     - brew install boost # boost.config (06-ios)
 
     # install ios simulator for 03/04 examples

@@ -12,9 +12,18 @@ include(sugar_status_debug)
 include(sugar_test_target_exists)
 
 function(sugar_install_library)
-  set(one_value_args TARGETS DESTINATION)
+  string(COMPARE EQUAL "${CMAKE_OSX_SYSROOT}" "iphoneos" is_ios)
+  if(NOT is_ios)
+    # If target is not iOS use regular cmake install
+    sugar_status_debug("Use cmake install: ${ARGV}")
+    install(${ARGV})
+    return()
+  endif()
+
+  sugar_status_debug("Use ios-workaround install: ${ARGV}")
+
   CMAKE_PARSE_ARGUMENTS(
-      lib_install "" "${one_value_args}" "" ${ARGV}
+      lib_install "" "DESTINATION" "TARGETS" ${ARGV}
   )
 
   if(lib_install_UNPARSED_ARGUMENTS)
@@ -23,25 +32,14 @@ function(sugar_install_library)
 
   if(NOT lib_install_TARGETS)
     sugar_fatal_error("TARGETS is mandatory parameter")
-  else()
-    sugar_test_target_exists(${lib_install_TARGETS})
   endif()
 
   if(NOT lib_install_DESTINATION)
     sugar_fatal_error("DESTINATION is mandatory parameter")
   endif()
 
-  string(COMPARE EQUAL "${CMAKE_OSX_SYSROOT}" "iphoneos" is_ios)
-
-  # If target is not iOS use regular cmake install
-  if(NOT is_ios)
-    sugar_status_debug("Use cmake install: ${lib_install_TARGETS}")
-    install(
-        TARGETS ${lib_install_TARGETS} DESTINATION ${lib_install_DESTINATION}
-    )
-    return()
-  endif()
-
-  sugar_status_debug("Use ios-workaround install: ${lib_install_TARGETS}")
-  sugar_install_ios_library(${lib_install_TARGETS} ${lib_install_DESTINATION})
+  foreach(lib ${lib_install_TARGETS})
+    sugar_test_target_exists(${lib})
+    sugar_install_ios_library(${lib} ${lib_install_DESTINATION})
+  endforeach()
 endfunction()
