@@ -25,7 +25,7 @@ if(XCODE_VERSION)
   # `sugar_add_gtest` and `sugar_add_executable` will check this variable
   # and if "iphoneos" found `sugar_add_ios_gtest` and
   # `sugar_add_ios_executable` will be used
-  set(CMAKE_OSX_SYSROOT iphoneos)
+  set(CMAKE_OSX_SYSROOT "iphoneos")
 else()
   # not for iOS (expecting universal libraries...)
   find_package(Threads REQUIRED)
