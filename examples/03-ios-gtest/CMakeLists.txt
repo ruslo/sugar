@@ -11,8 +11,8 @@ if(NOT XCODE_VERSION)
 endif()
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
+include(sugar_add_ios_executable)
 include(sugar_add_ios_gtest)
-include(sugar_set_xcode_ios_sdkroot)
 
 # Install gtest ios using this project:
 #     * 'https://github.com/hunter-packages/gtest'
@@ -22,12 +22,8 @@ set(GTEST_ROOT "${CMAKE_CURRENT_LIST_DIR}/Install/")
 find_package(GTest REQUIRED)
 
 include_directories("${GTEST_INCLUDE_DIRS}")
-add_executable(simple_test MACOSX_BUNDLE simple_test.cpp)
+sugar_add_ios_executable(simple_test simple_test.cpp)
 target_link_libraries(simple_test ${GTEST_BOTH_LIBRARIES})
-
-set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.gtest")
-
-sugar_set_xcode_ios_sdkroot(TARGET simple_test)
 
 enable_testing()
 sugar_add_ios_gtest(SimpleTestName simple_test)

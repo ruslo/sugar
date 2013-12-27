@@ -8,15 +8,15 @@ project(06-example-ios.link_package CXX)
 
 include($ENV{SUGAR_ROOT}/cmake/Sugar)
 
+include(sugar_add_executable)
 include(sugar_include)
-include(sugar_mark_macosx_resources)
-include(sugar_set_xcode_ios_sdkroot)
 
-sugar_include("./sources")
-sugar_include("${SUGAR_ROOT}/examples/resources/ios/images")
+sugar_include("./sources") # SOURCES
 
 if(NOT XCODE_VERSION)
   sugar_fatal_error("Xcode only")
+else()
+  set(CMAKE_OSX_SYSROOT iphoneos)
 endif()
 
 # add path for searching *.cmake file
@@ -31,14 +31,8 @@ set(
 # 3. set result variables: UNIVERSAL_INCLUDE_DIRS, UNIVERSAL_LIBS
 find_package(UniversalLib)
 
-set(PLIST_FILE "${SUGAR_ROOT}/examples/plist/ios/empty.plist.in")
-set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.LinkLibrary")
-
-sugar_mark_macosx_resources(${DEFAULT_IOS_IMAGES})
-
 include_directories(${UNIVERSAL_INCLUDE_DIRS})
 
 # creating executable
-add_executable(example MACOSX_BUNDLE ${SOURCES} ${DEFAULT_IOS_IMAGES})
-sugar_set_xcode_ios_sdkroot(TARGET example PLIST ${PLIST_FILE})
+sugar_add_executable(example ${SOURCES})
 target_link_libraries(example ${UNIVERSAL_LIBS})

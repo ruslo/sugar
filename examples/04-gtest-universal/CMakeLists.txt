@@ -3,14 +3,14 @@
 
 # Example of using sugar_add_gtest command to run ios simulator if ios build
 # detected or regular gtest run otherwise.
-# If Xcode build detected force ios target.
+# If Xcode build detected **force** ios target.
 
 cmake_minimum_required(VERSION 2.8.8)
 project(04-example-gtest-universal)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 include(sugar_add_gtest)
-include(sugar_set_xcode_ios_sdkroot)
+include(sugar_add_executable)
 
 # Install gtest using this project:
 #     * 'https://github.com/hunter-packages/gtest'
@@ -22,18 +22,17 @@ find_package(GTest REQUIRED)
 include_directories("${GTEST_INCLUDE_DIRS}")
 
 if(XCODE_VERSION)
-  set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.gtest")
-  add_executable(simple_test MACOSX_BUNDLE simple_test.cpp)
-  sugar_set_xcode_ios_sdkroot(TARGET simple_test)
-
-  # `sugar_add_gtest` will check this variable and if "iphoneos" found
-  # `sugar_add_ios_gtest` will be used
+  # `sugar_add_gtest` and `sugar_add_executable` will check this variable
+  # and if "iphoneos" found `sugar_add_ios_gtest` and
+  # `sugar_add_ios_executable` will be used
   set(CMAKE_OSX_SYSROOT iphoneos)
 else()
   # not for iOS (expecting universal libraries...)
   find_package(Threads REQUIRED)
-  add_executable(simple_test simple_test.cpp)
 endif()
+
+sugar_add_executable(simple_test simple_test.cpp)
+
 target_link_libraries(
     simple_test
     ${GTEST_BOTH_LIBRARIES}
