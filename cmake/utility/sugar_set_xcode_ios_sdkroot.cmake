@@ -4,7 +4,7 @@
 include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
 
-include(CMakeParseArguments) # CMAKE_PARSE_ARGUMENTS
+include(CMakeParseArguments) # cmake_parse_arguments
 include(sugar_status_print)
 include(sugar_target_add_framework)
 include(sugar_test_file_exists)
@@ -13,7 +13,7 @@ include(sugar_test_variable_not_empty)
 
 function(sugar_set_xcode_ios_sdkroot)
   set(one_arg TARGET PLIST)
-  CMAKE_PARSE_ARGUMENTS(X "" "${one_arg}" "" ${ARGV})
+  cmake_parse_arguments(X "" "${one_arg}" "" ${ARGV})
   if(X_UNPARSED_ARGUMENTS)
     sugar_fatal_error("Unparsed: ${X_UNPARSED_ARGUMENTS}")
   endif()
