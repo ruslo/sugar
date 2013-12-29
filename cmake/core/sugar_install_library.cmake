@@ -1,7 +1,7 @@
 # Copyright (c) 2013, Ruslan Baratov
 # All rights reserved.
 
-include(CMakeParseArguments) # CMAKE_PARSE_ARGUMENTS
+include(CMakeParseArguments) # cmake_parse_arguments
 
 include(sugar_add_this_to_sourcelist)
 sugar_add_this_to_sourcelist()
@@ -22,7 +22,7 @@ function(sugar_install_library)
 
   sugar_status_debug("Use ios-workaround install: ${ARGV}")
 
-  CMAKE_PARSE_ARGUMENTS(
+  cmake_parse_arguments(
       lib_install "" "DESTINATION" "TARGETS" ${ARGV}
   )
 
