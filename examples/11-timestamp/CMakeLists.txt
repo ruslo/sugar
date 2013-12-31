@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(11-example-timestamp CXX)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 include(sugar_link_timestamp)
 
 add_executable(timestamp_bin "main.cpp")

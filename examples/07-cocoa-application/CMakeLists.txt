@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(07-cocoa-application.example CXX)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 include(sugar_fatal_error)
 include(sugar_include)

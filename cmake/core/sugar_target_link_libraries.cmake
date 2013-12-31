@@ -83,9 +83,9 @@ function(sugar_target_link_libraries target)
     set(
         real_link
         debug
-        ${path_debug}
+        "${path_debug}"
         optimized
-        ${path_release}
+        "${path_release}"
         ${link_dep_libs}
     )
   else()

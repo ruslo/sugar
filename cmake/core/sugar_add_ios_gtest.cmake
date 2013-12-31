@@ -38,9 +38,9 @@ function(sugar_add_ios_gtest testname targetname)
       NAME
       ${testname}
       WORKING_DIRECTORY
-      ${PROJECT_BINARY_DIR}
+      "${PROJECT_BINARY_DIR}"
       COMMAND
-      ${PYTHON_EXECUTABLE}
+      "${PYTHON_EXECUTABLE}"
       "${SUGAR_ROOT}/python/ios_simulator_launcher.py"
       "--sim"
       "${IOS_SIM}"

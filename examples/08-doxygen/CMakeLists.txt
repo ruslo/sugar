@@ -11,7 +11,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(08-example-doxygen CXX)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 include(sugar_add_definitions_debug)
 include(sugar_add_definitions_release)
@@ -42,7 +42,7 @@ sugar_doxygen_generate(
     DOXYTARGET
     internal-doc
     DOXYFILE
-    ${SUGAR_ROOT}/examples/Doxyfile.in
+    "${SUGAR_ROOT}/examples/Doxyfile.in"
 )
 
 sugar_doxygen_generate(
@@ -51,5 +51,5 @@ sugar_doxygen_generate(
     DOXYTARGET
     public-doc
     DOXYFILE
-    ${SUGAR_ROOT}/examples/Doxyfile.in
+    "${SUGAR_ROOT}/examples/Doxyfile.in"
 )

@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(06-example-ios.empty_application CXX)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 include(sugar_include)
 include(sugar_mark_macosx_resources)
@@ -32,4 +32,4 @@ if(NOT XCODE_VERSION)
 endif()
 
 add_executable(example MACOSX_BUNDLE ${SOURCES} ${DEFAULT_IOS_IMAGES})
-sugar_set_xcode_ios_sdkroot(TARGET example PLIST ${PLIST_FILE})
+sugar_set_xcode_ios_sdkroot(TARGET example PLIST "${PLIST_FILE}")

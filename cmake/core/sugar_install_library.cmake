@@ -40,6 +40,6 @@ function(sugar_install_library)
 
   foreach(lib ${lib_install_TARGETS})
     sugar_test_target_exists(${lib})
-    sugar_install_ios_library(${lib} ${lib_install_DESTINATION})
+    sugar_install_ios_library(${lib} "${lib_install_DESTINATION}")
   endforeach()
 endfunction()

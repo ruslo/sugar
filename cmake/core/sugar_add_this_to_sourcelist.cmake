@@ -7,7 +7,7 @@ macro(sugar_add_this_to_sourcelist)
   if(NOT ${ARGC} EQUAL 0)
     message(FATAL_ERROR "no arguments expected")
   endif()
-  list(APPEND SUGAR_SOURCES ${CMAKE_CURRENT_LIST_FILE})
+  list(APPEND SUGAR_SOURCES "${CMAKE_CURRENT_LIST_FILE}")
 endmacro()
 
 sugar_add_this_to_sourcelist() # self add

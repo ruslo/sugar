@@ -15,7 +15,7 @@ function(sugar_install_ios_library library_target destination)
   if(SUGAR_IOS_ARCH)
     # optimized mode:
     #     * https://github.com/ruslo/sugar/wiki/Universal-ios-library-%28optimization%29
-    sugar_install_ios_arch_library(${library_target} ${destination})
+    sugar_install_ios_arch_library(${library_target} "${destination}")
     return()
   endif()
 
