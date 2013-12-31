@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(06-example-ios.link_package CXX)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 include(sugar_add_executable)
 include(sugar_include)
@@ -31,7 +31,7 @@ set(
 # 3. set result variables: UNIVERSAL_INCLUDE_DIRS, UNIVERSAL_LIBS
 find_package(UniversalLib)
 
-include_directories(${UNIVERSAL_INCLUDE_DIRS})
+include_directories("${UNIVERSAL_INCLUDE_DIRS}")
 
 # creating executable
 sugar_add_executable(example ${SOURCES})

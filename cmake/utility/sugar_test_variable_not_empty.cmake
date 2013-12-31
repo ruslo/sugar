@@ -9,7 +9,7 @@ include(sugar_fatal_error)
 
 function(sugar_test_variable_not_empty variable)
   sugar_expected_number_of_arguments(${ARGC} 1)
-  if (NOT ${variable})
+  if (NOT "${variable}")
     sugar_fatal_error("Please, set '${variable}' variable")
   endif()
 endfunction()

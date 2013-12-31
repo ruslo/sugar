@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(06-example-ios.link_library CXX)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 include(sugar_add_executable)
 include(sugar_fatal_error)
@@ -40,7 +40,7 @@ if(NOT universal_release OR NOT universal_debug)
 endif()
 
 # set variable to describe both library versions
-set(universal debug ${universal_debug} optimized ${universal_release})
+set(universal debug "${universal_debug}" optimized "${universal_release}")
 
 # creating executable
 sugar_add_executable(example ${SOURCES})

@@ -125,14 +125,14 @@ function(sugar_doxygen_generate)
 
   find_package(Doxygen REQUIRED)
 
-  set(docdir ${PROJECT_BINARY_DIR}/doxygen-${doxy_generate_DOXYTARGET})
+  set(docdir "${PROJECT_BINARY_DIR}/doxygen-${doxy_generate_DOXYTARGET}")
 
   set(doxygen_directory "${docdir}/doxygen")
   set(doxygen_log "${docdir}/doxy.log")
   set(doxygen_err "${docdir}/doxy.err")
 
   # Common (Release & Developer)
-  set(SUGAR_DOXYGEN_OUTPUT_DIRECTORY ${doxygen_directory})
+  set(SUGAR_DOXYGEN_OUTPUT_DIRECTORY "${doxygen_directory}")
   set(SUGAR_DOXYGEN_STRIP_FROM_PATH "${doxygen_strip_from_path}")
   set(SUGAR_DOXYGEN_PROJECT_NAME ${CMAKE_PROJECT_NAME})
   set(SUGAR_DOXYGEN_INLINE_INHERITED_MEMB "YES")
@@ -176,8 +176,8 @@ function(sugar_doxygen_generate)
   set(SUGAR_DOXYGEN_REFERENCED_BY_RELATION "${doxygen_verbose}")
   set(SUGAR_DOXYGEN_REFERENCES_RELATION "${doxygen_verbose}")
 
-  set(doxyfile_output ${docdir}/Doxyfile)
-  configure_file(${doxy_generate_DOXYFILE} ${doxyfile_output})
+  set(doxyfile_output "${docdir}/Doxyfile")
+  configure_file("${doxy_generate_DOXYFILE}" "${doxyfile_output}")
 
   set(comment_begin "Generate documentation${mode}, ${src_num} files\nUse:\n")
   set(comment_log "`tail -f ${doxygen_log}`\n")
@@ -192,11 +192,11 @@ function(sugar_doxygen_generate)
   add_custom_target(
     ${doxy_generate_DOXYTARGET}
     COMMAND
-    ${CMAKE_COMMAND} -E make_directory "${doxygen_directory}"
+    "${CMAKE_COMMAND}" -E make_directory "${doxygen_directory}"
     COMMAND
-    ${DOXYGEN_EXECUTABLE} ${doxyfile_output} > ${doxygen_log} 2> ${doxygen_err}
+    "${DOXYGEN_EXECUTABLE}" ${doxyfile_output} > "${doxygen_log}" 2> "${doxygen_err}"
     WORKING_DIRECTORY
-    ${CMAKE_BINARY_DIR}
+    "${CMAKE_BINARY_DIR}"
     COMMENT
     "${comment}"
     VERBATIM

@@ -35,4 +35,4 @@ if(NOT UNIVERSAL_RELEASE OR NOT UNIVERSAL_DEBUG)
   sugar_fatal_error("Universal library not found (install it!)")
 endif()
 
-set(UNIVERSAL_LIBS debug ${UNIVERSAL_DEBUG} optimized ${UNIVERSAL_RELEASE})
+set(UNIVERSAL_LIBS debug "${UNIVERSAL_DEBUG}" optimized "${UNIVERSAL_RELEASE}")

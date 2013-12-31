@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(06-example-ios.single_view_application CXX)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 include(sugar_include)
 include(sugar_mark_macosx_resources)

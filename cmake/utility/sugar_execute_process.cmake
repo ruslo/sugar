@@ -22,7 +22,7 @@ macro(sugar_execute_process output)
       COMMAND
       ${_sugar_cmd}
       WORKING_DIRECTORY
-      ${PROJECT_BINARY_DIR}
+      "${PROJECT_BINARY_DIR}"
       RESULT_VARIABLE
       _sugar_execute_result
       OUTPUT_VARIABLE

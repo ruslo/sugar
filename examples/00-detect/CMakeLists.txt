@@ -6,6 +6,6 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(00-example-detect)
 
-include($ENV{SUGAR_ROOT}/cmake/Sugar)
+include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 message("Say hello: '${SUGAR_ROOT}'")

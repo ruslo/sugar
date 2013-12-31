@@ -76,10 +76,10 @@ function(sugar_add_ios_library libname)
   add_custom_target(
       ${libname}
       COMMAND
-      ${CMAKE_COMMAND}
+      "${CMAKE_COMMAND}"
       -E
       make_directory
-      ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-${build_dir}
+      "${PROJECT_BINARY_DIR}/$<CONFIGURATION>-${build_dir}"
       COMMAND
       ${xcode_command} -configuration $<CONFIGURATION> -sdk iphoneos
       COMMAND
@@ -87,12 +87,12 @@ function(sugar_add_ios_library libname)
       COMMAND
       lipo
       -output
-      ${PROJECT_BINARY_DIR}/$<CONFIGURATION>-${build_dir}/${bin_name}
+      "${PROJECT_BINARY_DIR}/$<CONFIGURATION>-${build_dir}/${bin_name}"
       -create
-      ${base_dir}/$<CONFIGURATION>-iphoneos/${base_name}
-      ${base_dir}/$<CONFIGURATION>-iphonesimulator/${base_name}
+      "${base_dir}/$<CONFIGURATION>-iphoneos/${base_name}"
+      "${base_dir}/$<CONFIGURATION>-iphonesimulator/${base_name}"
       WORKING_DIRECTORY
-      ${PROJECT_BINARY_DIR}
+      "${PROJECT_BINARY_DIR}"
   )
 
   set_target_properties(
@@ -103,8 +103,8 @@ function(sugar_add_ios_library libname)
       SUGAR_IOS_BASE_TARGET
       ${name_base}
       SUGAR_IOS_PATH_DEBUG
-      ${PROJECT_BINARY_DIR}/Debug-${build_dir}/${name_debug}
+      "${PROJECT_BINARY_DIR}/Debug-${build_dir}/${name_debug}"
       SUGAR_IOS_PATH_RELEASE
-      ${PROJECT_BINARY_DIR}/Release-${build_dir}/${name_release}
+      "${PROJECT_BINARY_DIR}/Release-${build_dir}/${name_release}"
   )
 endfunction()
