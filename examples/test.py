@@ -103,7 +103,7 @@ if detail.os_detect.macosx:
     params = ''
   configs.append(Config('Xcode', params, 'xcode', 'xcodebuild'))
 
-gtest_version = '1.7.0-hunter-2'
+gtest_version = '1.7.0-hunter-3'
 gtest_result = 'gtest-' + gtest_version
 gtest_tar_gz = 'v{}.tar.gz'.format(gtest_version)
 gtest_src = 'https://github.com/hunter-packages/gtest/archive/' + gtest_tar_gz

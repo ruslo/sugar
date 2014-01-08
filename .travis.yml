@@ -9,11 +9,11 @@ before_install:
 
 install:
     - sudo apt-get install doxygen
-    # install cmake 2.8.10
+    # install cmake 2.8.12
     #     * https://github.com/travis-ci-tester/travis-test-cmake
-    - wget http://www.cmake.org/files/v2.8/cmake-2.8.10.tar.gz
-    - tar xf cmake-2.8.10.tar.gz
-    - cd cmake-2.8.10
+    - wget http://www.cmake.org/files/v2.8/cmake-2.8.12.tar.gz
+    - tar xf cmake-2.8.12.tar.gz
+    - cd cmake-2.8.12
     - sudo apt-get install libcurl3-dev
     - ./bootstrap --system-curl
     - make
