@@ -35,3 +35,8 @@ endif()
 
 add_executable(example MACOSX_BUNDLE ${SOURCES} ${RESOURCES})
 sugar_set_xcode_ios_sdkroot(TARGET example PLIST ${PLIST_FILE})
+
+# Universal device (iPad, iPhone)
+set_target_properties(
+    example PROPERTIES XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2"
+)
