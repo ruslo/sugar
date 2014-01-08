@@ -16,3 +16,4 @@ examples/*/gtest-1.7.0*-hunter-2/
 
 # temp macos
 */*/.DS_Store
+*/*/*/.DS_Store
