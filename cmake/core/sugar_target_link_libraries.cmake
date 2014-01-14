@@ -11,11 +11,15 @@ include(sugar_test_variable_not_empty)
 
 function(sugar_target_link_libraries target)
   sugar_improper_number_of_arguments(${ARGC} 0)
-  sugar_improper_number_of_arguments(${ARGC} 1)
 
   set(libraries ${ARGV})
   list(REMOVE_AT libraries 0) # remove `target`
   sugar_test_target_exists(${target})
+
+  if(NOT libraries)
+    # list is empty, nothing to link
+    return()
+  endif()
 
   sugar_status_debug("link libraries: ${libraries}")
   sugar_status_debug("to target: ${target}")
