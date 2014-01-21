@@ -4,7 +4,7 @@
 namespace boost {
 
 template <class T>
-inline void boost::ignore_unused_variable_warning(T&) {
+inline void ignore_unused_variable_warning(T&) {
 }
 
 } // namespace boost
