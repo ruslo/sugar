@@ -3,7 +3,7 @@
 
 # Simple cmake C++ project file example.
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(01-example-simple CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

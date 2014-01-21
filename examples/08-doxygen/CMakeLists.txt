@@ -8,7 +8,7 @@
 # Commands:
 #     http://www.stack.nl/~dimitri/doxygen/manual/commands.html
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(08-example-doxygen CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

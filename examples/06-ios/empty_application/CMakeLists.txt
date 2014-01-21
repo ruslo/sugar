@@ -4,7 +4,7 @@
 # iOS project example.
 # Create project as Xcode: iOS -> Application -> Empty Application
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(06-example-ios.empty_application CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

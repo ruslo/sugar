@@ -3,7 +3,7 @@
 
 # Example of using sugar_add_ios_gtest command to run gtest with ios simulator
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(03-example-ios-gtest CXX)
 
 if(NOT XCODE_VERSION)
