@@ -3,7 +3,7 @@
 
 # Example of linking to timestamp library with current build time
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(11-example-timestamp CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

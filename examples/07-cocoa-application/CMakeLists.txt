@@ -4,7 +4,7 @@
 # Cocoa project example.
 # Create project as Xcode: OS X -> Application -> Cocoa Application
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(07-cocoa-application.example CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

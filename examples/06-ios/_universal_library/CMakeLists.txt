@@ -8,7 +8,7 @@
 #     leading underscore need for test.py build this project first,
 #     because link_library example use it
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(06-example-ios.universal_library CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

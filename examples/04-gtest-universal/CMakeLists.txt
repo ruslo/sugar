@@ -5,7 +5,7 @@
 # detected or regular gtest run otherwise.
 # If Xcode build detected **force** ios target.
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(04-example-gtest-universal)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
