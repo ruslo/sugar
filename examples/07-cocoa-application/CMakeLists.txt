@@ -12,7 +12,6 @@ include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 include(sugar_fatal_error)
 include(sugar_include)
 include(sugar_mark_macosx_resources)
-include(sugar_target_add_framework)
 
 find_package(Boost REQUIRED) # for |boost::ignore_unused_variable_warning|
 
@@ -41,4 +40,4 @@ set_target_properties(
     "${SUGAR_ROOT}/examples/plist/macosx/default.plist.in"
 )
 
-sugar_target_add_framework(cocoa-test-application "AppKit")
+target_link_libraries(cocoa-test-application "-framework AppKit")
