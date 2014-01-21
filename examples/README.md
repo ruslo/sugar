@@ -29,7 +29,6 @@ regular test system, used function:
 * 05 (groups): generating groups for `Xcode` and `Visual Studio`, used function: [sugar_groups_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_groups_generate)
 * 06 (ios): building ios application (`Xcode`)
  * `empty_application` (like `Xcode`: `iOS` -> `Application` -> `Empty Application`), used function:
-[sugar_mark_macosx_resources](https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_mark_macosx_resources),
 [sugar_set_xcode_ios_sdkroot](https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot)
  * `single_view_application` (like `Xcode`: `iOS` -> `Application` -> `Single View Application`)
  * `_universal_library` build/install universal library (i386 + arm, iphoneos + iphonesimulator), used function:
