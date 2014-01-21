@@ -3,7 +3,7 @@
 
 # Example of creating two targets with common sources
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(02-example-common CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

@@ -3,7 +3,7 @@
 
 # Link library and executable in one project
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(06-example-ios.link_library_with_executable CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

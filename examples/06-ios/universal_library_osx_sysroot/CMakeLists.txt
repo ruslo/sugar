@@ -3,7 +3,7 @@
 
 # Build universal library with 'sugar_install_library'
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(06-example-ios.universal_library_osx_sysroot CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

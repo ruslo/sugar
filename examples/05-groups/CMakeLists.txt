@@ -3,7 +3,7 @@
 
 # Example of generating groups for Xcode and MSVC
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(05-example-groups CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")

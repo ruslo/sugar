@@ -3,7 +3,7 @@
 
 # Link universal library using 'find_package' command
 
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(06-example-ios.link_package CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
