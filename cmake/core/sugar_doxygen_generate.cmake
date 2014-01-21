@@ -9,6 +9,7 @@ sugar_add_this_to_sourcelist()
 include(sugar_expected_number_of_arguments)
 include(sugar_test_directory_exists)
 include(sugar_test_file_exists)
+include(sugar_test_target_exists)
 
 function(sugar_doxygen_generate)
   set(one_value_args TARGET DOXYTARGET DOXYFILE)
