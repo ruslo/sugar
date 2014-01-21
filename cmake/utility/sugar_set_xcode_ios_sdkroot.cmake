@@ -6,7 +6,6 @@ sugar_add_this_to_sourcelist()
 
 include(CMakeParseArguments) # cmake_parse_arguments
 include(sugar_status_print)
-include(sugar_target_add_framework)
 include(sugar_test_file_exists)
 include(sugar_test_target_exists)
 include(sugar_test_variable_not_empty)
@@ -103,7 +102,10 @@ function(sugar_set_xcode_ios_sdkroot)
   endif()
 
   # add default frameworks
-  sugar_target_add_framework(${X_TARGET} CoreGraphics)
-  sugar_target_add_framework(${X_TARGET} Foundation)
-  sugar_target_add_framework(${X_TARGET} UIKit)
+  target_link_libraries(
+      ${X_TARGET}
+      "-framework CoreGraphics"
+      "-framework Foundation"
+      "-framework UIKit"
+  )
 endfunction()

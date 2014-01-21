@@ -58,9 +58,6 @@ property
 ### sugar_target_add_definitions
 Wrapper for updating `COMPILE_DEFINITIONS` target property
 
-### sugar_target_add_framework
-Wrapper for adding `-framework ...` to linker flags
-
 ### sugar_target_add_linker_flags
 Wrapper for setting [LINK_FLAGS](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:LINK_FLAGS)
 target property
