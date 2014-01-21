@@ -6,6 +6,6 @@
 #include "timestamp.hpp"
 
 int main() {
-  std::cout << "Hello, I'm builded at " << timestamp() << std::endl;
+  std::cout << "Hello, I was built at " << timestamp() << std::endl;
   return EXIT_SUCCESS;
 }
