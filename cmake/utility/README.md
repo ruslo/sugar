@@ -38,10 +38,6 @@ function(my_function A B)
 endfunction()
 ```
 
-### sugar_mark_macosx_resources
-Wrapper for setting [MACOSX_PACKAGE_LOCATION](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_sf:MACOSX_PACKAGE_LOCATION)
-property
-
 ### sugar_set_xcode_ios_sdkroot
 * set `Xcode` sdkroot to `iphoneos`
 * set `Xcode` sign identity to `iPhone Developer`
