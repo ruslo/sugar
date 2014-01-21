@@ -1,11 +1,5 @@
 Extension of cmake functionality which is not related to [sugar](https://github.com/ruslo/sugar) library itself
 
-### sugar_add_definitions_debug
-Wrapper for `COMPILE_DEFINITIONS_DEBUG` directory property update
-
-### sugar_add_definitions_release
-Wrapper for `COMPILE_DEFINITIONS_RELEASE` directory property update
-
 ### sugar_check_no_duplicates
 Verify that given list not holding duplicate values
 
@@ -54,9 +48,6 @@ property
 * set `Xcode` property `XCODE_ATTRIBUTE_ARCHS` to `$(ARCHS_STANDARD_INCLUDING_64_BIT)`
 * if suboption `PLIST` present set target property [MACOSX_BUNDLE_INFO_PLIST](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:MACOSX_BUNDLE_INFO_PLIST)
 * link default frameworks: `CoreGraphics`, `Foundation`, `UIKit`
-
-### sugar_target_add_definitions
-Wrapper for updating `COMPILE_DEFINITIONS` target property
 
 ### sugar_target_add_linker_flags
 Wrapper for setting [LINK_FLAGS](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:LINK_FLAGS)

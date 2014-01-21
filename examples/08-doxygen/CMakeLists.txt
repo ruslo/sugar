@@ -13,11 +13,8 @@ project(08-example-doxygen CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
-include(sugar_add_definitions_debug)
-include(sugar_add_definitions_release)
 include(sugar_doxygen_generate)
 include(sugar_include)
-include(sugar_target_add_definitions)
 
 include_directories("./sources")
 
@@ -31,9 +28,16 @@ add_executable(prog ${SOURCES})
 
 # macro expansion can be checked in attributes of class C
 add_definitions(-DA_DIRECTORY_MACRO=1)
-sugar_target_add_definitions(prog "A_TARGET_MACRO=1")
-sugar_add_definitions_debug("A_DEBUG=1")
-sugar_add_definitions_release("A_NDEBUG=1")
+
+# Note that if config will be empty or differ from Debug/Release
+# both A_DEBUG/A_NDEBUG macroses will not be defined
+target_compile_definitions(
+    prog
+    PUBLIC
+    A_TARGET_MACRO=1
+    $<$<CONFIG:Debug>:A_DEBUG=1>
+    $<$<CONFIG:Release>:A_NDEBUG=1>
+)
 
 sugar_doxygen_generate(
     DEVELOPER
