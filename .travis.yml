@@ -8,7 +8,13 @@ install:
     - brew install cmake
     - brew install python3
     - brew install doxygen
-    - brew install boost # boost.config (06-ios)
+    # install patched cmake version
+    - wget https://github.com/ruslo/CMake/archive/bug12506.tar.gz
+    - tar xf bug12506.tar.gz
+    - cmake -HCMake-bug12506 -B_builds/cmake -DCMAKE_USE_SYSTEM_CURL=YES -DCMAKE_BUILD_TYPE=Release
+    - cmake --build _builds/cmake
+    - sudo cmake --build _builds/cmake --target install
+    # --end
 
     # install ios simulator for 03/04 examples
     #     * https://github.com/travis-ci-tester/travis-test-ios-sim
@@ -21,6 +27,7 @@ install:
     # -- end
 
 before_script:
+    - which cmake
     - cmake --version
     - export SUGAR_ROOT=`pwd`
 
