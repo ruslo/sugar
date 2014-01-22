@@ -9,19 +9,19 @@ before_install:
 
 install:
     - sudo apt-get install doxygen
-    # install cmake 2.8.12
-    #     * https://github.com/travis-ci-tester/travis-test-cmake
-    - wget http://www.cmake.org/files/v2.8/cmake-2.8.12.tar.gz
-    - tar xf cmake-2.8.12.tar.gz
-    - cd cmake-2.8.12
+    - sudo apt-get install cmake
     - sudo apt-get install libcurl3-dev
-    - ./bootstrap --system-curl
-    - make
-    - sudo make install
-    - cd ..
-    # -- end
+    # install patched cmake version
+    - wget https://github.com/ruslo/CMake/archive/bug12506.tar.gz
+    - tar xf bug12506.tar.gz
+    - cmake -HCMake-bug12506 -B_builds/cmake -DCMAKE_USE_SYSTEM_CURL=YES -DCMAKE_BUILD_TYPE=Release
+    - cmake --build _builds/cmake
+    - sudo cmake --build _builds/cmake --target install
+    - export PATH=/usr/local/bin:${PATH}
+    # --end
 
 before_script:
+    - which cmake
     - cmake --version
     - export SUGAR_ROOT=`pwd`
 
