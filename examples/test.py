@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2013, Ruslan Baratov
+# Copyright (c) 2013-2014, Ruslan Baratov
 # All rights reserved.
 
 help_wiki = "https://github.com/ruslo/sugar/wiki/Examples-testing"
@@ -103,52 +103,45 @@ if detail.os_detect.macosx:
     params = ''
   configs.append(Config('Xcode', params, 'xcode', 'xcodebuild'))
 
-gtest_version = '1.7.0-hunter-3'
+gtest_version = '1.7.0-hunter-6'
 gtest_result = 'gtest-' + gtest_version
 gtest_tar_gz = 'v{}.tar.gz'.format(gtest_version)
 gtest_src = 'https://github.com/hunter-packages/gtest/archive/' + gtest_tar_gz
 
-def build_ios_gtest(root):
-  # https://github.com/hunter-packages/gtest
-  current_dir = os.getcwd()
-  gtest_dir = os.path.join(current_dir, root, gtest_result)
-  detail.trash.trash(gtest_dir, ignore_not_exist=True)
-  detail.trash.trash(gtest_dir, ignore_not_exist=True)
-
-  os.chdir(root)
-  if not os.path.exists(gtest_tar_gz):
-    subprocess.check_call(['wget', gtest_src])
-
+os.chdir('third_party')
+if not os.path.exists(gtest_tar_gz):
+  subprocess.check_call(['wget', gtest_src])
   subprocess.check_call(['tar', '-xf', gtest_tar_gz])
-  os.chdir(gtest_dir)
-  toolchain = os.path.join(gtest_dir, 'cmake', 'iOS.cmake')
-  toolchain = '-DCMAKE_TOOLCHAIN_FILE={}'.format(toolchain)
-  install_prefix = os.path.join(current_dir, root, 'Install')
-  install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
-  subprocess.check_call(['cmake', '-GXcode', toolchain, install_prefix, '.'])
-  subprocess.check_call(['xcodebuild', '-target', 'install'])
-  os.chdir(current_dir)
+  os.chdir(gtest_result)
 
-def build_gtest(root):
-  # https://github.com/hunter-packages/gtest
-  current_dir = os.getcwd()
-  gtest_dir = os.path.join(current_dir, root, gtest_result)
-  detail.trash.trash(gtest_dir, ignore_not_exist=True)
-
-  os.chdir(root)
-  if not os.path.exists(gtest_tar_gz):
-    subprocess.check_call(['wget', gtest_src])
-  subprocess.check_call(['tar', '-xf', gtest_tar_gz])
-  os.chdir(gtest_dir)
-  install_prefix = os.path.join(current_dir, root, 'Install')
+  install_prefix = os.path.join(top_dir, 'third_party', '_install', 'native')
   install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
   if args.libcxx:
     lib_flags = '-DCMAKE_CXX_FLAGS=-stdlib=libc++'
   else:
     lib_flags = ''
-  subprocess.check_call(['cmake', install_prefix, lib_flags, '.'])
-  subprocess.check_call(['cmake', '--build', '.', '--target', 'install'])
-  os.chdir(current_dir)
+  subprocess.check_call(
+      ['cmake', install_prefix, lib_flags, '-H.', '-B_builds/native']
+  )
+  subprocess.check_call(
+      ['cmake', '--build', '_builds/native', '--target', 'install', '--config', 'Release']
+  )
+
+  if detail.os_detect.macosx:
+    toolchain = '-DCMAKE_TOOLCHAIN_FILE={}/cmake/iOS.cmake'.format(os.getcwd())
+    install_prefix = os.path.join(top_dir, 'third_party', '_install', 'ios')
+    install_prefix = '-DCMAKE_INSTALL_PREFIX={}'.format(install_prefix)
+    subprocess.check_call(
+        ['cmake', '-H.', '-B_builds/ios', '-GXcode', toolchain, install_prefix]
+    )
+    subprocess.check_call(
+        ['cmake', '--build', '_builds/ios', '--target', 'install', '--config', 'Release']
+    )
+    subprocess.check_call(
+        ['cmake', '--build', '_builds/ios', '--target', 'install', '--config', 'Debug']
+    )
+
+os.chdir(top_dir)
 
 done_list = []
 
@@ -157,8 +150,6 @@ def run_cmake_test(root, config_in):
 
   library_install = False
   if re.match('./06-ios/_universal_library', root):
-    library_install = True
-  if re.match('./06-ios/universal_library_osx_sysroot', root):
     library_install = True
 
   if config.generator == 'Xcode':
@@ -173,18 +164,12 @@ def run_cmake_test(root, config_in):
   check_simulator = False
   if re.match('./03-ios-gtest', root):
     check_simulator = True
-    if config.generator == 'Xcode':
-      build_ios_gtest(root)
-    else:
+    if config.generator != 'Xcode':
       print("{}: skip (Xcode only)".format(config.generator))
       return
 
   if re.match('./04-gtest-universal', root):
     check_simulator = True
-    if config.generator == 'Xcode':
-      build_ios_gtest(root)
-    else:
-      build_gtest(root)
 
   if re.match('./06-ios', root):
     check_simulator = True
@@ -228,7 +213,12 @@ def run_cmake_test(root, config_in):
 
     if library_install:
       # additional install step
-      subprocess.check_call(['xcodebuild', '-target', 'install'])
+      subprocess.check_call(
+          ['xcodebuild', '-target', 'install', '-configuration', 'Release']
+      )
+      subprocess.check_call(
+          ['xcodebuild', '-target', 'install', '-configuration', 'Debug']
+      )
     print('done')
   except subprocess.CalledProcessError:
     sys.exit('run failed in "{}" directory'.format(root))
@@ -238,11 +228,11 @@ def run_cmake_test(root, config_in):
 
   # check library installed (xcodebuild may exit 0 even if build failed)
   if library_install:
-    install_base = os.path.join(root, 'install', 'lib', 'ios')
-    lib1 = os.path.join(install_base, 'libuniversal_lib_example.a')
+    install_base = os.path.join(root, 'install', 'lib')
+    lib1 = os.path.join(install_base, 'libfoo.a')
     if not os.path.exists(lib1):
       sys.exit("{} not found".format(lib1))
-    lib2 = os.path.join(install_base, 'libuniversal_lib_exampled.a')
+    lib2 = os.path.join(install_base, 'libfood.a')
     if not os.path.exists(lib2):
       sys.exit("{} not found".format(lib2))
 
