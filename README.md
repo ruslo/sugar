@@ -14,10 +14,19 @@ include(/path/to/sugar/cmake/Sugar)
 ```
 
 *Note*: to run commands which use [python](https://github.com/ruslo/sugar/tree/master/python) you need to install `python3`
+
+### Usage (hunter)
+Using [hunter](http://github.com/ruslo/hunter) package manager:
+```cmake
+include(HunterGate.cmake)
+hunter_add_package(Sugar)
+include(${SUGAR_ROOT}/cmake/Sugar)
+```
+
 ### Features
 * [Collecting sources](https://github.com/ruslo/sugar/wiki/Collecting-sources)
 * [Generating groups](https://github.com/ruslo/sugar/wiki/Generating-groups)
-* [Build universal iOS library](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library)
+* ~~Build universal iOS library~~ (see CMake ios-universal [patch](https://github.com/ruslo/CMake/releases))
 * [Run gtest on iOS simulator](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_gtest)
 * *More* (TODO)
 
