@@ -32,8 +32,7 @@ regular test system, used function:
  * `link_library` link universal library to ios target.
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for detailed description.
  * `link_package` link universal library using `find_package` command
- * `link_library_with_executable` link universal library (inside one project), used function:
-[sugar_target_link_libraries](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_target_link_libraries)
+ * `link_library_with_executable` link universal library (inside one project)
 * 07 (cocoa): building macosx application (`Xcode`)
 * 08 (doxygen): example of adding doxygen generation target,
 used function: [sugar_doxygen_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_doxygen_generate)

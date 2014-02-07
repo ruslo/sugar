@@ -186,12 +186,6 @@ function(sugar_echo_target target)
       WIN32_EXECUTABLE
       XCODE_ATTRIBUTE_SDKROOT
       XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY
-
-      # Sugar properties:
-      SUGAR_IOS
-      SUGAR_IOS_BASE_TARGET
-      SUGAR_IOS_PATH_DEBUG
-      SUGAR_IOS_PATH_RELEASE
   )
 
   message("======================== ${target} ========================")
