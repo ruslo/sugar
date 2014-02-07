@@ -5,7 +5,6 @@ before_install:
     - brew update
 
 install:
-    - brew install cmake
     - brew install python3
     - brew install doxygen
     # install patched cmake version
