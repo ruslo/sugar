@@ -7,7 +7,6 @@ sugar_add_this_to_sourcelist()
 include(sugar_execute_process)
 include(sugar_expected_number_of_arguments)
 include(sugar_find_python3)
-include(sugar_target_include_directories)
 include(sugar_test_target_exists)
 include(sugar_test_variable_not_empty)
 
@@ -21,7 +20,7 @@ function(sugar_link_timestamp targetname)
 
   file(MAKE_DIRECTORY "${timestamp_directory}")
 
-  sugar_target_include_directories(${targetname} "${timestamp_directory}")
+  target_include_directories(${targetname} PRIVATE "${timestamp_directory}")
 
   sugar_find_python3()
 

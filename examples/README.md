@@ -21,25 +21,18 @@ include(/path/to/sugar/cmake/Sugar)
 * 02 (common): creating two targets with common sources, first fill sources variables, then create targets
 * 03 (ios-gtest): wrapper for running gtest executable on iOS simulator, used functions:
 [sugar_add_ios_gtest](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_gtest)
-[sugar_add_ios_executable](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_executable)
 * 04 (gtest-universal): if iOS build detected, use simulator to run gtest executable (see previous example), otherwise use
 regular test system, used function:
 [sugar_add_gtest](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_gtest)
-[sugar_add_executable](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_executable)
 * 05 (groups): generating groups for `Xcode` and `Visual Studio`, used function: [sugar_groups_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_groups_generate)
 * 06 (ios): building ios application (`Xcode`)
- * `empty_application` (like `Xcode`: `iOS` -> `Application` -> `Empty Application`), used function:
-[sugar_set_xcode_ios_sdkroot](https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot)
+ * `empty_application` (like `Xcode`: `iOS` -> `Application` -> `Empty Application`)
  * `single_view_application` (like `Xcode`: `iOS` -> `Application` -> `Single View Application`)
- * `_universal_library` build/install universal library (i386 + arm, iphoneos + iphonesimulator), used function:
-[sugar_install_ios_library](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_ios_library)
+ * `_universal_library` build/install universal library (i386 + arm, iphoneos + iphonesimulator)
  * `link_library` link universal library to ios target.
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for detailed description.
  * `link_package` link universal library using `find_package` command
- * `universal_library_osx_sysroot` create universal library by set `CMAKE_OSX_SYSROOT` to `iphoneos` and
-using [sugar_install_library](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_library) function
- * `link_library_with_executable` link universal library (inside one project), used function:
-[sugar_target_link_libraries](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_target_link_libraries)
+ * `link_library_with_executable` link universal library (inside one project)
 * 07 (cocoa): building macosx application (`Xcode`)
 * 08 (doxygen): example of adding doxygen generation target,
 used function: [sugar_doxygen_generate](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_doxygen_generate)

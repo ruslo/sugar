@@ -4,35 +4,44 @@
 # Link universal library using 'find_package' command
 
 cmake_minimum_required(VERSION 2.8.11)
-project(06-example-ios.link_package CXX)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
-
-include(sugar_add_executable)
 include(sugar_include)
+
+set(
+    CMAKE_INSTALL_PREFIX
+    "${SUGAR_ROOT}/examples/06-ios/_universal_library/install"
+    CACHE
+    PATH
+    ""
+)
+
+project(06-example-ios.link_package CXX)
+
+### Emulate toolchain
+set(CMAKE_OSX_SYSROOT iphoneos)
+set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+set(CMAKE_DEBUG_POSTFIX d)
+### -- end
 
 sugar_include("./sources") # SOURCES
 
 if(NOT XCODE_VERSION)
   sugar_fatal_error("Xcode only")
-else()
-  set(CMAKE_OSX_SYSROOT "iphoneos")
 endif()
 
-# add path for searching *.cmake file
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-set(
-    UNIVERSAL_ROOT
-    "${SUGAR_ROOT}/examples/06-ios/_universal_library/install"
+# 1. Use CMAKE_INSTALL_PREFIX to find FooConfig.cmake
+# 2. Import target Foo::foo from FooConfig.cmake (from FooTargets*.cmake)
+find_package(Foo CONFIG REQUIRED)
+
+add_executable(example ${SOURCES})
+
+target_link_libraries(example Foo::foo)
+
+set_target_properties(
+    example
+    PROPERTIES
+    MACOSX_BUNDLE YES
+    MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.LinkPackage"
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
 )
-
-# 1. include module 'FindUniversalLib.cmake' from CMAKE_MODULE_PATH
-# 2. use UNIVERSAL_ROOT to search libraries
-# 3. set result variables: UNIVERSAL_INCLUDE_DIRS, UNIVERSAL_LIBS
-find_package(UniversalLib)
-
-include_directories("${UNIVERSAL_INCLUDE_DIRS}")
-
-# creating executable
-sugar_add_executable(example ${SOURCES})
-target_link_libraries(example ${UNIVERSAL_LIBS})

@@ -38,17 +38,6 @@ function(my_function A B)
 endfunction()
 ```
 
-### sugar_set_xcode_ios_sdkroot
-* set `Xcode` sdkroot to `iphoneos`
-* set `Xcode` sign identity to `iPhone Developer`
-* set `Xcode` property `XCODE_ATTRIBUTE_ARCHS` to `$(ARCHS_STANDARD_INCLUDING_64_BIT)`
-* if suboption `PLIST` present set target property [MACOSX_BUNDLE_INFO_PLIST](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:MACOSX_BUNDLE_INFO_PLIST)
-* link default frameworks: `CoreGraphics`, `Foundation`, `UIKit`
-
-### sugar_target_add_linker_flags
-Wrapper for setting [LINK_FLAGS](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:LINK_FLAGS)
-target property
-
 ### sugar_test_directory_exists
 Test directory exists. Get absolute dir path (if path is relative, it may not work), check exist and check
 is a directory.

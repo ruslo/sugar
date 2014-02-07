@@ -11,8 +11,8 @@ examples/*/_builds
 */*/*.tar.gz
 
 # temp download
-examples/*/gtest-1.7.0*-hunter/
-examples/*/gtest-1.7.0*-hunter-2/
+examples/third_party/_install/*
+examples/third_party/gtest-1.7.0-hunter-6/*
 
 # temp macos
 */*/.DS_Store

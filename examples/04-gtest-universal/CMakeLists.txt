@@ -10,34 +10,33 @@ project(04-example-gtest-universal)
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 include(sugar_add_gtest)
-include(sugar_add_executable)
+
+if(XCODE_VERSION)
+  # `sugar_add_gtest` will check this variable
+  # and if "iphoneos" found `sugar_add_ios_gtest` will be used
+  set(CMAKE_OSX_SYSROOT "iphoneos")
+
+  ### Emulate toolchain
+  set(CMAKE_DEBUG_POSTFIX d)
+  set(CMAKE_MACOSX_BUNDLE YES)
+  set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
+  set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+  set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.iOSGTest")
+  ### -- end
+
+  set(GTest_DIR "${SUGAR_ROOT}/examples/third_party/_install/ios/lib/cmake/GTest")
+else()
+  set(GTest_DIR "${SUGAR_ROOT}/examples/third_party/_install/native/lib/cmake/GTest")
+endif()
 
 # Install gtest using this project:
 #     * 'https://github.com/hunter-packages/gtest'
 # Note that it is just example, you don't need to install gtest manually
 # if you're using "hunter" package manager (github.com/ruslo/hunter)
-set(GTEST_ROOT "${CMAKE_CURRENT_LIST_DIR}/Install/")
-find_package(GTest REQUIRED)
+find_package(GTest CONFIG REQUIRED)
 
-include_directories("${GTEST_INCLUDE_DIRS}")
-
-if(XCODE_VERSION)
-  # `sugar_add_gtest` and `sugar_add_executable` will check this variable
-  # and if "iphoneos" found `sugar_add_ios_gtest` and
-  # `sugar_add_ios_executable` will be used
-  set(CMAKE_OSX_SYSROOT "iphoneos")
-else()
-  # not for iOS (expecting universal libraries...)
-  find_package(Threads REQUIRED)
-endif()
-
-sugar_add_executable(simple_test simple_test.cpp)
-
-target_link_libraries(
-    simple_test
-    ${GTEST_BOTH_LIBRARIES}
-    ${CMAKE_THREAD_LIBS_INIT}
-)
+add_executable(simple_test simple_test.cpp)
+target_link_libraries(simple_test GTest::main)
 
 enable_testing()
 sugar_add_gtest(SimpleTestName simple_test)
