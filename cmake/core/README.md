@@ -18,8 +18,7 @@ Wrapper for running gtest executable on iOS simulator (i386). See [examples]
 (https://github.com/ruslo/sugar/tree/master/examples#description) *ios-gtest* and *gtest-universal*.
 
 ### sugar_add_gtest
-Use `sugar_add_ios_gtest` if iOS build detected, otherwise use `add_test`. Similar to [sugar_install_library]
-(https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_install_library)
+Use `sugar_add_ios_gtest` if iOS build detected, otherwise use `add_test`.
 
 ### sugar_add_this_to_source_list
 Add file from which this function called to [SUGAR_SOURCES](https://github.com/ruslo/sugar/wiki/Used-variables#sugar_sources)
@@ -56,8 +55,5 @@ according to directory structure, for `Xcode` and `Visual Studio` IDE.
 ### sugar_install_ios_library
 Workaround for broken `install` command on `iphone` targets.
 See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
-
-### sugar_install_library
-Call `sugar_install_ios_library` if `CMAKE_OSX_SYSROOT` is `iphoneos`, otherwise call regular cmake `install`
 
 ### sugar_target_link_libraries
