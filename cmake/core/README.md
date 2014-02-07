@@ -9,10 +9,6 @@ test application where identifier is in fact unused.
 (https://github.com/ruslo/sugar/tree/master/cmake/utility#sugar_set_xcode_ios_sdkroot)
 function for target
 
-### sugar_add_executable
-Use `sugar_add_ios_executable` if iOS build detected, otherwise use
-`add_executable`.
-
 ### sugar_add_ios_gtest
 Wrapper for running gtest executable on iOS simulator (i386). See [examples]
 (https://github.com/ruslo/sugar/tree/master/examples#description) *ios-gtest* and *gtest-universal*.
