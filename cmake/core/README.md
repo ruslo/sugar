@@ -52,8 +52,4 @@ sugar_doxygen_generate(DEVELOPER TARGET exe_target DOXYTARGET internal-doc DOXYF
 Automatically generate [source groups](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#command:source_group)
 according to directory structure, for `Xcode` and `Visual Studio` IDE.
 
-### sugar_install_ios_library
-Workaround for broken `install` command on `iphone` targets.
-See [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library) for more info.
-
 ### sugar_target_link_libraries
