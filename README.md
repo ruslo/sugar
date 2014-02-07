@@ -26,7 +26,8 @@ include(${SUGAR_ROOT}/cmake/Sugar)
 ### Features
 * [Collecting sources](https://github.com/ruslo/sugar/wiki/Collecting-sources)
 * [Generating groups](https://github.com/ruslo/sugar/wiki/Generating-groups)
-* ~~Build universal iOS library~~ (see CMake ios-universal [patch](https://github.com/ruslo/CMake/releases))
+* ~~Build universal iOS library~~ (see CMake ios-universal
+[patch](https://github.com/ruslo/CMake/releases) and [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library))
 * [Run gtest on iOS simulator](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_gtest)
 * *More* (TODO)
 
