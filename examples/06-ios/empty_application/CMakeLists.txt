@@ -1,4 +1,4 @@
-# Copyright (c) 2013, Ruslan Baratov
+# Copyright (c) 2013-2014, Ruslan Baratov
 # All rights reserved.
 
 # iOS project example.
@@ -17,7 +17,7 @@ include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 
 include(sugar_include)
 
-include_directories("${SUGAR_ROOT}/examples")
+include_directories("${SUGAR_ROOT}/examples/third_party")
 
 sugar_include("./sources")
 sugar_include("${SUGAR_ROOT}/examples/resources/ios/images")
@@ -35,5 +35,14 @@ set_target_properties(
     MACOSX_BUNDLE_INFO_PLIST "${SUGAR_ROOT}/examples/plist/ios/empty.plist.in"
     MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.EmptyApplication"
     XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
+    XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2" # Universal (iPad + iPhone)
+    XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC YES
     RESOURCE "${DEFAULT_IOS_IMAGES}"
+)
+
+target_link_libraries(
+    example
+    "-framework CoreGraphics"
+    "-framework Foundation"
+    "-framework UIKit"
 )
