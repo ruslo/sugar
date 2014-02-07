@@ -38,10 +38,6 @@ function(my_function A B)
 endfunction()
 ```
 
-### sugar_target_add_linker_flags
-Wrapper for setting [LINK_FLAGS](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:LINK_FLAGS)
-target property
-
 ### sugar_test_directory_exists
 Test directory exists. Get absolute dir path (if path is relative, it may not work), check exist and check
 is a directory.

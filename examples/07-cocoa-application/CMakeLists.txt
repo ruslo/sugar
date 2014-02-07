@@ -12,7 +12,7 @@ include("$ENV{SUGAR_ROOT}/cmake/Sugar")
 include(sugar_fatal_error)
 include(sugar_include)
 
-include_directories("${SUGAR_ROOT}/examples")
+include_directories("${SUGAR_ROOT}/examples/third_party")
 
 if(NOT XCODE_VERSION)
   sugar_fatal_error("Xcode only")

@@ -29,11 +29,17 @@ set(CMAKE_MACOSX_BUNDLE YES)
 ### -- end
 
 add_library(foo ${SOURCES})
-
 # https://github.com/forexample/package-example
 # Install layout
 set(CONFIG_DEST lib/cmake/Foo)
 set(LIB_DEST lib)
+set(INCL_DEST include)
+
+target_include_directories(
+    foo
+    PUBLIC
+    "$<INSTALL_INTERFACE:${INCL_DEST}>"
+)
 
 # Package config
 set(config "${PROJECT_BINARY_DIR}/FooConfig.cmake")
@@ -46,6 +52,6 @@ configure_package_config_file(
 install(FILES "${config}" DESTINATION ${CONFIG_DEST})
 
 # Install
-install(FILES "./sources/A.hpp" DESTINATION include)
+install(FILES "./sources/A.hpp" DESTINATION ${INCL_DEST})
 install(TARGETS foo DESTINATION ${LIB_DEST} EXPORT FooTargets)
 install(EXPORT FooTargets NAMESPACE Foo:: DESTINATION ${CONFIG_DEST})
