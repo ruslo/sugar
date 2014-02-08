@@ -11,6 +11,6 @@ include(sugar_files)
 
 sugar_files(
     SOURCES
-    A.hpp
-    A.cpp
+    Foo.hpp
+    Foo.cpp
 )
