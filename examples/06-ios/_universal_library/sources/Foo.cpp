@@ -1,14 +1,14 @@
 // Copyright (c) 2013, Ruslan Baratov
 // All rights reserved.
 
-#include "A.hpp"
+#include "Foo.hpp"
 
 #include <iostream> // std::cout
 
-void A::print_info() {
+void Foo::print_info() {
 #ifdef NDEBUG
-  std::cout << "Hello from libA.a (release)" << std::endl;
+  std::cout << "Hello from libfoo.a (release)" << std::endl;
 #else
-  std::cout << "Hello from libA.a (debug)" << std::endl;
+  std::cout << "Hello from libfood.a (debug)" << std::endl;
 #endif
 }

@@ -2,9 +2,9 @@
 // All rights reserved.
 
 #include <cstdlib> // EXIT_SUCCESS
-#include "A.hpp"
+#include "Foo.hpp"
 
 int main() {
-  A::print_info();
+  Foo::print_info();
   return EXIT_SUCCESS;
 }

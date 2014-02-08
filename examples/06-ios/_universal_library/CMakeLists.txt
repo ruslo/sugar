@@ -52,6 +52,6 @@ configure_package_config_file(
 install(FILES "${config}" DESTINATION ${CONFIG_DEST})
 
 # Install
-install(FILES "./sources/A.hpp" DESTINATION ${INCL_DEST})
+install(FILES "./sources/Foo.hpp" DESTINATION ${INCL_DEST})
 install(TARGETS foo DESTINATION ${LIB_DEST} EXPORT FooTargets)
 install(EXPORT FooTargets NAMESPACE Foo:: DESTINATION ${CONFIG_DEST})
