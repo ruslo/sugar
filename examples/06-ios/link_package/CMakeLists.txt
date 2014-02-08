@@ -19,7 +19,7 @@ set(
 project(06-example-ios.link_package CXX)
 
 ### Emulate toolchain
-set(CMAKE_OSX_SYSROOT iphoneos)
+set(CMAKE_OSX_SYSROOT "iphoneos")
 set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
 set(CMAKE_DEBUG_POSTFIX d)
 ### -- end

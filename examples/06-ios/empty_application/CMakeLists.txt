@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 2.8.11)
 project(06-example-ios.empty_application CXX)
 
 ### Emulate toolchain
-set(CMAKE_OSX_SYSROOT iphoneos)
+set(CMAKE_OSX_SYSROOT "iphoneos")
 set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
 set(CMAKE_DEBUG_POSTFIX d)
 ### -- end

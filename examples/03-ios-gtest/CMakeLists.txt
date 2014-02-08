@@ -9,7 +9,7 @@ project(03-example-ios-gtest CXX)
 ### Emulate toolchain
 set(CMAKE_DEBUG_POSTFIX d)
 set(CMAKE_MACOSX_BUNDLE YES)
-set(CMAKE_OSX_SYSROOT iphoneos)
+set(CMAKE_OSX_SYSROOT "iphoneos")
 set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
 set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
 set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.iOSGTest")
