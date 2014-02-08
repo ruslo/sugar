@@ -36,6 +36,6 @@ See [examples](https://github.com/ruslo/sugar/tree/master/examples).
 Please [read](https://github.com/ruslo/0/wiki/CMake) coding style and
 agreements before start looking through examples (may explain a lot).
 
-### What next?
+### What's next?
 * [CMake toolchain collection](https://github.com/ruslo/polly)
 * [CMake package manager](https://github.com/ruslo/hunter)
