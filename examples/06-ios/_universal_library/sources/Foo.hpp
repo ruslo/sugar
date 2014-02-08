@@ -1,12 +1,12 @@
 // Copyright (c) 2013, Ruslan Baratov
 // All rights reserved.
 
-#ifndef A_HPP_
-#define A_HPP_
+#ifndef FOO_HPP_
+#define FOO_HPP_
 
-class A {
+class Foo {
  public:
   static void print_info();
 };
 
-#endif // A_HPP_
+#endif // FOO_HPP_
