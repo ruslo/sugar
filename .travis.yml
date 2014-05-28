@@ -7,6 +7,7 @@ before_install:
 install:
     - brew install python3
     - brew install doxygen
+    - brew install cmake
     # install patched cmake version
     - wget https://github.com/ruslo/CMake/archive/ios.universal.2.tar.gz
     - tar xf ios.universal.2.tar.gz
