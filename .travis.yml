@@ -18,9 +18,10 @@ install:
 
     # install ios simulator for 03/04 examples
     #     * https://github.com/travis-ci-tester/travis-test-ios-sim
-    - wget https://github.com/phonegap/ios-sim/archive/1.8.2.tar.gz
-    - tar -xvf 1.8.2.tar.gz
-    - cd ios-sim-1.8.2/
+    - IOS_SIM_VERSION=1.9.0
+    - wget https://github.com/phonegap/ios-sim/archive/${IOS_SIM_VERSION}.tar.gz
+    - tar -xvf ${IOS_SIM_VERSION}.tar.gz
+    - cd ios-sim-${IOS_SIM_VERSION}/
     - xcodebuild -target ios-sim
     - export PATH=`pwd`/build/Release:${PATH}
     - cd ..
