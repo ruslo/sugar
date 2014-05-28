@@ -1,7 +1,7 @@
 // Copyright (c) 2013, Ruslan Baratov
 // All rights reserved.
 
-#import "ViewController.h"
+#import "ViewController.hpp"
 
 @interface ViewController ()
 
