@@ -1,7 +1,7 @@
 // Copyright (c) 2013, Ruslan Baratov
 // All rights reserved.
 
-#import "AppDelegate.h"
+#import "AppDelegate.hpp"
 
 #include <boost/concept_check.hpp> // boost::ignore_unused_variable_warning
 
