@@ -33,10 +33,19 @@ set_target_properties(
     PROPERTIES
     MACOSX_BUNDLE YES
     MACOSX_BUNDLE_INFO_PLIST "${SUGAR_ROOT}/examples/plist/ios/empty.plist.in"
-    MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.sugar.ios.EmptyApplication"
+    XCODE_ATTRIBUTE_BUNDLE_IDENTIFIER "com.example.sugar.ios.EmptyApplication"
     XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
     XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2" # Universal (iPad + iPhone)
+        # http://stackoverflow.com/a/20982506/2288008
     XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC YES
+    XCODE_ATTRIBUTE_PRODUCT_NAME "Example"
+    XCODE_ATTRIBUTE_INSTALL_PATH "${CMAKE_BINARY_DIR}/ProductRelease"
+        # By default this setting is empty =>
+        # archives not showing up in Xcode organizer.
+        # http://stackoverflow.com/a/8102602/2288008
+    XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES "NO" # If this setting is "YES"
+        # application can't pass archive validation.
+        # http://stackoverflow.com/a/24040412/2288008
     RESOURCE "${DEFAULT_IOS_IMAGES}"
 )
 
