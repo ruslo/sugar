@@ -11,9 +11,9 @@ include(sugar_files)
 
 sugar_files(
     SOURCES
-    AppDelegate.h
+    AppDelegate.hpp
     AppDelegate.mm
-    ViewController.h
+    ViewController.hpp
     ViewController.mm
     main.mm
 )

@@ -11,7 +11,7 @@ include(sugar_files)
 
 sugar_files(
     SOURCES
-    AppDelegate.h
+    AppDelegate.hpp
     AppDelegate.mm
     main.mm
 )
