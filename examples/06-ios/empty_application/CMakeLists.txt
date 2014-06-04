@@ -11,6 +11,7 @@ project(06-example-ios.empty_application CXX)
 set(CMAKE_OSX_SYSROOT "iphoneos")
 set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
 set(CMAKE_DEBUG_POSTFIX d)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ### -- end
 
 include("$ENV{SUGAR_ROOT}/cmake/Sugar")
@@ -51,6 +52,7 @@ set_target_properties(
 
 target_link_libraries(
     example
+    "-framework CoreData"
     "-framework CoreGraphics"
     "-framework Foundation"
     "-framework UIKit"
