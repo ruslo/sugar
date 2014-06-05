@@ -19,7 +19,8 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
-// UIApplicationDelegate implementation
+#pragma mark - UIApplicationDelegate implementation
+
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   boost::ignore_unused_variable_warning(application);
