@@ -7,9 +7,6 @@
 >
 <plist version="1.0">
 <dict>
-  <key>CFBundleDevelopmentRegion</key>
-  <string>en</string>
-
   <!--
   String below icon (XCODE_ATTRIBUTE_PRODUCT_NAME)
   -->
@@ -82,5 +79,11 @@
   <string>MainStoryboard_iPhone</string>
   <key>UIMainStoryboardFile~ipad</key>
   <string>MainStoryboard_iPad</string>
+
+  <!--
+  Other
+  -->
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
 </dict>
 </plist>
