@@ -21,7 +21,7 @@
   (XCODE_ATTRIBUTE_EXECUTABLE_NAME)
   -->
   <key>CFBundleExecutable</key>
-  <string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
+  <string>$(EXECUTABLE_NAME)</string>
 
   <!--
   Bundle identifier. Unique id, usually reverse DNS:
