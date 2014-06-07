@@ -9,14 +9,32 @@
 <dict>
   <key>CFBundleDevelopmentRegion</key>
   <string>en</string>
+
+  <!--
+  String below icon (XCODE_ATTRIBUTE_PRODUCT_NAME)
+  -->
   <key>CFBundleDisplayName</key>
   <string>$(PRODUCT_NAME)</string>
+
+  <!--
+  Internal name of executable file
+  e.g.: ProductName.app/ExecutableName
+  NOTE: This key is required (!)
+  Initialized automatically by Xcode (no need to modify cmake target property)
+  (XCODE_ATTRIBUTE_EXECUTABLE_NAME)
+  -->
   <key>CFBundleExecutable</key>
   <string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
   <key>CFBundleGetInfoString</key>
   <string>${MACOSX_BUNDLE_INFO_STRING}</string>
   <key>CFBundleIconFile</key>
   <string>${MACOSX_BUNDLE_ICON_FILE}</string>
+
+  <!--
+  Bundle identifier. Unique id, usually reverse DNS:
+  e.g.: com.example.johndoe.awesomeproject
+  (XCODE_ATTRIBUTE_BUNDLE_IDENTIFIER)
+  -->
   <key>CFBundleIdentifier</key>
   <string>$(BUNDLE_IDENTIFIER)</string>
   <key>CFBundleInfoDictionaryVersion</key>
@@ -56,6 +74,10 @@
     <string>UIInterfaceOrientationLandscapeLeft</string>
     <string>UIInterfaceOrientationLandscapeRight</string>
   </array>
+
+  <!--
+  Storyboards
+  -->
   <key>UIMainStoryboardFile</key>
   <string>MainStoryboard_iPhone</string>
   <key>UIMainStoryboardFile~ipad</key>
