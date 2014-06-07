@@ -39,6 +39,9 @@
   <key>UIMainStoryboardFile~ipad</key>
   <string>MainStoryboard_iPad</string>
 
+  <!--
+  Device supported orientations
+  -->
   <key>UISupportedInterfaceOrientations</key>
   <array>
     <string>UIInterfaceOrientationPortrait</string>
