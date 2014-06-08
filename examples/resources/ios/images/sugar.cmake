@@ -7,11 +7,7 @@ else()
   set(RESOURCES_IOS_IMAGES_SUGAR_CMAKE 1)
 endif()
 
-include(sugar_files)
+include(sugar_include)
 
-sugar_files(
-    DEFAULT_IOS_IMAGES
-    Default-568h@2x.png
-    Default.png
-    Default@2x.png
-)
+sugar_include(ipad)
+sugar_include(iphone)
