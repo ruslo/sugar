@@ -32,6 +32,43 @@
   <string>$(BUNDLE_IDENTIFIER)</string>
 
   <!--
+  Icons for iPhone:
+  -->
+  <key>CFBundleIcons</key>
+  <dict>
+    <key>CFBundlePrimaryIcon</key>
+    <dict>
+      <key>CFBundleIconFiles</key>
+      <array>
+        <string>Icon_iPhone_Retina_120x120</string>
+        <string>Icon_iPhone_iPad_Retina_80x80</string>
+        <string>Icon_iPhone_iPad_Retina_58x58</string>
+        <string>Icon</string>
+      </array>
+    </dict>
+  </dict>
+
+  <!--
+  Icons for iPad:
+  -->
+  <key>CFBundleIcons~ipad</key>
+  <dict>
+    <key>CFBundlePrimaryIcon</key>
+    <dict>
+      <key>CFBundleIconFiles</key>
+      <array>
+        <string>Icon_iPad_Non-Retina_76x76</string>
+        <string>Icon_iPad_Retina_152x152</string>
+        <string>Icon_iPad_Non-Retina_40x40</string>
+        <string>Icon_iPhone_iPad_Retina_80x80</string>
+        <string>Icon_iPad_Non-Retina_29x29</string>
+        <string>Icon_iPhone_iPad_Retina_58x58</string>
+        <string>Icon</string>
+      </array>
+    </dict>
+  </dict>
+
+  <!--
   Storyboards
   -->
   <key>UIMainStoryboardFile</key>
