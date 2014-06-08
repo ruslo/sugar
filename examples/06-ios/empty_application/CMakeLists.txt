@@ -21,13 +21,14 @@ include(sugar_include)
 include_directories("${SUGAR_ROOT}/examples/third_party")
 
 sugar_include("./sources")
+sugar_include("${SUGAR_ROOT}/examples/resources/ios/icons")
 sugar_include("${SUGAR_ROOT}/examples/resources/ios/images")
 
 if(NOT XCODE_VERSION)
   sugar_fatal_error("Xcode only")
 endif()
 
-add_executable(example ${SOURCES} ${DEFAULT_IOS_IMAGES})
+add_executable(example ${SOURCES} ${DEFAULT_IOS_IMAGES} ${IOS_ICONS})
 
 set_target_properties(
     example
@@ -46,7 +47,7 @@ set_target_properties(
     XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES "NO" # If this setting is "YES"
         # application can't pass archive validation.
         # http://stackoverflow.com/a/24040412/2288008
-    RESOURCE "${DEFAULT_IOS_IMAGES}"
+    RESOURCE "${DEFAULT_IOS_IMAGES};${IOS_ICONS}"
 )
 
 set_target_properties(
