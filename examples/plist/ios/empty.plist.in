@@ -7,9 +7,6 @@
 >
 <plist version="1.0">
 <dict>
-  <key>CFBundleDevelopmentRegion</key>
-  <string>en</string>
-
   <!--
   String below icon (XCODE_ATTRIBUTE_PRODUCT_NAME)
   -->
@@ -58,6 +55,8 @@
   <!--
   Other
   -->
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleLongVersionString</key>
