@@ -21,11 +21,7 @@
   (XCODE_ATTRIBUTE_EXECUTABLE_NAME)
   -->
   <key>CFBundleExecutable</key>
-  <string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
-  <key>CFBundleGetInfoString</key>
-  <string>${MACOSX_BUNDLE_INFO_STRING}</string>
-  <key>CFBundleIconFile</key>
-  <string>${MACOSX_BUNDLE_ICON_FILE}</string>
+  <string>$(EXECUTABLE_NAME)</string>
 
   <!--
   Bundle identifier. Unique id, usually reverse DNS:
@@ -59,10 +55,6 @@
   <string>en</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
-  <key>CFBundleLongVersionString</key>
-  <string>${MACOSX_BUNDLE_LONG_VERSION_STRING}</string>
-  <key>CFBundleName</key>
-  <string>${MACOSX_BUNDLE_BUNDLE_NAME}</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
@@ -71,10 +63,6 @@
   <string>????</string>
   <key>CFBundleVersion</key>
   <string>1.0</string>
-  <key>CSResourcesFileMapped</key>
-  <true/>
-  <key>NSHumanReadableCopyright</key>
-  <string>${MACOSX_BUNDLE_COPYRIGHT}</string>
   <key>LSRequiresIPhoneOS</key>
   <true/>
   <key>UIRequiredDeviceCapabilities</key>
