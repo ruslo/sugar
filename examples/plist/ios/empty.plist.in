@@ -37,6 +37,10 @@
   -->
   <key>CFBundleIdentifier</key>
   <string>$(BUNDLE_IDENTIFIER)</string>
+
+  <!--
+  Other
+  -->
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleLongVersionString</key>
