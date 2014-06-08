@@ -21,10 +21,11 @@ include(sugar_include)
 include_directories("${SUGAR_ROOT}/examples/third_party")
 
 sugar_include("./sources")
+sugar_include("${SUGAR_ROOT}/examples/resources/ios/icons")
 sugar_include("${SUGAR_ROOT}/examples/resources/ios/images")
 sugar_include("${SUGAR_ROOT}/examples/resources/ios/storyboards")
 
-set(RESOURCES ${DEFAULT_IOS_IMAGES} ${IOS_STORYBOARDS_RESOURCES})
+set(RESOURCES ${IOS_ICONS} ${DEFAULT_IOS_IMAGES} ${IOS_STORYBOARDS_RESOURCES})
 
 if(NOT XCODE_VERSION)
   sugar_fatal_error("Xcode only")
