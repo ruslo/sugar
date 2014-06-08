@@ -15,8 +15,7 @@ examples/third_party/_install/*
 examples/third_party/gtest-1.7.0-hunter-6/*
 
 # temp macos
-*/*/.DS_Store
-*/*/*/.DS_Store
+.DS_Store
 
 # temp build scripts
 */*/build.sh
