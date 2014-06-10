@@ -35,6 +35,28 @@ Add specifier `DEVELOPER` for more verbose documentation, for example with enabl
 sugar_doxygen_generate(DEVELOPER TARGET exe_target DOXYTARGET internal-doc DOXYFILE ${path_to_doxyfile_in})
 ```
 
+* [Example](https://github.com/ruslo/sugar/tree/master/examples#08-doxygen)
+
+### sugar_generate_warning_flags
+This function used to generate list of flags that control compiler warnings in cross-platform way. E.g:
+```cmake
+sugar_generate_warning_flags(flags ENABLE ALL)
+# Variable `flags` will be:
+# for MSVC: `/Wall`
+# for GCC: `-Wall` `-Wextra` `-Wpedantic`
+# for Clang: `-Wall` `-Weverything` `-pedantic`
+```
+See [wiki](https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression) for usage and more options.
+
+### sugar_get_WIN32_WINNT
+Get value of `_WIN32_WINNT` macro for windows host. Usage (for target `foo`):
+```cmake
+if(WIN32)
+  sugar_get_WIN32_WINNT(win32_winnt)
+  target_compile_definitions(foo PUBLIC _WIN32_WINNT=${win32_winnt})
+endif()
+```
+
 ### sugar_groups_generate
 Automatically generate [source groups](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#command:source_group)
 according to directory structure, for `Xcode` and `Visual Studio` IDE.
