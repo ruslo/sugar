@@ -29,7 +29,7 @@ include(${SUGAR_ROOT}/cmake/Sugar)
 * ~~Build universal iOS library~~ (see CMake ios-universal
 [patch](https://github.com/ruslo/CMake/releases) and [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library))
 * [Run gtest on iOS simulator](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_gtest)
-* *More* (TODO)
+* [Cross-platform warning suppression](https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression)
 
 ### Examples
 See [examples](https://github.com/ruslo/sugar/tree/master/examples).
