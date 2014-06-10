@@ -22,6 +22,17 @@ Add documentation target with `Doxyfile.in` for exe/lib target.
 * target property [INCLUDE_DIRECTORIES](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#prop_tgt:INCLUDE_DIRECTORIES) used for making [STRIP_FROM_PATH](http://www.stack.nl/~dimitri/doxygen/manual/config.html#cfg_strip_from_path)
 * ...
 
+### sugar_generate_warning_flags
+This function used to generate list of flags that control compiler warnings in cross-platform way. E.g:
+```cmake
+sugar_generate_warning_flags(flags ENABLE ALL)
+# Variable `flags` will be:
+# for MSVC: `/Wall`
+# for GCC: `-Wall` `-Wextra` `-Wpedantic`
+# for Clang: `-Wall` `-Weverything` `-pedantic`
+```
+See [wiki](https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression) for usage and more options.
+
 #### Usage:
 ```cmake
 add_executable(exe_target ${exe_target_sources})
