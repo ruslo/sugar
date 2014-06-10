@@ -37,6 +37,15 @@ sugar_doxygen_generate(DEVELOPER TARGET exe_target DOXYTARGET internal-doc DOXYF
 
 * [Example](https://github.com/ruslo/sugar/tree/master/examples#08-doxygen)
 
+### sugar_get_WIN32_WINNT
+Get value of `_WIN32_WINNT` macro for windows host. Usage (for target `foo`):
+```cmake
+if(WIN32)
+  sugar_get_WIN32_WINNT(win32_winnt)
+  target_compile_definitions(foo PUBLIC _WIN32_WINNT=${win32_winnt})
+endif()
+```
+
 ### sugar_groups_generate
 Automatically generate [source groups](http://www.cmake.org/cmake/help/v2.8.11/cmake.html#command:source_group)
 according to directory structure, for `Xcode` and `Visual Studio` IDE.
