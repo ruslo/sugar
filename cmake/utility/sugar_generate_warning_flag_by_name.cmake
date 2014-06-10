@@ -215,6 +215,17 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
     return()
   endif()
 
+  ### padded
+  string(COMPARE EQUAL "padded" "${warning_name}" hit)
+  if(hit)
+    if(is_clang OR is_gcc)
+      list(APPEND result "padded")
+    endif()
+
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
   ### pedantic
   string(COMPARE EQUAL "pedantic" "${warning_name}" hit)
   if(hit)
