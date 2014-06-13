@@ -1,3 +1,6 @@
+# This file generated automatically:
+# https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression
+
 # Copyright (c) 2014, Ruslan Baratov
 # All rights reserved.
 
@@ -8,7 +11,6 @@ include(sugar_expected_number_of_arguments)
 include(sugar_fatal_error)
 include(sugar_status_debug)
 
-### https://github.com/ruslo/leathers/wiki/List
 function(sugar_generate_warning_flag_by_name warning_flags warning_name)
   sugar_expected_number_of_arguments(${ARGC} 2)
 
@@ -30,13 +32,54 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
 
   set(result "")
 
-  ### cast_align
-  string(COMPARE EQUAL "cast_align" "${warning_name}" hit)
+  ### c++98-compat
+  string(COMPARE EQUAL "c++98-compat" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
+      list(APPEND result "c++98-compat")
+    endif()
+    if(is_gcc)
+      list(APPEND result "c++98-compat")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
+  ### c++98-compat-pedantic
+  string(COMPARE EQUAL "c++98-compat-pedantic" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
+      list(APPEND result "c++98-compat-pedantic")
+    endif()
+    if(is_gcc)
+      list(APPEND result "c++98-compat-pedantic")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
+  ### cast-align
+  string(COMPARE EQUAL "cast-align" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
       list(APPEND result "cast-align")
     endif()
+    if(is_gcc)
+      list(APPEND result "cast-align")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
 
+  ### conditional-uninitialized
+  string(COMPARE EQUAL "conditional-uninitialized" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
+      list(APPEND result "conditional-uninitialized")
+    endif()
+    if(is_gcc)
+      list(APPEND result "conditional-uninitialized")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
@@ -44,10 +87,25 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
   ### conversion
   string(COMPARE EQUAL "conversion" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "cast-align")
+    if(is_clang)
+      list(APPEND result "conversion")
     endif()
+    if(is_gcc)
+      list(APPEND result "conversion")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
 
+  ### covered-switch-default
+  string(COMPARE EQUAL "covered-switch-default" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
+      list(APPEND result "covered-switch-default")
+    endif()
+    if(is_gcc)
+      list(APPEND result "covered-switch-default")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
@@ -55,162 +113,142 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
   ### deprecated
   string(COMPARE EQUAL "deprecated" "${warning_name}" hit)
   if(hit)
-    if(is_msvc)
-      list(APPEND result "4996")
-    endif()
-    if(is_clang OR is_gcc)
-      list(APPEND result "deprecated-register")
+    if(is_clang)
       list(APPEND result "deprecated")
     endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### direct_ivar_access
-  string(COMPARE EQUAL "direct_ivar_access" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "direct-ivar-access")
+    if(is_gcc)
+      list(APPEND result "deprecated")
     endif()
-
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### disabled_macro_expansion
-  string(COMPARE EQUAL "disabled_macro_expansion" "${warning_name}" hit)
+  ### deprecated-register
+  string(COMPARE EQUAL "deprecated-register" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
+      list(APPEND result "deprecated-register")
+    endif()
+    if(is_gcc)
+      list(APPEND result "deprecated-register")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
+  ### disabled-macro-expansion
+  string(COMPARE EQUAL "disabled-macro-expansion" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
       list(APPEND result "disabled-macro-expansion")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "disabled-macro-expansion")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### enum_not_handled_in_switch
-  string(COMPARE EQUAL "enum_not_handled_in_switch" "${warning_name}" hit)
+  ### documentation
+  string(COMPARE EQUAL "documentation" "${warning_name}" hit)
   if(hit)
-    if(is_msvc)
-      list(APPEND result "4061")
-      list(APPEND result "4062")
+    if(is_clang)
+      list(APPEND result "documentation")
     endif()
-    if(is_clang OR is_gcc)
-      list(APPEND result "switch")
-      list(APPEND result "switch-enum")
+    if(is_gcc)
+      list(APPEND result "documentation")
     endif()
-
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### exit_time_destructors
-  string(COMPARE EQUAL "exit_time_destructors" "${warning_name}" hit)
+  ### documentation-unknown-command
+  string(COMPARE EQUAL "documentation-unknown-command" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "exit-time-destructors")
+    if(is_clang)
+      list(APPEND result "documentation-unknown-command")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "documentation-unknown-command")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### explicit_ownership_type
-  string(COMPARE EQUAL "explicit_ownership_type" "${warning_name}" hit)
+  ### extra-semi
+  string(COMPARE EQUAL "extra-semi" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "explicit-ownership-type")
+    if(is_clang)
+      list(APPEND result "extra-semi")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "extra-semi")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### extended_offsetof
-  string(COMPARE EQUAL "extended_offsetof" "${warning_name}" hit)
+  ### global-constructors
+  string(COMPARE EQUAL "global-constructors" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "extended-offsetof")
-    endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### format_nonliteral
-  string(COMPARE EQUAL "format_nonliteral" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "format-nonliteral")
-    endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### global_constructors
-  string(COMPARE EQUAL "global_constructors" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
       list(APPEND result "global-constructors")
     endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### gnu
-  string(COMPARE EQUAL "gnu" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "gnu")
+    if(is_gcc)
+      list(APPEND result "global-constructors")
     endif()
-
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### implicit_fallthrough
-  string(COMPARE EQUAL "implicit_fallthrough" "${warning_name}" hit)
+  ### implicit-fallthrough
+  string(COMPARE EQUAL "implicit-fallthrough" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
       list(APPEND result "implicit-fallthrough")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "implicit-fallthrough")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### missing_prototypes
-  string(COMPARE EQUAL "missing_prototypes" "${warning_name}" hit)
+  ### missing-noreturn
+  string(COMPARE EQUAL "missing-noreturn" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "missing-prototypes")
+    if(is_clang)
+      list(APPEND result "missing-noreturn")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "missing-noreturn")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### missing_variable_declarations
-  string(COMPARE EQUAL "missing_variable_declarations" "${warning_name}" hit)
+  ### non-virtual-dtor
+  string(COMPARE EQUAL "non-virtual-dtor" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "missing-variable-declarations")
+    if(is_clang)
+      list(APPEND result "non-virtual-dtor")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "non-virtual-dtor")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### over_aligned
-  string(COMPARE EQUAL "over_aligned" "${warning_name}" hit)
+  ### old-style-cast
+  string(COMPARE EQUAL "old-style-cast" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "over-aligned")
+    if(is_clang)
+      list(APPEND result "old-style-cast")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "old-style-cast")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
@@ -218,135 +256,103 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
   ### padded
   string(COMPARE EQUAL "padded" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
       list(APPEND result "padded")
     endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### pedantic
-  string(COMPARE EQUAL "pedantic" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "pedantic")
+    if(is_gcc)
+      list(APPEND result "padded")
     endif()
-
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### selector
-  string(COMPARE EQUAL "selector" "${warning_name}" hit)
+  ### shift-sign-overflow
+  string(COMPARE EQUAL "shift-sign-overflow" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "selector")
+    if(is_clang)
+      list(APPEND result "shift-sign-overflow")
     endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### sign_conversion
-  string(COMPARE EQUAL "sign_conversion" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "sign-conversion")
+    if(is_gcc)
+      list(APPEND result "shift-sign-overflow")
     endif()
-
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### unreachable_code
-  string(COMPARE EQUAL "unreachable_code" "${warning_name}" hit)
+  ### switch-enum
+  string(COMPARE EQUAL "switch-enum" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
+      list(APPEND result "switch-enum")
+    endif()
+    if(is_gcc)
+      list(APPEND result "switch-enum")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
+  ### undef
+  string(COMPARE EQUAL "undef" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
+      list(APPEND result "undef")
+    endif()
+    if(is_gcc)
+      list(APPEND result "undef")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
+  ### unreachable-code
+  string(COMPARE EQUAL "unreachable-code" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
       list(APPEND result "unreachable-code")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "unreachable-code")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### unused_function
-  string(COMPARE EQUAL "unused_function" "${warning_name}" hit)
+  ### unused-parameter
+  string(COMPARE EQUAL "unused-parameter" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "unused-function")
-      list(APPEND result "unused-member-function")
-    endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### unused_macros
-  string(COMPARE EQUAL "unused_macros" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "unused-macros")
-    endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### unused_parameter
-  string(COMPARE EQUAL "unused_parameter" "${warning_name}" hit)
-  if(hit)
-    if(is_msvc)
-      list(APPEND result "4100")
-    endif()
-    if(is_clang OR is_gcc)
+    if(is_clang)
       list(APPEND result "unused-parameter")
     endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### unused_variable
-  string(COMPARE EQUAL "unused_variable" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "unused-variable")
+    if(is_gcc)
+      list(APPEND result "unused-parameter")
     endif()
-
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### used_but_marked_unused
-  string(COMPARE EQUAL "used_but_marked_unused" "${warning_name}" hit)
+  ### used-but-marked-unused
+  string(COMPARE EQUAL "used-but-marked-unused" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
       list(APPEND result "used-but-marked-unused")
     endif()
-
-    set(${warning_flags} "${result}" PARENT_SCOPE)
-    return()
-  endif()
-
-  ### weak_template_vtables
-  string(COMPARE EQUAL "weak_template_vtables" "${warning_name}" hit)
-  if(hit)
-    if(is_clang OR is_gcc)
-      list(APPEND result "weak-template-vtables")
+    if(is_gcc)
+      list(APPEND result "used-but-marked-unused")
     endif()
-
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
 
-  ### weak_vtables
-  string(COMPARE EQUAL "weak_vtables" "${warning_name}" hit)
+  ### weak-vtables
+  string(COMPARE EQUAL "weak-vtables" "${warning_name}" hit)
   if(hit)
-    if(is_clang OR is_gcc)
+    if(is_clang)
       list(APPEND result "weak-vtables")
     endif()
-
+    if(is_gcc)
+      list(APPEND result "weak-vtables")
+    endif()
     set(${warning_flags} "${result}" PARENT_SCOPE)
     return()
   endif()
