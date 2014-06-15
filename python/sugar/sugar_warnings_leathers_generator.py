@@ -118,7 +118,7 @@ header_check_self = """
 """
 
 header_clang = """
-#if defined(BOOST_COMP_CLANG)
+#if (BOOST_COMP_CLANG)
 # if __has_warning("-W{}")
 #  pragma clang diagnostic ignored "-W{}"
 # endif
@@ -126,7 +126,7 @@ header_clang = """
 """
 
 header_gcc = """
-#if defined(BOOST_COMP_GNUC)
+#if (BOOST_COMP_GNUC)
 # if __has_warning("-W{}")
 #  pragma clang diagnostic ignored "-W{}"
 # endif
@@ -134,7 +134,7 @@ header_gcc = """
 """
 
 header_msvc = """
-#if defined(BOOST_COMP_MSVC)
+#if (BOOST_COMP_MSVC)
 # pragma warning(disable: {})
 #endif
 """
