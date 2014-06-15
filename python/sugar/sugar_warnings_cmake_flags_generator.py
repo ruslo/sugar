@@ -45,7 +45,65 @@ file_footer = """  message("Unknown warning name: ${warning_name}")
 endfunction()
 """
 
+all_attrs_header = """# This file generated automatically:
+# https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression
+
+# Copyright (c) 2014, Ruslan Baratov
+# All rights reserved.
+
+include(sugar_add_this_to_sourcelist)
+sugar_add_this_to_sourcelist()
+
+include(sugar_expected_number_of_arguments)
+
+function(sugar_get_all_xcode_warning_attrs attr_list_name)
+  sugar_expected_number_of_arguments(${ARGC} 1)
+
+  if(NOT XCODE_VERSION)
+    set(${attr_list_name} "" PARENT_SCOPE)
+    return()
+  endif()
+
+  set(${attr_list_name} "")
+
+"""
+
+all_attrs_footer = """
+  set(${attr_list_name} ${${attr_list_name}} PARENT_SCOPE)
+endfunction()
+"""
+
+attr_by_name_header = """# This file generated automatically:
+# https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression
+
+# Copyright (c) 2014, Ruslan Baratov
+# All rights reserved.
+
+include(sugar_add_this_to_sourcelist)
+sugar_add_this_to_sourcelist()
+
+include(sugar_expected_number_of_arguments)
+
+function(sugar_generate_warning_xcode_attr_by_name warn_flag warn_name)
+  sugar_expected_number_of_arguments(${ARGC} 2)
+
+  if(NOT XCODE_VERSION)
+    set(${warn_flag} "" PARENT_SCOPE)
+    return()
+  endif()
+
+"""
+
+attr_by_name_footer = """  set(${warn_flag} "" PARENT_SCOPE)
+endfunction()
+"""
+
 def generate(main_warnings_table):
+  generate_warn_by_name(main_warnings_table)
+  generate_all_xcode_warn(main_warnings_table)
+  generate_xcode_attr_by_name(main_warnings_table)
+
+def generate_warn_by_name(main_warnings_table):
   cmake_file = open("sugar_generate_warning_flag_by_name.cmake", "w")
   cmake_file.write(file_header)
   for entry in main_warnings_table:
@@ -81,3 +139,29 @@ def generate(main_warnings_table):
     cmake_file.write("    return()\n")
     cmake_file.write("  endif()\n\n")
   cmake_file.write(file_footer)
+
+def generate_all_xcode_warn(main_warnings_table):
+  cmake_file = open("sugar_get_all_xcode_warning_attrs.cmake", "w")
+  cmake_file.write(all_attrs_header)
+  for entry in main_warnings_table:
+    if entry.xcode.valid():
+      cmake_file.write("  list(APPEND ${attr_list_name} ")
+      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.custom_option))
+      cmake_file.write(")\n")
+  cmake_file.write(all_attrs_footer)
+
+def generate_xcode_attr_by_name(main_warnings_table):
+  cmake_file = open("sugar_generate_warning_xcode_attr_by_name.cmake", "w")
+  cmake_file.write(attr_by_name_header)
+  for entry in main_warnings_table:
+    if entry.xcode.valid():
+      cmake_file.write("  string(COMPARE EQUAL \"${warn_name}\" \"")
+      cmake_file.write(entry.warning_name)
+      cmake_file.write("\" hit)\n")
+      cmake_file.write("  if(hit)\n")
+      cmake_file.write("    set(${warn_flag} \"")
+      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.custom_option))
+      cmake_file.write("\" PARENT_SCOPE)\n")
+      cmake_file.write("    return()\n")
+      cmake_file.write("  endif()\n\n")
+  cmake_file.write(attr_by_name_footer)

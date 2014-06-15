@@ -89,6 +89,8 @@ sugar_files(
     push
     pop
     ###
+    all
+    ###
 """
 
 header_text = """// This file generated automatically:
@@ -117,13 +119,17 @@ header_check_self = """
 
 header_clang = """
 #if defined(BOOST_COMP_CLANG)
-# pragma clang diagnostic ignored "-W{}"
+# if __has_warning("-W{}")
+#  pragma clang diagnostic ignored "-W{}"
+# endif
 #endif
 """
 
 header_gcc = """
 #if defined(BOOST_COMP_GNUC)
-# pragma clang diagnostic ignored "-W{}"
+# if __has_warning("-W{}")
+#  pragma clang diagnostic ignored "-W{}"
+# endif
 #endif
 """
 
@@ -179,8 +185,10 @@ def generate_header(table_entry):
   header_file.write(header_check_push.format(name))
   header_file.write(header_check_self.format(macro, name, macro))
   if table_entry.clang.valid():
-    header_file.write(header_clang.format(table_entry.clang.cxx_entry(name)))
+    x = table_entry.clang.cxx_entry(name)
+    header_file.write(header_clang.format(x, x))
   if table_entry.gcc.valid():
-    header_file.write(header_gcc.format(table_entry.gcc.cxx_entry(name)))
+    x = table_entry.gcc.cxx_entry(name)
+    header_file.write(header_gcc.format(x, x))
   if table_entry.msvc.valid():
     header_file.write(header_msvc.format(table_entry.msvc.cxx_entry(name)))

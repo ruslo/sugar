@@ -13,7 +13,10 @@ parser = argparse.ArgumentParser(
     "internal table `main_warnings_table` as source:\n\n"
     "  1. Wiki table for `leathers` C++ project\n"
     "  2. Suppression include files for `leathers` C++ project\n"
-    "  3. CMake function `sugar_generate_warning_flag_by_name` for `sugar`\n\n"
+    "  3. CMake functions for `sugar`:\n"
+    "    - sugar_generate_warning_flag_by_name\n"
+    "    - sugar_generate_warning_xcode_attr_by_name\n"
+    "    - sugar_get_all_xcode_warning_attrs\n\n"
     "Links:\n\n"
     "  https://github.com/ruslo/leathers\n"
     "  https://github.com/ruslo/sugar\n",
@@ -68,18 +71,39 @@ def make(custom_option):
 """This table entry contains warning name
 and support for different compilers"""
 class TableEntry:
-  def __init__(self, warning_name, clang, gcc, msvc):
+  def __init__(self, warning_name, clang, gcc, msvc, xcode, objc):
     self.warning_name = warning_name
     self.clang = clang
     self.gcc = gcc
     self.msvc = msvc
+    self.xcode = xcode
+    self.objc = objc
 
-"""Create warning with clang and gcc support"""
-def make_clang_gcc(warning_name):
+"""Create warning with clang/gcc support and xcode attribute"""
+def make_xcode(warning_name, xcode):
   clang = SAME
   gcc = SAME
   msvc = NO
-  return TableEntry(warning_name, clang, gcc, msvc)
+  objc = False
+  return TableEntry(warning_name, clang, gcc, msvc, make(xcode), objc)
+
+"""Create Objective-C warning with clang/gcc support and xcode attribute"""
+def make_objc(warning_name, xcode):
+  clang = SAME
+  gcc = SAME
+  msvc = NO
+  objc = True
+  return TableEntry(warning_name, clang, gcc, msvc, make(xcode), objc)
+
+"""Create warning with clang/gcc support"""
+def make_clang(warning_name):
+  clang = SAME
+  gcc = SAME
+  msvc = NO
+  xcode = NO
+  objc = False
+  return TableEntry(warning_name, clang, gcc, msvc, xcode, objc)
+
 
 """Create warning with clang and gcc support and"""
 """support with custom option for msvc"""
@@ -87,34 +111,89 @@ def make_clang_gcc_msvc(warning_name, msvc_options):
   clang = SAME
   gcc = SAME
   msvc = make(msvc_options)
-  return TableEntry(warning_name, clang, gcc, msvc)
+  xcode = NO
+  return TableEntry(warning_name, clang, gcc, msvc, xcode)
+
+attr_dep_func = "GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS"
+attr_miss_field = "GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS"
+attr_implicit_atomic = "CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES"
+attr_objc_missing = "CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS"
+attr_deprecated_impl = "CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS"
+attr_explicit_ownership = "CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE"
+attr_arc_repeat = "CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK"
+attr_arc_bridge = "CLANG_WARN__ARC_BRIDGE_CAST_NONARC"
 
 main_warnings_table = [
-    make_clang_gcc("c++98-compat"),
-    make_clang_gcc("c++98-compat-pedantic"),
-    make_clang_gcc("cast-align"),
-    make_clang_gcc("conditional-uninitialized"),
-    make_clang_gcc("conversion"),
-    make_clang_gcc("covered-switch-default"),
-    make_clang_gcc("deprecated"),
-    make_clang_gcc("deprecated-register"),
-    make_clang_gcc("disabled-macro-expansion"),
-    make_clang_gcc("documentation"),
-    make_clang_gcc("documentation-unknown-command"),
-    make_clang_gcc("extra-semi"),
-    make_clang_gcc("global-constructors"),
-    make_clang_gcc("implicit-fallthrough"),
-    make_clang_gcc("missing-noreturn"),
-    make_clang_gcc("non-virtual-dtor"),
-    make_clang_gcc("old-style-cast"),
-    make_clang_gcc("padded"),
-    make_clang_gcc("shift-sign-overflow"),
-    make_clang_gcc("switch-enum"),
-    make_clang_gcc("undef"),
-    make_clang_gcc("unreachable-code"),
-    make_clang_gcc("unused-parameter"),
-    make_clang_gcc("used-but-marked-unused"),
-    make_clang_gcc("weak-vtables"),
+    make_clang("c++98-compat"),
+    make_clang("c++98-compat-pedantic"),
+    make_clang("cast-align"),
+    make_clang("conditional-uninitialized"),
+    make_xcode("conversion", "CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION"),
+    make_clang("covered-switch-default"),
+    make_clang("deprecated"),
+    make_xcode("deprecated-declarations", attr_dep_func),
+    make_xcode("deprecated-objc-isa-usage", "CLANG_WARN_DIRECT_OBJC_ISA_USAGE"),
+    make_clang("deprecated-register"),
+    make_clang("disabled-macro-expansion"),
+    make_xcode("documentation", "CLANG_WARN_DOCUMENTATION_COMMENTS"),
+    make_clang("documentation-unknown-command"),
+    make_xcode("empty-body", "CLANG_WARN_EMPTY_BODY"),
+    make_clang("extra-semi"),
+    make_clang("global-constructors"),
+    make_clang("implicit-fallthrough"),
+    make_xcode("four-char-constants", "GCC_WARN_FOUR_CHARACTER_CONSTANTS"),
+    make_clang("missing-noreturn"),
+    make_xcode("non-virtual-dtor", "GCC_WARN_NON_VIRTUAL_DESTRUCTOR"),
+    make_clang("old-style-cast"),
+    make_clang("padded"),
+    make_clang("shift-sign-overflow"),
+    make_xcode("sign-compare", "GCC_WARN_SIGN_COMPARE"),
+    make_xcode("switch", "GCC_WARN_CHECK_SWITCH_STATEMENTS"),
+    make_clang("switch-enum"),
+    make_clang("undef"),
+    make_clang("unreachable-code"),
+    make_xcode("unused-parameter", "GCC_WARN_UNUSED_PARAMETER"),
+    make_clang("used-but-marked-unused"),
+    make_clang("weak-vtables"),
+    make_xcode("shadow", "GCC_WARN_SHADOW"),
+    make_xcode("bool-conversion", "CLANG_WARN_BOOL_CONVERSION"),
+    make_xcode("constant-conversion", "CLANG_WARN_CONSTANT_CONVERSION"),
+    make_xcode("shorten-64-to-32", "GCC_WARN_64_TO_32_BIT_CONVERSION"),
+    make_xcode("enum-conversion", "CLANG_WARN_ENUM_CONVERSION"),
+    make_xcode("int-conversion", "CLANG_WARN_INT_CONVERSION"),
+    make_xcode("sign-conversion", "CLANG_WARN_IMPLICIT_SIGN_CONVERSION"),
+    make_xcode("missing-braces", "GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED"),
+    make_xcode("return-type", "GCC_WARN_ABOUT_RETURN_TYPE"),
+    make_xcode("parentheses", "GCC_WARN_MISSING_PARENTHESES"),
+    make_xcode("missing-field-initializers", attr_miss_field),
+    make_xcode("missing-prototypes", "GCC_WARN_ABOUT_MISSING_PROTOTYPES"),
+    make_xcode("newline-eof", "GCC_WARN_ABOUT_MISSING_NEWLINE"),
+    make_xcode("pointer-sign", "GCC_WARN_ABOUT_POINTER_SIGNEDNESS"),
+    make_xcode("format", "GCC_WARN_TYPECHECK_CALLS_TO_PRINTF"),
+    make_xcode("uninitialized", "GCC_WARN_UNINITIALIZED_AUTOS"),
+    make_xcode("unknown-pragmas", "GCC_WARN_UNKNOWN_PRAGMAS"),
+    make_xcode("unused-function", "GCC_WARN_UNUSED_FUNCTION"),
+    make_xcode("unused-label", "GCC_WARN_UNUSED_LABEL"),
+    make_xcode("unused-value", "GCC_WARN_UNUSED_VALUE"),
+    make_xcode("unused-variable", "GCC_WARN_UNUSED_VARIABLE"),
+    make_xcode("exit-time-destructors", "CLANG_WARN__EXIT_TIME_DESTRUCTORS"),
+    make_xcode("overloaded-virtual", "GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS"),
+    make_xcode("invalid-offsetof", "GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO"),
+    make_xcode("c++11-extensions", "CLANG_WARN_CXX0X_EXTENSIONS"),
+    make_objc("duplicate-method-match", "CLANG_WARN__DUPLICATE_METHOD_MATCH"),
+    make_objc("implicit-atomic-properties", attr_implicit_atomic),
+    make_objc("objc-missing-property-synthesis", attr_objc_missing),
+    make_objc("protocol", "GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL"),
+    make_objc("selector", "GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR"),
+    make_objc("deprecated-implementations", attr_deprecated_impl),
+    make_objc("strict-selector-match", "GCC_WARN_STRICT_SELECTOR_MATCH"),
+    make_objc("undeclared-selector", "GCC_WARN_UNDECLARED_SELECTOR"),
+    make_objc("objc-root-class", "CLANG_WARN_OBJC_ROOT_CLASS"),
+    make_objc("explicit-ownership-type", attr_explicit_ownership),
+    make_objc("implicit-retain-self", "CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF"),
+    make_objc("arc-repeated-use-of-weak", attr_arc_repeat),
+    make_objc("receiver-is-weak", "CLANG_WARN_OBJC_RECEIVER_WEAK"),
+    make_objc("arc-bridge-casts-disallowed-in-nonarc", attr_arc_bridge),
 ]
 
 sugar.sugar_warnings_wiki_table_generator.generate(main_warnings_table)
