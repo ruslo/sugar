@@ -104,15 +104,31 @@ def make_clang(warning_name):
   objc = False
   return TableEntry(warning_name, clang, gcc, msvc, xcode, objc)
 
+"""Create warning with clang/gcc support, xcode attribute, msvc"""
+def make_xcode_msvc(warning_name, xcode, msvc):
+  clang = SAME
+  gcc = SAME
+  objc = False
+  return TableEntry(warning_name, clang, gcc, make(msvc), make(xcode), objc)
 
 """Create warning with clang and gcc support and"""
 """support with custom option for msvc"""
-def make_clang_gcc_msvc(warning_name, msvc_options):
+def make_clang_msvc(warning_name, msvc_options):
   clang = SAME
   gcc = SAME
   msvc = make(msvc_options)
   xcode = NO
-  return TableEntry(warning_name, clang, gcc, msvc, xcode)
+  objc = False
+  return TableEntry(warning_name, clang, gcc, msvc, xcode, objc)
+
+"""Create warning for msvc"""
+def make_msvc(warning_name, msvc_options):
+  clang = NO
+  gcc = NO
+  msvc = make(msvc_options)
+  xcode = NO
+  objc = False
+  return TableEntry(warning_name, clang, gcc, msvc, xcode, objc)
 
 attr_dep_func = "GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS"
 attr_miss_field = "GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS"
@@ -122,16 +138,17 @@ attr_deprecated_impl = "CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS"
 attr_explicit_ownership = "CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE"
 attr_arc_repeat = "CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK"
 attr_arc_bridge = "CLANG_WARN__ARC_BRIDGE_CAST_NONARC"
+attr_conversion = "CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION"
 
 main_warnings_table = [
     make_clang("c++98-compat"),
     make_clang("c++98-compat-pedantic"),
     make_clang("cast-align"),
     make_clang("conditional-uninitialized"),
-    make_xcode("conversion", "CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION"),
+    make_xcode_msvc("conversion", attr_conversion, "4244"),
     make_clang("covered-switch-default"),
     make_clang("deprecated"),
-    make_xcode("deprecated-declarations", attr_dep_func),
+    make_xcode_msvc("deprecated-declarations", attr_dep_func, "4996"),
     make_xcode("deprecated-objc-isa-usage", "CLANG_WARN_DIRECT_OBJC_ISA_USAGE"),
     make_clang("deprecated-register"),
     make_clang("disabled-macro-expansion"),
@@ -145,14 +162,14 @@ main_warnings_table = [
     make_clang("missing-noreturn"),
     make_xcode("non-virtual-dtor", "GCC_WARN_NON_VIRTUAL_DESTRUCTOR"),
     make_clang("old-style-cast"),
-    make_clang("padded"),
+    make_clang_msvc("padded", "4820"),
     make_clang("shift-sign-overflow"),
-    make_xcode("sign-compare", "GCC_WARN_SIGN_COMPARE"),
-    make_xcode("switch", "GCC_WARN_CHECK_SWITCH_STATEMENTS"),
-    make_clang("switch-enum"),
-    make_clang("undef"),
+    make_xcode_msvc("sign-compare", "GCC_WARN_SIGN_COMPARE", "4389"),
+    make_xcode_msvc("switch", "GCC_WARN_CHECK_SWITCH_STATEMENTS", "4062"),
+    make_clang_msvc("switch-enum", "4061"),
+    make_clang_msvc("undef", "4668"),
     make_clang("unreachable-code"),
-    make_xcode("unused-parameter", "GCC_WARN_UNUSED_PARAMETER"),
+    make_xcode_msvc("unused-parameter", "GCC_WARN_UNUSED_PARAMETER", "4100"),
     make_clang("used-but-marked-unused"),
     make_clang("weak-vtables"),
     make_xcode("shadow", "GCC_WARN_SHADOW"),
@@ -194,6 +211,9 @@ main_warnings_table = [
     make_objc("arc-repeated-use-of-weak", attr_arc_repeat),
     make_objc("receiver-is-weak", "CLANG_WARN_OBJC_RECEIVER_WEAK"),
     make_objc("arc-bridge-casts-disallowed-in-nonarc", attr_arc_bridge),
+    make_msvc("unreferenced-inline", "4514"),
+    make_msvc("constant-conditional", "4127"),
+    make_msvc("automatic-inline", "4711"),
 ]
 
 sugar.sugar_warnings_wiki_table_generator.generate(main_warnings_table)
