@@ -62,6 +62,7 @@ class TableEntry:
     self.msvc = CompilerEntry("")
     self.xcode = CompilerEntry("")
     self.objc = False
+    self.group = ""
 
   def c(self, entry):
     self.clang = CompilerEntry(entry)
@@ -95,6 +96,10 @@ class TableEntry:
     self.objc = True
     return self
 
+  def grp(self, group_name):
+    self.group = group_name
+    return self
+
   def bigger(self, other):
     if (self.warning_name == other.warning_name):
       return False
@@ -123,22 +128,22 @@ def E(name):
 
 main_warnings_table = [
     # compatibility-c++98
-    E("c++98-compat").c_same().g_same(),
-    E("c++98-compat-pedantic").c_same().g_same(),
+    E("c++98-compat").c_same().g_same().grp("compatibility-c++98"),
+    E("c++98-compat-pedantic").c_same().g_same().grp("compatibility-c++98"),
 
     # special-members
-    E("assign-base-inaccessible").m("4626"),
-    E("assign-could-not-be-generated").m("4512"),
-    E("copy-ctor-could-not-be-generated").m("4625"),
-    E("dflt-ctor-base-inaccessible").m("4623"),
-    E("dflt-ctor-could-not-be-generated").m("4510"),
-    E("user-ctor-required").m("4610"),
+    E("assign-base-inaccessible").m("4626").grp("special-members"),
+    E("assign-could-not-be-generated").m("4512").grp("special-members"),
+    E("copy-ctor-could-not-be-generated").m("4625").grp("special-members"),
+    E("dflt-ctor-base-inaccessible").m("4623").grp("special-members"),
+    E("dflt-ctor-could-not-be-generated").m("4510").grp("special-members"),
+    E("user-ctor-required").m("4610").grp("special-members"),
 
     # inline
-    E("automatic-inline").m("4711"),
-    E("force-not-inlined").m("4714"),
-    E("not-inlined").m("4710"),
-    E("unreferenced-inline").m("4514"),
+    E("automatic-inline").m("4711").grp("inline"),
+    E("force-not-inlined").m("4714").grp("inline"),
+    E("not-inlined").m("4710").grp("inline"),
+    E("unreferenced-inline").m("4514").grp("inline"),
 
     #
     E("behavior-change").m("4350"),
