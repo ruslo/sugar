@@ -36,16 +36,16 @@ def generate(main_warnings_table):
     return len(table_entry.warning_name)
 
   def clang_visitor(table_entry):
-    return len(table_entry.clang.wiki_entry())
+    return len(table_entry.clang.wiki_entry(table_entry.warning_name))
 
   def gcc_visitor(table_entry):
-    return len(table_entry.gcc.wiki_entry())
+    return len(table_entry.gcc.wiki_entry(table_entry.warning_name))
 
   def msvc_visitor(table_entry):
-    return len(table_entry.msvc.wiki_entry())
+    return len(table_entry.msvc.wiki_entry(table_entry.warning_name))
 
   def xcode_visitor(table_entry):
-    return len(table_entry.xcode.wiki_entry())
+    return len(table_entry.xcode.wiki_entry(table_entry.warning_name))
 
   def objc_visitor(table_entry):
     if table_entry.objc:
@@ -96,10 +96,10 @@ def generate(main_warnings_table):
 
     s = "{}|{}|{}|{}|{}|{}|\n".format(
         fill_string(entry.warning_name, max_name),
-        fill_string(entry.clang.wiki_entry(), max_clang),
-        fill_string(entry.gcc.wiki_entry(), max_gcc),
-        fill_string(entry.msvc.wiki_entry(), max_msvc),
-        fill_string(entry.xcode.wiki_entry(), max_xcode),
+        fill_string(entry.clang.wiki_entry(entry.warning_name), max_clang),
+        fill_string(entry.gcc.wiki_entry(entry.warning_name), max_gcc),
+        fill_string(entry.msvc.wiki_entry(entry.warning_name), max_msvc),
+        fill_string(entry.xcode.wiki_entry(entry.warning_name), max_xcode),
         fill_string(objc, max_objc),
     )
     wiki_file.write(s)

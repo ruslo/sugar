@@ -146,7 +146,7 @@ def generate_all_xcode_warn(main_warnings_table):
   for entry in main_warnings_table:
     if entry.xcode.valid():
       cmake_file.write("  list(APPEND ${attr_list_name} ")
-      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.custom_option))
+      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.option))
       cmake_file.write(")\n")
   cmake_file.write(all_attrs_footer)
 
@@ -160,7 +160,7 @@ def generate_xcode_attr_by_name(main_warnings_table):
       cmake_file.write("\" hit)\n")
       cmake_file.write("  if(hit)\n")
       cmake_file.write("    set(${warn_flag} \"")
-      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.custom_option))
+      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.option))
       cmake_file.write("\" PARENT_SCOPE)\n")
       cmake_file.write("    return()\n")
       cmake_file.write("  endif()\n\n")

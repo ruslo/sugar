@@ -2,6 +2,8 @@
 
 set -x
 
+rm -rf ./leathers
+
 ./sugar-generate-warnings.py
 
 trash.py ${GITENV_ROOT}/ruslo/leathers/Source/leathers

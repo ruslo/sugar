@@ -197,12 +197,6 @@ function(sugar_generate_warning_xcode_attr_by_name warn_flag warn_name)
     return()
   endif()
 
-  string(COMPARE EQUAL "${warn_name}" "signed-unsigned-mismatch" hit)
-  if(hit)
-    set(${warn_flag} "XCODE_ATTRIBUTE_CLANG_WARN_IMPLICIT_SIGN_CONVERSION" PARENT_SCOPE)
-    return()
-  endif()
-
   string(COMPARE EQUAL "${warn_name}" "switch" hit)
   if(hit)
     set(${warn_flag} "XCODE_ATTRIBUTE_GCC_WARN_CHECK_SWITCH_STATEMENTS" PARENT_SCOPE)
