@@ -113,26 +113,41 @@ def make_xcode_msvc(warning_name, xcode, msvc):
 
 """Create warning with clang and gcc support and"""
 """support with custom option for msvc"""
-def make_clang_msvc(warning_name, msvc_options):
+def make_clang_msvc(warning_name, msvc):
   clang = SAME
   gcc = SAME
-  msvc = make(msvc_options)
   xcode = NO
   objc = False
-  return TableEntry(warning_name, clang, gcc, msvc, xcode, objc)
+  return TableEntry(warning_name, clang, gcc, make(msvc), xcode, objc)
 
 """Create warning for msvc"""
-def make_msvc(warning_name, msvc_options):
+def make_msvc(warning_name, msvc):
   clang = NO
   gcc = NO
-  msvc = make(msvc_options)
   xcode = NO
   objc = False
-  return TableEntry(warning_name, clang, gcc, msvc, xcode, objc)
+  return TableEntry(warning_name, clang, gcc, make(msvc), xcode, objc)
+
+"""Create warning for msvc, xcode and clang"""
+def make_msvc_xcode_clang(warning_name, msvc, xcode, clang):
+  gcc = make(clang)
+  objc = False
+  return TableEntry(
+      warning_name, make(clang), gcc, make(msvc), make(xcode), objc
+  )
+
+"""Create warning for msvc and clang"""
+def make_msvc_clang(warning_name, msvc, clang):
+  gcc = make(clang)
+  xcode = NO
+  objc = False
+  return TableEntry(
+      warning_name, make(clang), gcc, make(msvc), xcode, objc
+  )
 
 attr_arc_bridge = "CLANG_WARN__ARC_BRIDGE_CAST_NONARC"
 attr_arc_repeat = "CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK"
-attr_conversion = "CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION"
+attr_conv = "CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION"
 attr_dep_func = "GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS"
 attr_deprecated_impl = "CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS"
 attr_explicit_ownership = "CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE"
@@ -140,6 +155,7 @@ attr_implicit_atomic = "CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES"
 attr_miss_field = "GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS"
 attr_non_virt = "GCC_WARN_NON_VIRTUAL_DESTRUCTOR"
 attr_objc_missing = "CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS"
+attr_unused_val = "GCC_WARN_UNUSED_VALUE"
 
 main_warnings_table = [
     # compatibility-c++98
@@ -169,8 +185,8 @@ main_warnings_table = [
     make_clang("conditional-uninitialized"),
     make_msvc("constant-conditional", "4127"),
     make_xcode("constant-conversion", "CLANG_WARN_CONSTANT_CONVERSION"),
-    make_xcode_msvc("conversion", attr_conversion, "4244"),
-    make_msvc("conversion-loss", "4244"),
+    make_xcode_msvc("conversion", attr_conv, "4244"),
+    make_msvc_xcode_clang("conversion-loss", "4244", attr_conv, "conversion"),
     make_msvc("conversion-loss-return", "4242"),
     make_clang("covered-switch-default"),
     make_clang("deprecated"),
@@ -184,12 +200,13 @@ main_warnings_table = [
     make_xcode("empty-body", "CLANG_WARN_EMPTY_BODY"),
     make_xcode("enum-conversion", "CLANG_WARN_ENUM_CONVERSION"),
     make_xcode("exit-time-destructors", "CLANG_WARN__EXIT_TIME_DESTRUCTORS"),
-    make_msvc("expression-has-no-effect", "4555"),
     make_clang("extra-semi"),
     make_xcode("format", "GCC_WARN_TYPECHECK_CALLS_TO_PRINTF"),
     make_xcode("four-char-constants", "GCC_WARN_FOUR_CHARACTER_CONSTANTS"),
     make_clang("global-constructors"),
-    make_msvc("ill-formed-comma-expr", "4548"),
+    make_msvc_xcode_clang(
+        "ill-formed-comma-expr", "4548", attr_unused_val, "unused-value"
+    ),
     make_clang("implicit-fallthrough"),
     make_msvc("inherits-via-dominance", "4250"),
     make_xcode("int-conversion", "CLANG_WARN_INT_CONVERSION"),
@@ -216,8 +233,18 @@ main_warnings_table = [
     make_xcode("shorten-64-to-32", "GCC_WARN_64_TO_32_BIT_CONVERSION"),
     make_xcode_msvc("sign-compare", "GCC_WARN_SIGN_COMPARE", "4389"),
     make_xcode("sign-conversion", "CLANG_WARN_IMPLICIT_SIGN_CONVERSION"),
-    make_msvc("signed-unsigned-compare", "4388"),
-    make_msvc("signed-unsigned-mismatch", "4365"),
+    make_msvc_xcode_clang(
+        "signed-unsigned-compare",
+        "4388",
+        "GCC_WARN_SIGN_COMPARE",
+        "sign-compare"
+    ),
+    make_msvc_xcode_clang(
+        "signed-unsigned-mismatch",
+        "4365",
+        "CLANG_WARN_IMPLICIT_SIGN_CONVERSION",
+        "sign-conversion"
+    ),
     make_msvc("static-ctor-not-thread-safe", "4640"),
     make_xcode_msvc("switch", "GCC_WARN_CHECK_SWITCH_STATEMENTS", "4062"),
     make_clang_msvc("switch-enum", "4061"),
@@ -226,12 +253,12 @@ main_warnings_table = [
     make_xcode("uninitialized", "GCC_WARN_UNINITIALIZED_AUTOS"),
     make_xcode("unknown-pragmas", "GCC_WARN_UNKNOWN_PRAGMAS"),
     make_clang("unreachable-code"),
-    make_msvc("unreachable-code-simple", "4702"),
+    make_msvc_clang("unreachable-code-simple", "4702", "unreachable-code"),
     make_msvc("unsafe-conversion", "4191"),
     make_xcode("unused-function", "GCC_WARN_UNUSED_FUNCTION"),
     make_xcode("unused-label", "GCC_WARN_UNUSED_LABEL"),
     make_xcode_msvc("unused-parameter", "GCC_WARN_UNUSED_PARAMETER", "4100"),
-    make_xcode("unused-value", "GCC_WARN_UNUSED_VALUE"),
+    make_xcode_msvc("unused-value", attr_unused_val, "4555"),
     make_xcode("unused-variable", "GCC_WARN_UNUSED_VARIABLE"),
     make_clang("used-but-marked-unused"),
     make_clang("weak-vtables"),
