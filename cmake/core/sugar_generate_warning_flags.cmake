@@ -10,6 +10,7 @@ include(sugar_generate_warning_flag_by_name)
 include(sugar_generate_warning_xcode_attr_by_name)
 include(sugar_get_all_xcode_warning_attrs)
 include(sugar_status_debug)
+include(sugar_warning_unpack_one)
 
 # MS Visual Studio: http://msdn.microsoft.com/en-us/library/thxezb7y.aspx
 # Clang: http://clang.llvm.org/docs/UsersManual.html
@@ -54,6 +55,28 @@ function(sugar_generate_warning_flags)
       )
     endif()
   endif()
+
+  ### Unpack warning groups
+  set(new_list "")
+  foreach(warning ${x_DISABLE})
+    sugar_warning_unpack_one(warning)
+    list(APPEND new_list ${warning})
+  endforeach()
+  set(x_DISABLE ${new_list})
+
+  set(new_list "")
+  foreach(warning ${x_ENABLE})
+    sugar_warning_unpack_one(warning)
+    list(APPEND new_list ${warning})
+  endforeach()
+  set(x_ENABLE ${new_list})
+
+  set(new_list "")
+  foreach(warning ${x_TREAT_AS_ERROR})
+    sugar_warning_unpack_one(warning)
+    list(APPEND new_list ${warning})
+  endforeach()
+  set(x_TREAT_AS_ERROR ${new_list})
 
   ### Length
   list(LENGTH x_UNPARSED_ARGUMENTS unparsed_length)

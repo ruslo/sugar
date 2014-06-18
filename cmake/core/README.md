@@ -40,7 +40,7 @@ sugar_doxygen_generate(DEVELOPER TARGET exe_target DOXYTARGET internal-doc DOXYF
 ### sugar_generate_warning_flags
 This function used to generate list of flags that control compiler warnings in cross-platform way. E.g:
 ```cmake
-sugar_generate_warning_flags(flags ENABLE ALL)
+sugar_generate_warning_flags(flags properties ENABLE ALL)
 # Variable `flags` will be:
 # for MSVC: `/Wall`
 # for GCC: `-Wall` `-Wextra` `-Wpedantic`

@@ -98,10 +98,26 @@ attr_by_name_footer = """  set(${warn_flag} "" PARENT_SCOPE)
 endfunction()
 """
 
+groups_header = """# This file generated automatically:
+# https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression
+
+# Copyright (c) 2014, Ruslan Baratov
+# All rights reserved.
+
+include(sugar_add_this_to_sourcelist)
+sugar_add_this_to_sourcelist()
+
+include(sugar_expected_number_of_arguments)
+
+function(sugar_warning_unpack_one var_name)
+  sugar_expected_number_of_arguments(${ARGC} 1)
+"""
+
 def generate(main_warnings_table):
   generate_warn_by_name(main_warnings_table)
   generate_all_xcode_warn(main_warnings_table)
   generate_xcode_attr_by_name(main_warnings_table)
+  generate_groups_unpacker(main_warnings_table)
 
 def generate_warn_by_name(main_warnings_table):
   cmake_file = open("sugar_generate_warning_flag_by_name.cmake", "w")
@@ -146,7 +162,7 @@ def generate_all_xcode_warn(main_warnings_table):
   for entry in main_warnings_table:
     if entry.xcode.valid():
       cmake_file.write("  list(APPEND ${attr_list_name} ")
-      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.custom_option))
+      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.option))
       cmake_file.write(")\n")
   cmake_file.write(all_attrs_footer)
 
@@ -160,8 +176,34 @@ def generate_xcode_attr_by_name(main_warnings_table):
       cmake_file.write("\" hit)\n")
       cmake_file.write("  if(hit)\n")
       cmake_file.write("    set(${warn_flag} \"")
-      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.custom_option))
+      cmake_file.write("XCODE_ATTRIBUTE_{}".format(entry.xcode.option))
       cmake_file.write("\" PARENT_SCOPE)\n")
       cmake_file.write("    return()\n")
       cmake_file.write("  endif()\n\n")
   cmake_file.write(attr_by_name_footer)
+
+def generate_groups_unpacker(main_warnings_table):
+  groups = dict()
+  for entry in main_warnings_table:
+    if entry.group == "":
+      continue
+    if entry.group in groups:
+      groups[entry.group].append(entry.warning_name)
+    else:
+      groups[entry.group] = [entry.warning_name]
+
+  cmake_file = open("sugar_warning_unpack_one.cmake", "w")
+  cmake_file.write(groups_header)
+  for group_name in groups:
+    warn_list = ";".join(groups[group_name])
+    cmake_file.write("\n  #{}\n".format(group_name))
+    cmake_file.write("  string(COMPARE EQUAL \"${${var_name}}\" \"")
+    cmake_file.write(group_name)
+    cmake_file.write("\" hit)\n")
+    cmake_file.write("  if(hit)\n")
+    cmake_file.write("    set(${var_name} \"")
+    cmake_file.write(warn_list)
+    cmake_file.write("\" PARENT_SCOPE)\n")
+    cmake_file.write("    return()\n")
+    cmake_file.write("  endif()\n")
+  cmake_file.write("endfunction()\n")

@@ -4,9 +4,10 @@
 # All rights reserved.
 
 import argparse
-import sugar.sugar_warnings_wiki_table_generator
-import sugar.sugar_warnings_leathers_generator
 import sugar.sugar_warnings_cmake_flags_generator
+import sugar.sugar_warnings_leathers_generator
+import sugar.sugar_warnings_wiki_table_generator
+import sys
 
 parser = argparse.ArgumentParser(
     description="This script will generate next files using\n"
@@ -25,176 +26,296 @@ parser = argparse.ArgumentParser(
 
 args = parser.parse_args()
 
-"""This is the type of table entry describing compiler support of warning"""
-class CompilerEntryType:
-  NO = 1 # This type of warning is not supported by compiler
-  SAME = 2 # Compiler option is same as warning name
-  CUSTOM = 3 # Supported by custom option
-
 """This table entry describe compiler support of warning"""
 class CompilerEntry:
-  def __init__(self, entry_type, custom_option):
-    self.entry_type = entry_type;
-    self.custom_option = custom_option
-    length = len(self.custom_option)
-    if self.entry_type == CompilerEntryType.CUSTOM:
-      assert(length > 0)
-    else:
-      assert(length == 0)
+  def __init__(self, option):
+    self.option = option
 
-  def wiki_entry(self):
-    if self.entry_type == CompilerEntryType.NO:
+  def wiki_entry(self, warning_name):
+    if self.option == "":
       return "*no*"
-    if self.entry_type == CompilerEntryType.SAME:
+    if self.option == warning_name:
       return "**same**"
-    assert(self.entry_type == CompilerEntryType.CUSTOM)
-    assert(len(self.custom_option) > 0)
-    return self.custom_option
+    return self.option
 
   def cxx_entry(self, name):
     assert(self.valid())
-    if self.entry_type == CompilerEntryType.SAME:
-      return name
-    assert(self.entry_type == CompilerEntryType.CUSTOM)
-    return self.custom_option
+    return self.option
 
   def valid(self):
-    return self.entry_type != CompilerEntryType.NO
+    return (self.option != "")
 
-NO = CompilerEntry(CompilerEntryType.NO, "")
-SAME = CompilerEntry(CompilerEntryType.SAME, "")
-
-def make(custom_option):
-  assert(len(custom_option) > 0)
-  return CompilerEntry(CompilerEntryType.CUSTOM, custom_option)
+  def bigger(self, other):
+    if self.option == other.option:
+      return True
+    if not other.valid():
+      return True
+    return False
 
 """This table entry contains warning name
-and support for different compilers"""
+and support status for different compilers"""
 class TableEntry:
-  def __init__(self, warning_name, clang, gcc, msvc, xcode, objc):
+  def __init__(self, warning_name):
     self.warning_name = warning_name
-    self.clang = clang
-    self.gcc = gcc
-    self.msvc = msvc
-    self.xcode = xcode
-    self.objc = objc
+    self.clang = CompilerEntry("")
+    self.gcc = CompilerEntry("")
+    self.msvc = CompilerEntry("")
+    self.xcode = CompilerEntry("")
+    self.objc = False
+    self.group = ""
 
-"""Create warning with clang/gcc support and xcode attribute"""
-def make_xcode(warning_name, xcode):
-  clang = SAME
-  gcc = SAME
-  msvc = NO
-  objc = False
-  return TableEntry(warning_name, clang, gcc, msvc, make(xcode), objc)
+  def c(self, entry):
+    self.clang = CompilerEntry(entry)
+    return self
 
-"""Create Objective-C warning with clang/gcc support and xcode attribute"""
-def make_objc(warning_name, xcode):
-  clang = SAME
-  gcc = SAME
-  msvc = NO
-  objc = True
-  return TableEntry(warning_name, clang, gcc, msvc, make(xcode), objc)
+  def g(self, entry):
+    self.gcc = CompilerEntry(entry)
+    return self
 
-"""Create warning with clang/gcc support"""
-def make_clang(warning_name):
-  clang = SAME
-  gcc = SAME
-  msvc = NO
-  xcode = NO
-  objc = False
-  return TableEntry(warning_name, clang, gcc, msvc, xcode, objc)
+  def c_same(self):
+    self.clang = CompilerEntry(self.warning_name)
+    return self
 
+  def g_same(self):
+    self.gcc = CompilerEntry(self.warning_name)
+    return self
 
-"""Create warning with clang and gcc support and"""
-"""support with custom option for msvc"""
-def make_clang_gcc_msvc(warning_name, msvc_options):
-  clang = SAME
-  gcc = SAME
-  msvc = make(msvc_options)
-  xcode = NO
-  return TableEntry(warning_name, clang, gcc, msvc, xcode)
+  def m(self, option):
+    self.msvc = CompilerEntry(option)
+    return self
 
-attr_dep_func = "GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS"
-attr_miss_field = "GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS"
-attr_implicit_atomic = "CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES"
-attr_objc_missing = "CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS"
-attr_deprecated_impl = "CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS"
-attr_explicit_ownership = "CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE"
-attr_arc_repeat = "CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK"
-attr_arc_bridge = "CLANG_WARN__ARC_BRIDGE_CAST_NONARC"
+  def xc(self, option):
+    self.xcode = CompilerEntry("CLANG_WARN_{}".format(option))
+    return self
+
+  def xg(self, option):
+    self.xcode = CompilerEntry("GCC_WARN_{}".format(option))
+    return self
+
+  def o(self):
+    self.objc = True
+    return self
+
+  def grp(self, group_name):
+    self.group = group_name
+    return self
+
+  def bigger(self, other):
+    if (self.warning_name == other.warning_name):
+      return False
+    if not self.clang.bigger(other.clang):
+      return False
+    if not self.gcc.bigger(other.gcc):
+      return False
+    if not self.msvc.bigger(other.msvc):
+      return False
+    if not self.xcode.bigger(other.xcode):
+      return False
+    if self.objc != other.objc:
+      return False
+    return True
+
+def E(name):
+  return TableEntry(name)
+
+# E: Entry
+# c: clang
+# g: gcc
+# m: msvc
+# xc: xcode clang
+# xg: xcode gcc
+# o: objective-c
 
 main_warnings_table = [
-    make_clang("c++98-compat"),
-    make_clang("c++98-compat-pedantic"),
-    make_clang("cast-align"),
-    make_clang("conditional-uninitialized"),
-    make_xcode("conversion", "CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION"),
-    make_clang("covered-switch-default"),
-    make_clang("deprecated"),
-    make_xcode("deprecated-declarations", attr_dep_func),
-    make_xcode("deprecated-objc-isa-usage", "CLANG_WARN_DIRECT_OBJC_ISA_USAGE"),
-    make_clang("deprecated-register"),
-    make_clang("disabled-macro-expansion"),
-    make_xcode("documentation", "CLANG_WARN_DOCUMENTATION_COMMENTS"),
-    make_clang("documentation-unknown-command"),
-    make_xcode("empty-body", "CLANG_WARN_EMPTY_BODY"),
-    make_clang("extra-semi"),
-    make_clang("global-constructors"),
-    make_clang("implicit-fallthrough"),
-    make_xcode("four-char-constants", "GCC_WARN_FOUR_CHARACTER_CONSTANTS"),
-    make_clang("missing-noreturn"),
-    make_xcode("non-virtual-dtor", "GCC_WARN_NON_VIRTUAL_DESTRUCTOR"),
-    make_clang("old-style-cast"),
-    make_clang("padded"),
-    make_clang("shift-sign-overflow"),
-    make_xcode("sign-compare", "GCC_WARN_SIGN_COMPARE"),
-    make_xcode("switch", "GCC_WARN_CHECK_SWITCH_STATEMENTS"),
-    make_clang("switch-enum"),
-    make_clang("undef"),
-    make_clang("unreachable-code"),
-    make_xcode("unused-parameter", "GCC_WARN_UNUSED_PARAMETER"),
-    make_clang("used-but-marked-unused"),
-    make_clang("weak-vtables"),
-    make_xcode("shadow", "GCC_WARN_SHADOW"),
-    make_xcode("bool-conversion", "CLANG_WARN_BOOL_CONVERSION"),
-    make_xcode("constant-conversion", "CLANG_WARN_CONSTANT_CONVERSION"),
-    make_xcode("shorten-64-to-32", "GCC_WARN_64_TO_32_BIT_CONVERSION"),
-    make_xcode("enum-conversion", "CLANG_WARN_ENUM_CONVERSION"),
-    make_xcode("int-conversion", "CLANG_WARN_INT_CONVERSION"),
-    make_xcode("sign-conversion", "CLANG_WARN_IMPLICIT_SIGN_CONVERSION"),
-    make_xcode("missing-braces", "GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED"),
-    make_xcode("return-type", "GCC_WARN_ABOUT_RETURN_TYPE"),
-    make_xcode("parentheses", "GCC_WARN_MISSING_PARENTHESES"),
-    make_xcode("missing-field-initializers", attr_miss_field),
-    make_xcode("missing-prototypes", "GCC_WARN_ABOUT_MISSING_PROTOTYPES"),
-    make_xcode("newline-eof", "GCC_WARN_ABOUT_MISSING_NEWLINE"),
-    make_xcode("pointer-sign", "GCC_WARN_ABOUT_POINTER_SIGNEDNESS"),
-    make_xcode("format", "GCC_WARN_TYPECHECK_CALLS_TO_PRINTF"),
-    make_xcode("uninitialized", "GCC_WARN_UNINITIALIZED_AUTOS"),
-    make_xcode("unknown-pragmas", "GCC_WARN_UNKNOWN_PRAGMAS"),
-    make_xcode("unused-function", "GCC_WARN_UNUSED_FUNCTION"),
-    make_xcode("unused-label", "GCC_WARN_UNUSED_LABEL"),
-    make_xcode("unused-value", "GCC_WARN_UNUSED_VALUE"),
-    make_xcode("unused-variable", "GCC_WARN_UNUSED_VARIABLE"),
-    make_xcode("exit-time-destructors", "CLANG_WARN__EXIT_TIME_DESTRUCTORS"),
-    make_xcode("overloaded-virtual", "GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS"),
-    make_xcode("invalid-offsetof", "GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO"),
-    make_xcode("c++11-extensions", "CLANG_WARN_CXX0X_EXTENSIONS"),
-    make_objc("duplicate-method-match", "CLANG_WARN__DUPLICATE_METHOD_MATCH"),
-    make_objc("implicit-atomic-properties", attr_implicit_atomic),
-    make_objc("objc-missing-property-synthesis", attr_objc_missing),
-    make_objc("protocol", "GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL"),
-    make_objc("selector", "GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR"),
-    make_objc("deprecated-implementations", attr_deprecated_impl),
-    make_objc("strict-selector-match", "GCC_WARN_STRICT_SELECTOR_MATCH"),
-    make_objc("undeclared-selector", "GCC_WARN_UNDECLARED_SELECTOR"),
-    make_objc("objc-root-class", "CLANG_WARN_OBJC_ROOT_CLASS"),
-    make_objc("explicit-ownership-type", attr_explicit_ownership),
-    make_objc("implicit-retain-self", "CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF"),
-    make_objc("arc-repeated-use-of-weak", attr_arc_repeat),
-    make_objc("receiver-is-weak", "CLANG_WARN_OBJC_RECEIVER_WEAK"),
-    make_objc("arc-bridge-casts-disallowed-in-nonarc", attr_arc_bridge),
+    # compatibility-c++98
+    E("c++98-compat").c_same().g_same().grp("compatibility-c++98"),
+    E("c++98-compat-pedantic").c_same().g_same().grp("compatibility-c++98"),
+
+    # special-members
+    E("assign-base-inaccessible").m("4626").grp("special-members"),
+    E("assign-could-not-be-generated").m("4512").grp("special-members"),
+    E("copy-ctor-could-not-be-generated").m("4625").grp("special-members"),
+    E("dflt-ctor-base-inaccessible").m("4623").grp("special-members"),
+    E("dflt-ctor-could-not-be-generated").m("4510").grp("special-members"),
+    E("user-ctor-required").m("4610").grp("special-members"),
+
+    # inline
+    E("automatic-inline").m("4711").grp("inline"),
+    E("force-not-inlined").m("4714").grp("inline"),
+    E("not-inlined").m("4710").grp("inline"),
+    E("unreferenced-inline").m("4514").grp("inline"),
+
+    #
+    E("behavior-change").m("4350"),
+    E("bool-conversion").c_same().g_same(),
+    E("c++11-extensions").c_same().g_same(),
+    E("cast-align").c_same().g_same(),
+    E("catch-semantic-changed").m("4571"),
+    E("conditional-uninitialized").c_same().g_same(),
+    E("constant-conditional").m("4127"),
+    E("constant-conversion").c_same().g_same(),
+    E("conversion").c_same().g_same().m("4244"),
+    E("conversion-loss").c("conversion").g("conversion").m("4242"),
+    E("covered-switch-default").c_same().g_same(),
+    E("deprecated").c_same().g_same(),
+    E("deprecated-declarations").c_same().g_same().m("4996"),
+    E("deprecated-objc-isa-usage").c_same().g_same(),
+    E("deprecated-register").c_same().g_same(),
+    E("digraphs-not-supported").m("4628"),
+    E("disabled-macro-expansion").c_same().g_same(),
+    E("documentation").c_same().g_same(),
+    E("documentation-unknown-command").c_same().g_same(),
+    E("empty-body").c_same().g_same(),
+    E("enum-conversion").c_same().g_same(),
+    E("exit-time-destructors").c_same().g_same(),
+    E("extra-semi").c_same().g_same(),
+    E("format").c_same().g_same(),
+    E("four-char-constants").c_same().g_same(),
+    E("global-constructors").c_same().g_same(),
+    E("ill-formed-comma-expr").c("unused-value").g("unused-value").m("4548"),
+    E("implicit-fallthrough").c_same().g_same(),
+    E("inherits-via-dominance").m("4250"),
+    E("int-conversion").c_same().g_same(),
+    E("invalid-offsetof").c_same().g_same(),
+    E("is-defined-to-be").m("4574"),
+    E("layout-changed").m("4371"),
+    E("missing-braces").c_same().g_same(),
+    E("missing-field-initializers").c_same().g_same(),
+    E("missing-noreturn").c_same().g_same(),
+    E("missing-prototypes").c_same().g_same(),
+    E("name-length-exceeded").m("4503"),
+    E("newline-eof").c_same().g_same(),
+    E("no-such-warning").m("4619"),
+    E("non-virtual-dtor").c_same().g_same().m("4265"),
+    E("object-layout-change").m("4435"),
+    E("old-style-cast").c_same().g_same(),
+    E("overloaded-virtual").c_same().g_same(),
+    E("padded").c_same().g_same().m("4820"),
+    E("parentheses").c_same().g_same(),
+    E("pointer-sign").c_same().g_same(),
+    E("return-type").c_same().g_same(),
+    E("shadow").c_same().g_same(),
+    E("shift-sign-overflow").c_same().g_same(),
+    E("shorten-64-to-32").c_same().g_same(),
+    E("sign-compare").c_same().g_same().m("4389"),
+    E("sign-conversion").c_same().g_same().m("4365"),
+    E("signed-unsigned-compare").c("sign-compare").g("sign-compare").m("4388"),
+    E("static-ctor-not-thread-safe").m("4640"),
+    E("switch").c_same().g_same().m("4062"),
+    E("switch-enum").c_same().g_same().m("4061"),
+    E("this-used-in-init").m("4355"),
+    E("undef").c_same().g_same().m("4668"),
+    E("uninitialized").c_same().g_same(),
+    E("unknown-pragmas").c_same().g_same(),
+    E("unreachable-code").c_same().g_same().m("4702"),
+    E("unsafe-conversion").m("4191"),
+    E("unused-function").c_same().g_same(),
+    E("unused-label").c_same().g_same(),
+    E("unused-parameter").c_same().g_same().m("4100"),
+    E("unused-value").c_same().g_same().m("4555"),
+    E("unused-variable").c_same().g_same(),
+    E("used-but-marked-unused").c_same().g_same(),
+    E("weak-vtables").c_same().g_same(),
+
+    ### Objective-C
+    E("arc-bridge-casts-disallowed-in-nonarc").c_same().g_same(),
+    E("arc-repeated-use-of-weak").c_same().g_same(),
+    E("deprecated-implementations").c_same().g_same(),
+    E("duplicate-method-match").c_same().g_same(),
+    E("explicit-ownership-type").c_same().g_same(),
+    E("implicit-atomic-properties").c_same().g_same(),
+    E("implicit-retain-self").c_same().g_same(),
+    E("objc-missing-property-synthesis").c_same().g_same(),
+    E("objc-root-class").c_same().g_same(),
+    E("protocol").c_same().g_same(),
+    E("receiver-is-weak").c_same().g_same(),
+    E("selector").c_same().g_same(),
+    E("strict-selector-match").c_same().g_same(),
+    E("undeclared-selector").c_same().g_same(),
 ]
+
+### Xcode attributes is nothing less but another name of clang option:
+xcode_table = [
+    E("bool-conversion").c_same().xc("BOOL_CONVERSION"),
+    E("c++11-extensions").c_same().xc("CXX0X_EXTENSIONS"),
+    E("constant-conversion").c_same().xc("CONSTANT_CONVERSION"),
+    E("conversion").c_same().xc("SUSPICIOUS_IMPLICIT_CONVERSION"),
+    E("deprecated-declarations").c_same().xg("ABOUT_DEPRECATED_FUNCTIONS"),
+    E("deprecated-objc-isa-usage").c_same().xc("DIRECT_OBJC_ISA_USAGE"),
+    E("documentation").c_same().xc("DOCUMENTATION_COMMENTS"),
+    E("empty-body").c_same().xc("EMPTY_BODY"),
+    E("enum-conversion").c_same().xc("ENUM_CONVERSION"),
+    E("exit-time-destructors").c_same().xc("_EXIT_TIME_DESTRUCTORS"),
+    E("format").c_same().xg("TYPECHECK_CALLS_TO_PRINTF"),
+    E("four-char-constants").c_same().xg("FOUR_CHARACTER_CONSTANTS"),
+    E("int-conversion").c_same().xc("INT_CONVERSION"),
+    E("invalid-offsetof").c_same().xg("ABOUT_INVALID_OFFSETOF_MACRO"),
+    E("missing-braces").c_same().xg("INITIALIZER_NOT_FULLY_BRACKETED"),
+    E("missing-field-initializers").c_same().
+        xg("ABOUT_MISSING_FIELD_INITIALIZERS"),
+    E("missing-prototypes").c_same().xg("ABOUT_MISSING_PROTOTYPES"),
+    E("newline-eof").c_same().xg("ABOUT_MISSING_NEWLINE"),
+    E("non-virtual-dtor").c_same().xg("NON_VIRTUAL_DESTRUCTOR"),
+    E("overloaded-virtual").c_same().xg("HIDDEN_VIRTUAL_FUNCTIONS"),
+    E("parentheses").c_same().xg("MISSING_PARENTHESES"),
+    E("pointer-sign").c_same().xg("ABOUT_POINTER_SIGNEDNESS"),
+    E("return-type").c_same().xg("ABOUT_RETURN_TYPE"),
+    E("shadow").c_same().xg("SHADOW"),
+    E("shorten-64-to-32").c_same().xg("64_TO_32_BIT_CONVERSION"),
+    E("sign-compare").c_same().xg("SIGN_COMPARE"),
+    E("sign-conversion").c_same().xc("IMPLICIT_SIGN_CONVERSION"),
+    E("switch").c_same().xg("CHECK_SWITCH_STATEMENTS"),
+    E("uninitialized").c_same().xg("UNINITIALIZED_AUTOS"),
+    E("unknown-pragmas").c_same().xg("UNKNOWN_PRAGMAS"),
+    E("unused-function").c_same().xg("UNUSED_FUNCTION"),
+    E("unused-label").c_same().xg("UNUSED_LABEL"),
+    E("unused-parameter").c_same().xg("UNUSED_PARAMETER"),
+    E("unused-value").c_same().xg("UNUSED_VALUE"),
+    E("unused-variable").c_same().xg("UNUSED_VARIABLE"),
+
+    ### Objective-C
+    E("arc-bridge-casts-disallowed-in-nonarc").c_same().
+        xc("_ARC_BRIDGE_CAST_NONARC").o(),
+    E("arc-repeated-use-of-weak").c_same().xc("OBJC_REPEATED_USE_OF_WEAK").o(),
+    E("deprecated-implementations").c_same().
+        xc("DEPRECATED_OBJC_IMPLEMENTATIONS").o(),
+    E("duplicate-method-match").c_same().xc("_DUPLICATE_METHOD_MATCH").o(),
+    E("explicit-ownership-type").c_same().
+        xc("OBJC_EXPLICIT_OWNERSHIP_TYPE").o(),
+    E("implicit-atomic-properties").c_same().
+        xc("OBJC_IMPLICIT_ATOMIC_PROPERTIES").o(),
+    E("implicit-retain-self").c_same().xc("OBJC_IMPLICIT_RETAIN_SELF").o(),
+    E("objc-missing-property-synthesis").c_same().
+        xc("OBJC_MISSING_PROPERTY_SYNTHESIS").o(),
+    E("objc-root-class").c_same().xc("OBJC_ROOT_CLASS").o(),
+    E("protocol").c_same().xg("ALLOW_INCOMPLETE_PROTOCOL").o(),
+    E("receiver-is-weak").c_same().xc("OBJC_RECEIVER_WEAK").o(),
+    E("selector").c_same().xg("MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR").o(),
+    E("strict-selector-match").c_same().xg("STRICT_SELECTOR_MATCH").o(),
+    E("undeclared-selector").c_same().xg("UNDECLARED_SELECTOR").o(),
+]
+
+### Apply xcode table
+for xcode_entry in xcode_table:
+  found = False
+  for main_entry in main_warnings_table:
+    if main_entry.clang.option == xcode_entry.clang.option:
+      main_entry.xcode = xcode_entry.xcode
+      main_entry.objc = xcode_entry.objc
+      found = True
+  if not found:
+    sys.exit("Xcode entry `{}` not found".format(xcode_entry.warning_name))
+
+### Verify that there is no entries that contain another entry
+for some in main_warnings_table:
+  for other in main_warnings_table:
+    if some.bigger(other):
+      print(
+          "Entry `{}` contains `{}`".format(
+              some.warning_name, other.warning_name
+          )
+      )
+      sys.exit(1)
 
 sugar.sugar_warnings_wiki_table_generator.generate(main_warnings_table)
 sugar.sugar_warnings_leathers_generator.generate(main_warnings_table)

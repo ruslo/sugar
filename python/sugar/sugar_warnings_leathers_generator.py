@@ -118,7 +118,7 @@ header_check_self = """
 """
 
 header_clang = """
-#if defined(BOOST_COMP_CLANG)
+#if (BOOST_COMP_CLANG)
 # if __has_warning("-W{}")
 #  pragma clang diagnostic ignored "-W{}"
 # endif
@@ -126,7 +126,7 @@ header_clang = """
 """
 
 header_gcc = """
-#if defined(BOOST_COMP_GNUC)
+#if (BOOST_COMP_GNUC)
 # if __has_warning("-W{}")
 #  pragma clang diagnostic ignored "-W{}"
 # endif
@@ -134,7 +134,7 @@ header_gcc = """
 """
 
 header_msvc = """
-#if defined(BOOST_COMP_MSVC)
+#if (BOOST_COMP_MSVC)
 # pragma warning(disable: {})
 #endif
 """
@@ -151,6 +151,14 @@ def generate(main_warnings_table):
   generate_sugar_cmake(main_warnings_table)
   for x in main_warnings_table:
     generate_header(x)
+
+  groups = set()
+  for x in main_warnings_table:
+    if x.group != "":
+      groups.add(x.group)
+  for group in groups:
+    assert(len(group) != 0)
+    generate_group(group, main_warnings_table)
 
 def generate_push():
   push_file = open(os.path.join("leathers", "push"), "w")
@@ -192,3 +200,12 @@ def generate_header(table_entry):
     header_file.write(header_gcc.format(x, x))
   if table_entry.msvc.valid():
     header_file.write(header_msvc.format(table_entry.msvc.cxx_entry(name)))
+
+def generate_group(group, main_warning_table):
+  assert(len(group) != 0)
+  group_file = open(os.path.join("leathers", group), "w")
+  group_file.write(header_text)
+  group_file.write("\n")
+  for x in main_warning_table:
+    if x.group == group:
+      group_file.write("#include <leathers/{}>\n".format(x.warning_name))
