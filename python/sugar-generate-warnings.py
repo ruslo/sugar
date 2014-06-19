@@ -208,6 +208,7 @@ main_warnings_table = [
     E("uninitialized").c_same().g_same(),
     E("unknown-pragmas").c_same().g_same(),
     E("unreachable-code").c_same().g_same().m("4702"),
+    E("unreachable-code-return").c_same().g_same(),
     E("unsafe-conversion").m("4191"),
     E("unused-function").c_same().g_same(),
     E("unused-label").c_same().g_same(),

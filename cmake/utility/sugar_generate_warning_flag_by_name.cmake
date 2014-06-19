@@ -967,6 +967,19 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
     return()
   endif()
 
+  ### unreachable-code-return
+  string(COMPARE EQUAL "unreachable-code-return" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
+      list(APPEND result "unreachable-code-return")
+    endif()
+    if(is_gcc)
+      list(APPEND result "unreachable-code-return")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
   ### unsafe-conversion
   string(COMPARE EQUAL "unsafe-conversion" "${warning_name}" hit)
   if(hit)
