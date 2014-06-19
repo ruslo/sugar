@@ -32,8 +32,8 @@ push_text = """// This file generated automatically:
 # pragma clang diagnostic push
 #endif
 
-#if (BOOST_COMP_GNUC)
-# pragma clang diagnostic push
+#if (BOOST_COMP_GNUC) && !(BOOST_COMP_CLANG)
+# pragma GCC diagnostic push
 #endif
 
 #if (BOOST_COMP_MSVC)
@@ -59,8 +59,8 @@ pop_text = """// This file generated automatically:
 # pragma clang diagnostic pop
 #endif
 
-#if (BOOST_COMP_GNUC)
-# pragma clang diagnostic pop
+#if (BOOST_COMP_GNUC) && !(BOOST_COMP_CLANG)
+# pragma GCC diagnostic pop
 #endif
 
 #if (BOOST_COMP_MSVC)
@@ -126,10 +126,8 @@ header_clang = """
 """
 
 header_gcc = """
-#if (BOOST_COMP_GNUC)
-# if __has_warning("-W{}")
-#  pragma clang diagnostic ignored "-W{}"
-# endif
+#if (BOOST_COMP_GNUC) && !(BOOST_COMP_CLANG)
+# pragma GCC diagnostic ignored "-W{}"
 #endif
 """
 
