@@ -267,6 +267,16 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
     return()
   endif()
 
+  ### conversion-sign-extended
+  string(COMPARE EQUAL "conversion-sign-extended" "${warning_name}" hit)
+  if(hit)
+    if(is_msvc)
+      list(APPEND result "4826")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
   ### covered-switch-default
   string(COMPARE EQUAL "covered-switch-default" "${warning_name}" hit)
   if(hit)
