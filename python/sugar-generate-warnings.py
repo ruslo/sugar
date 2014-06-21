@@ -156,6 +156,7 @@ main_warnings_table = [
     E("constant-conversion").c_same(),
     E("conversion").c_same().g_same().m("4244"),
     E("conversion-loss").c("conversion").g("conversion").m("4242"),
+    E("conversion-sign-extended").m("4826"),
     E("covered-switch-default").c_same(),
     E("deprecated").c_same().g_same(),
     E("deprecated-declarations").c_same().g_same().m("4996"),
