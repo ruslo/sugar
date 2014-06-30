@@ -195,6 +195,7 @@ main_warnings_table = [
     E("parentheses").c_same().g_same(),
     E("pedantic").c_same().g_same(),
     E("pointer-sign").c_same().g_same(),
+    E("reserved-user-defined-literal").c_same().g("literal-suffix"),
     E("return-type").c_same().g_same(),
     E("shadow").c_same().g_same(),
     E("shift-sign-overflow").c_same(),

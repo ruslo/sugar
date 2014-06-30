@@ -720,6 +720,19 @@ function(sugar_generate_warning_flag_by_name warning_flags warning_name)
     return()
   endif()
 
+  ### reserved-user-defined-literal
+  string(COMPARE EQUAL "reserved-user-defined-literal" "${warning_name}" hit)
+  if(hit)
+    if(is_clang)
+      list(APPEND result "reserved-user-defined-literal")
+    endif()
+    if(is_gcc)
+      list(APPEND result "literal-suffix")
+    endif()
+    set(${warning_flags} "${result}" PARENT_SCOPE)
+    return()
+  endif()
+
   ### return-type
   string(COMPARE EQUAL "return-type" "${warning_name}" hit)
   if(hit)
