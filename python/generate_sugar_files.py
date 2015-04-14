@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2013, Ruslan Baratov
+# Copyright (c) 2013, 2015, Ruslan Baratov
 # All rights reserved.
 
 import argparse
@@ -99,16 +99,6 @@ class Generator:
     generator = Generator()
     generator.parse()
     generator.create()
-
-def main():
-  generator = sugar.groups_generator.Generator(args.top, args.verbose)
-  input_file = open(sugar.groups_generator.input_filename, 'r')
-  content = input_file.read()
-  for source in content.split(';'):
-    if source:
-      generator.add(source)
-
-  generator.print_result()
 
 if __name__ == '__main__':
   Generator.run()
