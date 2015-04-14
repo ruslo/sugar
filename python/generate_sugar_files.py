@@ -6,15 +6,29 @@
 import argparse
 import os
 import re
+import sys
 
 wiki = 'https://github.com/ruslo/sugar/wiki/Collecting-sources'
 base = os.path.basename(__file__)
+
+def first_is_subdirectory_of_second(subdir_name, dir_name):
+  subdir_name = subdir_name.rstrip(os.sep)
+  dir_name = dir_name.rstrip(os.sep)
+  if subdir_name == dir_name:
+    return True
+  if not subdir_name.startswith(dir_name):
+    return False
+  rest = subdir_name[len(dir_name):]
+  if rest.startswith(os.sep):
+    return True
+  return False
 
 class Generator:
   def __init__(self):
     self.parser = argparse.ArgumentParser(
         description='Generate sugar.cmake files according to directory struct'
     )
+    self.exclude_dirs = []
 
   def parse(self):
     self.parser.add_argument(
@@ -31,6 +45,13 @@ class Generator:
         help='variable name'
     )
 
+    self.parser.add_argument(
+        '--exclude-dirs',
+        type=str,
+        nargs='*',
+        help='Ignore this directories'
+    )
+
   def make_header_guard(dir):
     dir = dir.upper()
     dir = re.sub(r'\W', '_', dir)
@@ -40,7 +61,7 @@ class Generator:
     dir += '_'
     return dir
 
-  def process_file(dir, relative, source_variable, file_id, filelist, dirlist):
+  def process_file(relative, source_variable, file_id, filelist, dirlist):
     file_id.write(
         '# This file generated automatically by:\n'
         '#   {}\n'
@@ -75,10 +96,23 @@ class Generator:
         file_id.write("    {}\n".format(x))
       file_id.write(")\n")
 
+  def is_excluded(self, dir_name):
+    for x in self.exclude_dirs:
+      if first_is_subdirectory_of_second(dir_name, x):
+        return True
+    return False
+
   def create(self):
     args = self.parser.parse_args()
-    source_variable = args.var
+
     cwd = os.getcwd()
+    for x in args.exclude_dirs:
+      x_abs = os.path.abspath(x)
+      if not os.path.exists(x_abs):
+        sys.exit('Path `{}` not exists'.format(x_abs))
+      self.exclude_dirs.append(x_abs)
+
+    source_variable = args.var
     for rootdir, dirlist, filelist in os.walk(args.top):
       try:
         filelist.remove('sugar.cmake')
@@ -89,10 +123,21 @@ class Generator:
       except ValueError:
         pass # ignore if not in list
 
+      rootdir = os.path.abspath(rootdir)
+
+      if self.is_excluded(rootdir):
+        continue
+
+      new_dirlist = []
+      for x in dirlist:
+        x_abs = os.path.join(rootdir, x)
+        if not self.is_excluded(x_abs):
+          new_dirlist.append(x_abs)
+
       relative = os.path.relpath(rootdir, cwd)
       with open('{}/sugar.cmake'.format(rootdir), 'w') as file_id:
         Generator.process_file(
-            rootdir, relative, source_variable, file_id, filelist, dirlist
+            relative, source_variable, file_id, filelist, new_dirlist
         )
 
   def run():
