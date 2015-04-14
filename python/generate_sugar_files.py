@@ -52,6 +52,13 @@ class Generator:
         help='Ignore this directories'
     )
 
+    self.parser.add_argument(
+        '--exclude-filenames',
+        type=str,
+        nargs='*',
+        help='Ignore this filenames'
+    )
+
   def make_header_guard(dir):
     dir = dir.upper()
     dir = re.sub(r'\W', '_', dir)
@@ -112,16 +119,19 @@ class Generator:
         sys.exit('Path `{}` not exists'.format(x_abs))
       self.exclude_dirs.append(x_abs)
 
+    if args.exclude_filenames:
+      exclude_filenames = args.exclude_filenames
+    else:
+      exclude_filenames = []
+    exclude_filenames += ['sugar.cmake', 'CMakeLists.txt', '.DS_Store']
+
     source_variable = args.var
     for rootdir, dirlist, filelist in os.walk(args.top):
-      try:
-        filelist.remove('sugar.cmake')
-      except ValueError:
-        pass # ignore if not in list
-      try:
-        filelist.remove('CMakeLists.txt')
-      except ValueError:
-        pass # ignore if not in list
+      for x in exclude_filenames:
+        try:
+          filelist.remove(x)
+        except ValueError:
+          pass # ignore if not in list
 
       rootdir = os.path.abspath(rootdir)
 
@@ -132,7 +142,7 @@ class Generator:
       for x in dirlist:
         x_abs = os.path.join(rootdir, x)
         if not self.is_excluded(x_abs):
-          new_dirlist.append(x_abs)
+          new_dirlist.append(x)
 
       relative = os.path.relpath(rootdir, cwd)
       with open('{}/sugar.cmake'.format(rootdir), 'w') as file_id:
