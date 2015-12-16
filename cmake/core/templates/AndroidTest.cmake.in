@@ -1,0 +1,101 @@
+# Copyright (c) 2015, Ruslan Baratov
+# All rights reserved.
+
+string(COMPARE EQUAL "@ADB_COMMAND@" "" is_empty)
+if(is_empty)
+  message(FATAL_ERROR "Expected ADB_COMMAND")
+endif()
+
+string(COMPARE EQUAL "${APP_SOURCE}" "" is_empty)
+if(is_empty)
+  message(FATAL_ERROR "Expected APP_SOURCE")
+endif()
+
+string(COMPARE EQUAL "@APP_DESTINATION@" "" is_empty)
+if(is_empty)
+  message(FATAL_ERROR "Expected APP_DESTINATION")
+endif()
+
+message("Push application to device: ${APP_SOURCE} -> @APP_DESTINATION@")
+set(cmd "@ADB_COMMAND@" push "${APP_SOURCE}" "@APP_DESTINATION@")
+execute_process(COMMAND ${cmd} RESULT_VARIABLE result)
+if(NOT result EQUAL 0)
+  message(FATAL_ERROR "Command failed: ${cmd}")
+endif()
+
+# Regex for cleaning paths for app source and app destination dirs
+message("Source apk file: ${APP_SOURCE} -> @APP_DESTINATION@")
+string(REGEX REPLACE "([/][A-Za-z_0-9-]+$)" "" APP_SOURCE_DIR ${APP_SOURCE})
+string(REGEX REPLACE "([/][A-Za-z_0-9-]+$)" "" APP_DEST_DIR @APP_DESTINATION@)
+
+# Push additional assests files test-data/
+if(EXISTS "${APP_SOURCE_DIR}/test-data/")
+  set(cmd "@ADB_COMMAND@" push "${APP_SOURCE_DIR}/test-data/" "${APP_DEST_DIR}/test-data/")
+  execute_process(COMMAND ${cmd} RESULT_VARIABLE result)
+  if(NOT result EQUAL 0)
+    message(FATAL_ERROR "Command failed: ${cmd}")
+  endif()
+endif()
+
+# Push additional assests files external_res/
+if(EXISTS "${APP_SOURCE_DIR}/external_res/")
+  set(cmd "@ADB_COMMAND@" push "${APP_SOURCE_DIR}/external_res/" "${APP_DEST_DIR}/external_res/")
+  execute_process(COMMAND ${cmd} RESULT_VARIABLE result)
+  if(NOT result EQUAL 0)
+    message(FATAL_ERROR "Command failed: ${cmd}")
+  endif()
+endif()
+
+message("Set executable permissions")
+set(cmd "@ADB_COMMAND@" shell chmod 777 "@APP_DESTINATION@")
+execute_process(COMMAND ${cmd} RESULT_VARIABLE result)
+if(NOT result EQUAL 0)
+  message(FATAL_ERROR "Command failed: ${cmd}")
+endif()
+
+set(app_arguments "@APP_ARGUMENTS@")
+set(arguments)
+foreach(arg ${app_arguments})
+  set(arguments "${arguments} \"${arg}\"")
+endforeach()
+
+message("Run application: \"@APP_DESTINATION@\" ${arguments}")
+
+execute_process(
+    COMMAND
+    "@ADB_COMMAND@" shell "\"@APP_DESTINATION@\" ${arguments}; echo $?"
+    RESULT_VARIABLE result
+    OUTPUT_VARIABLE output
+    ERROR_VARIABLE output
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_STRIP_TRAILING_WHITESPACE
+)
+if(NOT result EQUAL 0)
+  message(FATAL_ERROR "Command failed: ${cmd}")
+endif()
+
+message("Command output (with exit code):")
+message("*** BEGIN ***")
+message("${output}")
+message("*** END ***")
+
+string(REGEX REPLACE ".*\n" "" last_output_line "${output}")
+string(COMPARE EQUAL "${last_output_line}" "0" is_ok)
+
+message("Clean-up")
+string(REGEX REPLACE "([/][A-Za-z_0-9\\.-]+[/][A-Za-z_0-9\\.-]+[/][A-Za-z_0-9\\.-]+$)" "" ROOT_DEST_DIR ${APP_DEST_DIR})
+set(cmd "@ADB_COMMAND@" shell rm -rf "${ROOT_DEST_DIR}")
+execute_process(COMMAND ${cmd} RESULT_VARIABLE result)
+if(NOT result EQUAL 0)
+  message(FATAL_ERROR "Command failed: ${cmd}")
+endif()
+
+# Check if test failed
+if(NOT is_ok)
+  message(
+      FATAL_ERROR
+      "Command exits with error code: ${last_output_line}"
+  )
+endif()
+
+message("Done")
