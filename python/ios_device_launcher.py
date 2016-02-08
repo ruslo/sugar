@@ -58,7 +58,7 @@ class Log:
   def __init__(self):
     self.verbose = args.verbose
   def p(self, message):
-    if self.verbose:
+#    if self.verbose:
       print(message)
 
 log = Log()
@@ -101,15 +101,8 @@ def try_run_device(application):
     for x in args.args:
       launch_command.append(x)
 
-  subprocess.check_call(launch_command)
+  return subprocess.check(launch_command)
 
-def run_device(application):
-  try:
-    return try_run_device(application)
-  except subprocess.CalledProcessError as exc:
-    print('Run failed')
-  sys.exit('Launch failed')
-
-result = run_device(app)
+result = try_run_device(app)
 log.p('exit code: {}'.format(result))
 sys.exit(result)
