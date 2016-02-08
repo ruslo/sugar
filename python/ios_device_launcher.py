@@ -87,7 +87,7 @@ def try_run_device(application):
     for x in args.args:
       launch_command.append(x)
 
-  return subprocess.check(launch_command)
+  return subprocess.call(launch_command)
 
 result = try_run_device(app)
 print('exit code: {}'.format(result))
