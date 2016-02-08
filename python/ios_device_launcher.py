@@ -46,22 +46,7 @@ parser.add_argument(
     help='build configuration (e.g. Release, Debug)'
 )
 
-parser.add_argument(
-    '--verbose',
-    action='store_true',
-    help='print a lot info'
-)
-
 args = parser.parse_args()
-
-class Log:
-  def __init__(self):
-    self.verbose = args.verbose
-  def p(self, message):
-#    if self.verbose:
-      print(message)
-
-log = Log()
 
 build_command = ['xcodebuild', '-sdk', 'iphoneos', '-arch', 'arm64']
 build_command.append('-target')
@@ -85,7 +70,7 @@ def find_application(dir):
 
 app = find_application('{}-iphoneos'.format(args.configuration))
 
-log.p('app found: {}'.format(app))
+print('App found: {}'.format(app))
 
 def try_run_device(application):
   launch_command = [
@@ -104,5 +89,5 @@ def try_run_device(application):
   return subprocess.check(launch_command)
 
 result = try_run_device(app)
-log.p('exit code: {}'.format(result))
+print('exit code: {}'.format(result))
 sys.exit(result)
