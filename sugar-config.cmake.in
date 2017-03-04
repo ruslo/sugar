@@ -1,4 +1,4 @@
 @PACKAGE_INIT@
 
-include(cmake/Sugar)
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/Sugar")
 check_required_components("@PROJECT_NAME@")
