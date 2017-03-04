@@ -1,0 +1,4 @@
+@PACKAGE_INIT@
+
+include(cmake/Sugar)
+check_required_components("@PROJECT_NAME@")
