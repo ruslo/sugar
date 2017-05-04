@@ -46,6 +46,8 @@ function(sugar_add_ios_gtest testname targetname)
       "${IOS_SIM}"
       "--target"
       "${targetname}"
+      "--devicetypeid"
+      "iPhone-5s"
       "--args"
       ${test_argv}
       "--configuration"

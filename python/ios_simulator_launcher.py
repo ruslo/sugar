@@ -52,6 +52,12 @@ parser.add_argument(
     help='print a lot info'
 )
 
+parser.add_argument(
+    '--devicetypeid',
+    type=str,
+    help='the type of the device simulator'
+)
+
 args = parser.parse_args()
 
 class Log:
@@ -111,7 +117,11 @@ def try_run_simulator(application):
       '--stderr',
       cerr_sim_log.name,
   ]
-
+  
+  if args.devicetypeid:
+    launch_command.append('--devicetypeid')
+    launch_command.append(args.devicetypeid)
+                          
   if args.args:
     launch_command.append('--args')
     for x in args.args:
