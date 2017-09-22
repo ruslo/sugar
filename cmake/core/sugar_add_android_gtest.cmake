@@ -11,7 +11,9 @@ set(ANDROID_THIS_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}")
 function(sugar_add_android_gtest)
   set(ADB_COMMAND "adb")
 
-  cmake_parse_arguments(x "" "NAME" "COMMAND" ${ARGV})
+  set(oneValueArgs NAME RESOURCE_DIR TESTDATA_DIR)
+  set(multiValueArgs COMMAND)
+  cmake_parse_arguments(x "" "${oneValueArgs}" "${multiValueArgs}" ${ARGV})
   string(COMPARE NOTEQUAL "${x_UNPARSED_ARGUMENTS}" "" has_unparsed)
   if(has_unparsed)
     message(FATAL_ERROR "Unparsed: ${x_UNPARSED_ARGUMENTS}")
@@ -32,10 +34,15 @@ function(sugar_add_android_gtest)
   set(APP_DESTINATION "${APP_DESTINATION}/${PROJECT_NAME}/AndroidTest")
   set(APP_DESTINATION "${APP_DESTINATION}/${x_NAME}/${app_target}")
 
+  set(APP_RESOURCES "${x_RESOURCE_DIR}")
+  set(APP_TEST_DATA "${x_TESTDATA_DIR}")
+
   # Use:
   # * ADB_COMMAND
   # * APP_ARGUMENTS
   # * APP_DESTINATION
+  # * APP_RESOURCES
+  # * APP_TEST_DATA
   configure_file(
       "${ANDROID_THIS_DIRECTORY}/templates/AndroidTest.cmake.in"
       "${script_loc}"
