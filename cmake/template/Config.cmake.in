@@ -1,4 +1,12 @@
-@PACKAGE_INIT@
+cmake_minimum_required(VERSION 3.3) # IN_LIST
 
-include("${CMAKE_CURRENT_LIST_DIR}/cmake/Sugar")
+@PACKAGE_INIT@
 check_required_components("@PROJECT_NAME@")
+
+# Based on MODULE_INSTALL_DIR
+if(NOT "@PACKAGE_MODULE_INSTALL_DIR@" IN_LIST CMAKE_MODULE_PATH)
+  list(APPEND CMAKE_MODULE_PATH "@PACKAGE_MODULE_INSTALL_DIR@")
+endif()
+
+include(sugar_files)
+include(sugar_include)
