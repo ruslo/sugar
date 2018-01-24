@@ -1,4 +1,4 @@
-|build_travis| |build_appveyor| |hunter| |license|
+|build_travis| |hunter| |license|
 
 .. |license| image:: https://img.shields.io/github/license/ruslo/sugar.svg
   :target: https://github.com/ruslo/sugar/blob/master/LICENSE
