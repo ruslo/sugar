@@ -36,8 +36,8 @@ implementation in future:
 
 * `Generating groups <https://github.com/ruslo/sugar/wiki/Generating-groups>`__
   (TODO: check `source_group(TREE ...) <https://cmake.org/cmake/help/v3.10/command/source_group.html>`__)
-* ~~Build universal iOS library~~
+* Build universal iOS library. **TO REMOVE**
   `CMAKE_IOS_INSTALL_COMBINED <https://cmake.org/cmake/help/v3.5/variable/CMAKE_IOS_INSTALL_COMBINED.html>`__
   available since CMake 3.5
-* ~~Run gtest on iOS simulator~~ Check `gauze <https://github.com/hunter-packages/gauze>`__
+* Run gtest on iOS simulator. **TO REMOVE** Check `gauze <https://github.com/hunter-packages/gauze>`__
 * `Cross-platform warning suppression <https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression>`__
