@@ -1,41 +1,43 @@
-# sugar
-| linux                           | macosx                          |
-|---------------------------------|---------------------------------|
-| [![Build Status][master]][repo] | [![Build Status][macosx]][repo] |
+|build_travis| |build_appveyor| |hunter| |license|
 
-[master]: https://travis-ci.org/ruslo/sugar.png?branch=master
-[macosx]: https://travis-ci.org/ruslo/sugar.png?branch=travis.macosx
-[repo]: https://travis-ci.org/ruslo/sugar
+.. |license| image:: https://img.shields.io/github/license/ruslo/sugar.svg
+  :target: https://github.com/ruslo/sugar/blob/master/LICENSE
+  :alt: LICENSE
 
-### Usage
-All you need to do is to include master [Sugar](https://github.com/ruslo/sugar/tree/master/cmake) file:
-```cmake
-include(/path/to/sugar/cmake/Sugar)
-```
+.. |build_travis| image:: https://travis-ci.org/ruslo/sugar.svg?branch=master
+  :target: https://travis-ci.org/ruslo/sugar/builds
+  :alt: Travis
 
-*Note*: to run commands which use [python](https://github.com/ruslo/sugar/tree/master/python) you need to install `python3`
+.. |hunter| image:: https://img.shields.io/badge/hunter-sugar-blue.svg
+  :target: https://docs.hunter.sh/en/latest/packages/pkg/sugar.html
+  :alt: Hunter
 
-### Usage (hunter)
-Using [hunter](http://github.com/ruslo/hunter) package manager:
-```cmake
-include(HunterGate.cmake)
-hunter_add_package(Sugar)
-include(${SUGAR_ROOT}/cmake/Sugar)
-```
+Usage
+-----
 
-### Features
-* [Collecting sources](https://github.com/ruslo/sugar/wiki/Collecting-sources)
-* [Generating groups](https://github.com/ruslo/sugar/wiki/Generating-groups)
-* ~~Build universal iOS library~~ (see CMake ios-universal
-[patch](https://github.com/ruslo/CMake/releases) and [wiki](https://github.com/ruslo/sugar/wiki/Building-universal-ios-library))
-* [Run gtest on iOS simulator](https://github.com/ruslo/sugar/tree/master/cmake/core#sugar_add_ios_gtest)
-* [Cross-platform warning suppression](https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression)
+.. code-block:: cmake
 
-### Examples
-See [examples](https://github.com/ruslo/sugar/tree/master/examples).
-Please [read](https://github.com/ruslo/0/wiki/CMake) coding style and
-agreements before start looking through examples (may explain a lot).
+  hunter_add_package(sugar)
+  find_package(sugar CONFIG REQUIRED)
 
-### What's next?
-* [CMake toolchain collection](https://github.com/ruslo/polly)
-* [CMake package manager](https://github.com/ruslo/hunter)
+  sugar_include(boo)
+
+
+Features
+--------
+
+* `Collecting sources <https://github.com/ruslo/sugar/wiki/Collecting-sources>`__
+
+Old features
+------------
+
+These features **may** work, will be substituted with better
+implementation in future:
+
+* `Generating groups <https://github.com/ruslo/sugar/wiki/Generating-groups>`__
+  (TODO: check `source_group(TREE ...) <https://cmake.org/cmake/help/v3.10/command/source_group.html>`__)
+* ~~Build universal iOS library~~
+  `CMAKE_IOS_INSTALL_COMBINED <https://cmake.org/cmake/help/v3.5/variable/CMAKE_IOS_INSTALL_COMBINED.html>`__
+  available since CMake 3.5
+* ~~Run gtest on iOS simulator~~ Check `gauze <https://github.com/hunter-packages/gauze>`__
+* `Cross-platform warning suppression <https://github.com/ruslo/sugar/wiki/Cross-platform-warning-suppression>`__
