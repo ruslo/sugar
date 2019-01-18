@@ -11,7 +11,7 @@ set(ANDROID_THIS_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}")
 function(sugar_add_android_gtest)
   set(ADB_COMMAND "adb")
 
-  set(oneValueArgs NAME RESOURCE_DIR TESTDATA_DIR)
+  set(oneValueArgs NAME RESOURCE_DIR TESTDATA_DIR APP_DEPENDENCY)
   set(multiValueArgs COMMAND)
   cmake_parse_arguments(x "" "${oneValueArgs}" "${multiValueArgs}" ${ARGV})
   string(COMPARE NOTEQUAL "${x_UNPARSED_ARGUMENTS}" "" has_unparsed)
@@ -36,6 +36,7 @@ function(sugar_add_android_gtest)
 
   set(APP_RESOURCES "${x_RESOURCE_DIR}")
   set(APP_TEST_DATA "${x_TESTDATA_DIR}")
+  set(APP_DEPENDENCY "${x_APP_DEPENDENCY}")
 
   # Use:
   # * ADB_COMMAND

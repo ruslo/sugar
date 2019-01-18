@@ -54,6 +54,19 @@ else()
   set(RES_DIR_NAME "@APP_RESOURCES@")
 endif()
 
+string(COMPARE EQUAL "@APP_DEPENDENCY@" "" is_empty)
+if(NOT is_empty)
+  set(DEPENDENCY_FILE "@APP_DEPENDENCY@")
+endif()
+
+if(EXISTS "${DEPENDENCY_FILE}")
+  get_filename_component(DEPENDENCY_FILENAME ${DEPENDENCY_FILE} NAME)
+  message("Push dynamic dependency to device: ${DEPENDENCY_FILE} -> ${APP_DEST_DIR}/${DEPENDENCY_FILENAME}")
+  set(cmd "@ADB_COMMAND@" push "${DEPENDENCY_FILE}" "${APP_DEST_DIR}/${DEPENDENCY_FILENAME}")
+  execute_process(COMMAND ${cmd} RESULT_VARIABLE result)
+else()
+    message("App Dependency does not exist: ${DEPENDENCY_FILE}")
+endif()
 # Push additional assests files external-res/
 if(EXISTS "${APP_SOURCE_DIR}/${RES_DIR_NAME}/")
   message("Push resources to device: ${APP_SOURCE_DIR}/${RES_DIR_NAME}/ -> ${APP_DEST_DIR}/${RES_DIR_NAME}/")
@@ -63,7 +76,7 @@ if(EXISTS "${APP_SOURCE_DIR}/${RES_DIR_NAME}/")
     message(FATAL_ERROR "Command failed: ${cmd}")
   endif()
 else()
-  message("Test date dir do not exist: ${APP_SOURCE_DIR}/${RES_DIR_NAME}/")
+  message("Resource dir does not exist ${APP_SOURCE_DIR}/${RES_DIR_NAME}/")
 endif()
 
 message("Set executable permissions")
@@ -83,7 +96,7 @@ message("Run application: \"@APP_DESTINATION@\" ${arguments}")
 
 execute_process(
     COMMAND
-    "@ADB_COMMAND@" shell "\"@APP_DESTINATION@\" ${arguments}; echo $?"
+    "@ADB_COMMAND@" shell "export LD_LIBRARY_PATH=${APP_DEST_DIR}; \"@APP_DESTINATION@\" ${arguments}; echo $?"
     RESULT_VARIABLE result
     OUTPUT_VARIABLE output
     ERROR_VARIABLE output
